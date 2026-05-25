@@ -1,8 +1,7 @@
 package com.renteasy.renteasy.entity;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "annonces")
@@ -18,13 +17,14 @@ public class Annonce {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String titre;
 
-    @Column(length = 2000)
+    @Column(length = 1000)
     private String description;
 
-    private LocalDate datePublication;
+    private boolean active;
+
+    private LocalDateTime datePublication;
 
     @ManyToOne
     @JoinColumn(name = "logement_id")

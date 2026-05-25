@@ -3,6 +3,8 @@ package com.renteasy.renteasy.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 
@@ -32,4 +34,9 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
+    @OneToMany(mappedBy = "locataire")
+    private List<Reservation> reservations;
+
+
+
 }

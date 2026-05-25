@@ -1,9 +1,12 @@
 package com.renteasy.renteasy.controller;
+
 import com.renteasy.renteasy.dto.request.LogementRequestDTO;
 import com.renteasy.renteasy.dto.response.LogementResponseDTO;
 import com.renteasy.renteasy.service.LogementService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,9 +27,9 @@ public class LogementController {
     }
 
     @GetMapping
-    public List<LogementResponseDTO> getAll() {
+    public Page<LogementResponseDTO> getAll(Pageable pageable) {
 
-        return logementService.getAllLogements();
+        return logementService.getAllLogements(pageable);
     }
 
     @GetMapping("/{id}")

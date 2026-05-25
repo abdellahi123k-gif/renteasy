@@ -1,14 +1,15 @@
 package com.renteasy.renteasy.service;
 import com.renteasy.renteasy.dto.request.LogementRequestDTO;
 import com.renteasy.renteasy.dto.response.LogementResponseDTO;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface LogementService {
 
     LogementResponseDTO createLogement(LogementRequestDTO dto);
 
-    List<LogementResponseDTO> getAllLogements();
+    Page<LogementResponseDTO> getAllLogements(Pageable pageable);
 
     LogementResponseDTO getLogementById(Long id);
 

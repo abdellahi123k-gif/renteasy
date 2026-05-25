@@ -6,6 +6,8 @@ import com.renteasy.renteasy.mapper.LogementMapper;
 import com.renteasy.renteasy.repository.LogementRepository;
 import com.renteasy.renteasy.service.LogementService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,12 +29,10 @@ public class LogementServiceImpl implements LogementService {
     }
 
     @Override
-    public List<LogementResponseDTO> getAllLogements() {
+    public Page<LogementResponseDTO> getAllLogements(Pageable pageable) {
 
-        return logementRepository.findAll()
-                .stream()
-                .map(LogementMapper::toResponse)
-                .toList();
+        return logementRepository.findAll(pageable)
+                .map(LogementMapper::toResponse);
     }
 
     @Override

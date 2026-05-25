@@ -23,11 +23,12 @@ public class Reservation {
 
     private LocalDate dateFin;
 
-    private String statut;
+    @Enumerated(EnumType.STRING)
+    private ReservationStatus status;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "locataire_id")
+    private User locataire;
 
     @ManyToOne
     @JoinColumn(name = "logement_id")

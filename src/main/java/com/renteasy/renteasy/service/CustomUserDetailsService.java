@@ -1,9 +1,11 @@
-package com.renteasy.renteasy.config;
+package com.renteasy.renteasy.service;
 
 
 
 import com.renteasy.renteasy.entity.User;
+import com.renteasy.renteasy.exception.ResourceNotFoundException;
 import com.renteasy.renteasy.repository.UserRepository;
+import com.renteasy.renteasy.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.*;
@@ -18,20 +20,13 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String email)
-            throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) {
 
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() ->
-                        new UsernameNotFoundException("User not found")
+                        new ResourceNotFoundException("User not found")
                 );
 
-        return new org.springframework.security.core.userdetails.User(
-                user.getEmail(),
-                user.getPassword(),
-                List.of(
-                        new SimpleGrantedAuthority(user.getRole().getName())
-                )
-        );
+        return new CustomUserDetails(user);
     }
 }
