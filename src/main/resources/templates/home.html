@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{home.page.title}">RentEasy — Find Your Perfect Rental</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>
+:root {
+    --re-primary: #2563EB;
+    --re-primary-dark: #1D4ED8;
+    --re-primary-light: #DBEAFE;
+    --re-primary-50: #EFF6FF;
+    --re-accent: #38BDF8;
+    --re-success: #22C55E;
+    --re-dark: #0C1222;
+    --re-dark-2: #1A2332;
+    --re-bg: #F8FAFC;
+    --re-text: #1E293B;
+    --re-text-muted: #64748B;
+    --re-border: #E2E8F0;
+    --re-radius-sm: 12px;
+    --re-radius: 20px;
+    --re-radius-lg: 28px;
+    --re-transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+*, ::before, ::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+    background: var(--re-bg);
+    color: var(--re-text);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    letter-spacing: -0.035em;
+    font-weight: 700;
+}
+
+/* ════════════ NAVBAR ════════════ */
+.re-navbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1050;
+    background: rgba(255,255,255,0.72);
+    backdrop-filter: blur(24px) saturate(200%);
+    -webkit-backdrop-filter: blur(24px) saturate(200%);
+    transition: all 0.3s;
+}
+.re-navbar.scrolled {
+    box-shadow: 0 1px 0 rgba(0,0,0,0.06), 0 4px 20px rgba(0,0,0,0.04);
+}
+.re-brand {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1.35rem; font-weight: 800;
+    background: linear-gradient(135deg, var(--re-primary), var(--re-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: flex; align-items: center; gap: 0.35rem;
+}
+.re-brand i { -webkit-text-fill-color: var(--re-primary); }
+.re-navlink {
+    font-weight: 500; font-size: 0.9rem; color: #475569 !important;
+    padding: 0.45rem 1rem !important; border-radius: 100px;
+    transition: background 0.2s;
+}
+.re-navlink:hover { background: rgba(0,0,0,0.04); color: var(--re-primary) !important; }
+.re-navlink.active { background: rgba(37,99,235,0.08); color: var(--re-primary) !important; }
+.re-nav-cta {
+    background: linear-gradient(135deg, var(--re-primary), var(--re-primary-dark));
+    color: #fff !important; border-radius: 100px; padding: 0.45rem 1.25rem !important;
+    font-weight: 600; font-size: 0.85rem; text-decoration: none !important;
+    transition: all 0.3s;
+}
+.re-nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,99,235,0.35); }
+.re-user-btn {
+    background: rgba(0,0,0,0.04); border: none; border-radius: 100px;
+    padding: 0.3rem 0.8rem 0.3rem 0.3rem; font-weight: 500; color: var(--re-text);
+    transition: background 0.2s; display: flex; align-items: center; gap: 0.4rem;
+}
+.re-user-btn:hover { background: rgba(0,0,0,0.08); }
+.re-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--re-primary), var(--re-accent));
+    display: inline-flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 12px; color: #fff; flex-shrink: 0;
+}
+.re-dropdown-custom {
+    border: none; border-radius: 14px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.04);
+    padding: 0.4rem; margin-top: 0.5rem; min-width: 210px;
+}
+.re-dropdown-custom .dropdown-item {
+    border-radius: 10px; padding: 0.55rem 0.9rem; font-size: 0.88rem;
+    transition: background 0.15s;
+}
+.re-dropdown-custom .dropdown-item:hover { background: rgba(37,99,235,0.06); }
+
+/* ════════════ HERO ════════════ */
+.re-hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: var(--re-dark);
+    padding-top: 76px;
+}
+.re-hero-bg {
+    position: absolute; inset: 0;
+    background:
+        radial-gradient(ellipse 90% 55% at 20% 45%, rgba(37,99,235,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 45% at 75% 55%, rgba(56,189,248,0.1) 0%, transparent 50%),
+        radial-gradient(ellipse 40% 35% at 50% 15%, rgba(99,102,241,0.07) 0%, transparent 50%);
+    animation: heroShift 14s ease-in-out infinite alternate;
+}
+@keyframes heroShift {
+    0% { transform: scale(1) rotate(0deg); }
+    100% { transform: scale(1.04) rotate(-1deg); }
+}
+.re-hero-pattern {
+    position: absolute; inset: 0; opacity: 0.3;
+    background-image:
+        linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 25%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 25%, transparent 70%);
+}
+.re-hero-orb {
+    position: absolute; border-radius: 50%; pointer-events: none;
+}
+.re-hero-orb-1 {
+    width: 500px; height: 500px; top: -12%; right: -8%;
+    background: radial-gradient(circle, rgba(37,99,235,0.12), transparent 70%);
+    animation: orbFloat 10s ease-in-out infinite alternate;
+}
+.re-hero-orb-2 {
+    width: 350px; height: 350px; bottom: -10%; left: -5%;
+    background: radial-gradient(circle, rgba(56,189,248,0.08), transparent 70%);
+    animation: orbFloat 12s ease-in-out infinite alternate-reverse;
+}
+@keyframes orbFloat {
+    0% { transform: translate(0,0); }
+    100% { transform: translate(-40px,40px); }
+}
+.re-hero-ct { position: relative; z-index: 2; }
+
+/* Badge */
+.re-hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(37,99,235,0.1);
+    border: 1px solid rgba(37,99,235,0.15);
+    border-radius: 100px; padding: 0.3rem 1rem 0.3rem 0.4rem;
+    font-size: 0.78rem; font-weight: 500; color: #60A5FA; margin-bottom: 1.5rem;
+    backdrop-filter: blur(6px);
+}
+.re-hero-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--re-accent); display: inline-block;
+    animation: dotPulse 2s ease-in-out infinite;
+}
+@keyframes dotPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+/* Title */
+.re-hero-title {
+    font-size: clamp(2.8rem, 6.5vw, 5rem);
+    font-weight: 800; line-height: 1.05; color: #fff;
+    margin-bottom: 1.25rem;
+}
+.re-hero-title em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--re-accent), #818CF8, #A78BFA);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.re-hero-sub {
+    font-size: clamp(1rem, 1.4vw, 1.1rem);
+    color: rgba(255,255,255,0.5); max-width: 500px;
+    line-height: 1.75; margin-bottom: 2rem;
+}
+
+/* CTA buttons */
+.re-hero-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.re-btn-primary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: linear-gradient(135deg, var(--re-primary), var(--re-primary-dark));
+    color: #fff !important; border-radius: 14px; padding: 0.85rem 2rem;
+    font-weight: 600; font-size: 0.95rem; text-decoration: none !important;
+    transition: all 0.35s; border: none;
+}
+.re-btn-primary:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(37,99,235,0.4); }
+.re-btn-glass {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.85) !important; border-radius: 14px; padding: 0.85rem 2rem;
+    font-weight: 500; font-size: 0.95rem; text-decoration: none !important;
+    transition: all 0.35s; backdrop-filter: blur(8px);
+}
+.re-btn-glass:hover { background: rgba(255,255,255,0.1); color: #fff !important; transform: translateY(-3px); }
+
+/* ════════════ SEARCH (Airbnb-style pill) ════════════ */
+.re-search {
+    display: flex; align-items: center;
+    background: #fff; border-radius: 100px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.02);
+    padding: 0.35rem; margin-top: 2.25rem; max-width: 680px;
+    transition: box-shadow 0.3s;
+}
+.re-search:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.04); }
+.re-search-field {
+    flex: 1; display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.6rem 1rem; position: relative;
+}
+.re-search-field + .re-search-field { border-left: 1px solid var(--re-border); }
+.re-search-field i { color: var(--re-text-muted); font-size: 1rem; }
+.re-search-field input, .re-search-field select {
+    border: none; background: transparent; width: 100%;
+    font-size: 0.88rem; color: var(--re-text); outline: none;
+    font-family: 'Inter', sans-serif; padding: 0;
+}
+.re-search-field input::placeholder { color: #94A3B8; }
+.re-search-field select { cursor: pointer; }
+.re-search-btn {
+    background: linear-gradient(135deg, var(--re-primary), var(--re-primary-dark));
+    color: #fff; border: none; border-radius: 100px;
+    padding: 0.7rem 1.5rem; font-weight: 600; font-size: 0.88rem;
+    transition: all 0.3s; display: flex; align-items: center; gap: 0.4rem;
+    white-space: nowrap;
+}
+.re-search-btn:hover { transform: scale(1.03); box-shadow: 0 8px 24px rgba(37,99,235,0.35); }
+
+/* Stats */
+.re-hero-stats {
+    display: flex; gap: 2.5rem; margin-top: 2.5rem; flex-wrap: wrap;
+}
+.re-hero-stat { text-align: center; }
+.re-hero-stat-value {
+    font-size: 1.75rem; font-weight: 800; color: #fff;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.re-hero-stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.4); font-weight: 500; letter-spacing: 0.02em; }
+
+/* Hero right visual */
+.re-hero-visual {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+}
+.re-hero-visual-inner {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 28px; padding: 3rem 2.5rem;
+    backdrop-filter: blur(12px); text-align: center; width: 100%;
+}
+.re-hero-visual-icon {
+    font-size: 4.5rem;
+    background: linear-gradient(135deg, #38BDF8, #818CF8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem; display: block;
+}
+.re-hero-visual p {
+    color: rgba(255,255,255,0.35); font-size: 0.85rem;
+    line-height: 1.6; margin: 0;
+}
+.re-hero-visual-deco {
+    position: absolute; width: 48px; height: 48px; border-radius: 16px;
+    background: linear-gradient(135deg, var(--re-accent), var(--re-primary)); opacity: 0.12;
+}
+.re-hero-visual-deco-1 { top: -10px; right: -10px; animation: orbFloat 7s ease-in-out infinite alternate; }
+.re-hero-visual-deco-2 { bottom: -8px; left: -8px; width: 36px; height: 36px; border-radius: 12px; background: linear-gradient(135deg, #818CF8, #6366F1); opacity: 0.1; animation: orbFloat 9s ease-in-out infinite alternate-reverse; }
+
+/* ════════════ SECTIONS ════════════ */
+.re-section { padding: 6rem 0; }
+.re-section-header { text-align: center; margin-bottom: 4rem; }
+.re-section-pill {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    background: var(--re-primary-50); color: var(--re-primary);
+    border-radius: 100px; padding: 0.3rem 1rem;
+    font-size: 0.78rem; font-weight: 600; margin-bottom: 1rem;
+}
+.re-section-title {
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 800; margin-bottom: 0.75rem;
+}
+.re-section-sub {
+    color: var(--re-text-muted); font-size: 1rem;
+    max-width: 540px; margin: 0 auto; line-height: 1.7;
+}
+
+/* ════════════ HOW IT WORKS ════════════ */
+.re-steps-wrapper { position: relative; }
+.re-steps-line {
+    display: none;
+    position: absolute; top: 40px; left: 16.66%; right: 16.66%; height: 2px;
+    background: linear-gradient(90deg, var(--re-border) 0%, var(--re-primary) 50%, var(--re-border) 100%);
+}
+@media (min-width: 768px) { .re-steps-line { display: block; } }
+
+.re-step {
+    background: #fff; border: 1px solid var(--re-border);
+    border-radius: var(--re-radius); padding: 2.5rem 2rem;
+    text-align: center; transition: all var(--re-transition);
+}
+.re-step:hover { transform: translateY(-8px); box-shadow: 0 24px 50px rgba(0,0,0,0.08); border-color: transparent; }
+.re-step-num {
+    width: 56px; height: 56px; margin: 0 auto 1.25rem;
+    background: linear-gradient(135deg, var(--re-primary), var(--re-accent));
+    border-radius: 16px; display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 1.2rem; color: #fff;
+    transition: all var(--re-transition);
+}
+.re-step:hover .re-step-num { transform: scale(1.1) rotate(-6deg); }
+.re-step h5 { font-weight: 700; margin-bottom: 0.75rem; }
+.re-step p { color: var(--re-text-muted); font-size: 0.88rem; line-height: 1.7; margin: 0; }
+
+/* ════════════ CATEGORIES ════════════ */
+.re-cat {
+    background: #fff; border: 1px solid var(--re-border);
+    border-radius: var(--re-radius); padding: 1.75rem; text-align: center;
+    text-decoration: none; display: block;
+    transition: all var(--re-transition);
+}
+.re-cat:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.06); border-color: transparent; }
+.re-cat-icon {
+    width: 68px; height: 68px; border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 0.9rem; font-size: 1.65rem;
+    transition: all var(--re-transition);
+}
+.re-cat:hover .re-cat-icon { transform: scale(1.12) rotate(-5deg); }
+.re-cat h6 { font-weight: 700; margin-bottom: 0.15rem; color: var(--re-text); }
+.re-cat small { color: var(--re-text-muted); }
+
+/* ════════════ FEATURED ════════════ */
+.re-feat {
+    background: #fff; border-radius: var(--re-radius); overflow: hidden;
+    transition: all var(--re-transition); border: 1px solid var(--re-border);
+}
+.re-feat:hover { transform: translateY(-8px); box-shadow: 0 24px 50px rgba(0,0,0,0.08); border-color: transparent; }
+.re-feat-img {
+    height: 230px; position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center; font-size: 3rem;
+}
+.re-feat-img-1 { background: linear-gradient(135deg, #DBEAFE, #C7D2FE); }
+.re-feat-img-2 { background: linear-gradient(135deg, #DCFCE7, #A7F3D0); }
+.re-feat-img-3 { background: linear-gradient(135deg, #FEF3C7, #FCD34D); }
+.re-feat-img-4 { background: linear-gradient(135deg, #F3E8FF, #DDD6FE); }
+.re-feat-img-5 { background: linear-gradient(135deg, #FCE7F3, #F9A8D4); }
+.re-feat-img-6 { background: linear-gradient(135deg, #E0F2FE, #7DD3FC); }
+
+.re-feat-badge {
+    position: absolute; top: 12px; left: 12px;
+    border-radius: 100px; padding: 0.25rem 0.8rem;
+    font-size: 0.72rem; font-weight: 600; backdrop-filter: blur(4px);
+}
+.re-feat-badge.avail { background: rgba(34,197,94,0.9); color: #fff; }
+.re-feat-badge.unavail { background: rgba(239,68,68,0.85); color: #fff; }
+.re-feat-body { padding: 1.25rem 1.25rem 1.1rem; }
+.re-feat-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.15rem; }
+.re-feat-price {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700; font-size: 1rem; color: var(--re-primary);
+    white-space: nowrap;
+}
+.re-feat-meta { display: flex; gap: 0.75rem; color: var(--re-text-muted); font-size: 0.8rem; margin-bottom: 0.6rem; }
+.re-feat-body p { color: var(--re-text-muted); font-size: 0.83rem; line-height: 1.6; }
+
+/* ════════════ TESTIMONIALS ════════════ */
+.re-testi {
+    background: #fff; border: 1px solid var(--re-border);
+    border-radius: var(--re-radius); padding: 2rem;
+    transition: all var(--re-transition);
+}
+.re-testi:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.06); }
+.re-testi-stars { color: #F59E0B; font-size: 0.82rem; margin-bottom: 1rem; }
+.re-testi-text { color: var(--re-text-muted); font-size: 0.88rem; line-height: 1.7; margin-bottom: 1.25rem; }
+.re-testi-auth { display: flex; align-items: center; gap: 0.75rem; }
+.re-testi-avatar {
+    width: 42px; height: 42px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 13px; color: #fff; flex-shrink: 0;
+}
+.re-testi-auth strong { font-size: 0.85rem; }
+.re-testi-auth small { font-size: 0.73rem; color: var(--re-text-muted); display: block; }
+
+/* ════════════ CTA ════════════ */
+.re-cta {
+    background: linear-gradient(135deg, #0C1222 0%, #1A2332 50%, #0F172A 100%);
+    border-radius: 24px; padding: 5rem 3rem; text-align: center;
+    position: relative; overflow: hidden;
+}
+.re-cta::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 30% 50%, rgba(37,99,235,0.12), transparent),
+                radial-gradient(ellipse 50% 45% at 70% 50%, rgba(56,189,248,0.07), transparent);
+}
+.re-cta-inner { position: relative; z-index: 1; }
+.re-cta h2 { color: #fff; font-size: clamp(1.8rem, 3vw, 2.6rem); margin-bottom: 0.75rem; }
+.re-cta p { color: rgba(255,255,255,0.5); max-width: 480px; margin: 0 auto 2rem; font-size: 1rem; line-height: 1.7; }
+
+/* ════════════ FOOTER ════════════ */
+.re-ft {
+    background: var(--re-dark); color: #94A3B8; padding: 4rem 0 2rem;
+}
+.re-ft-brand {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1.25rem; font-weight: 800; color: #fff !important;
+    display: flex; align-items: center; gap: 0.4rem; margin-bottom: 1rem;
+}
+.re-ft-brand i { color: var(--re-accent); }
+.re-ft p { font-size: 0.88rem; line-height: 1.7; max-width: 300px; }
+.re-ft h6 {
+    color: #fff; font-size: 0.78rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.08em; margin-bottom: 1.25rem;
+}
+.re-ft ul { list-style: none; padding: 0; }
+.re-ft ul li { margin-bottom: 0.55rem; }
+.re-ft a { color: #94A3B8; text-decoration: none; font-size: 0.88rem; transition: color 0.2s; }
+.re-ft a:hover { color: #fff; }
+.re-ft-social { display: flex; gap: 0.5rem; }
+.re-ft-social a {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.05);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; color: #94A3B8; text-decoration: none;
+    transition: all 0.2s;
+}
+.re-ft-social a:hover { background: rgba(37,99,235,0.15); border-color: rgba(37,99,235,0.2); color: #fff; }
+.re-ft-divider { border: none; border-top: 1px solid rgba(255,255,255,0.05); margin: 2rem 0 1.5rem; }
+.re-ft-bottom small { font-size: 0.78rem; }
+.re-ft-newsletter .input-group {
+    border-radius: 12px; overflow: hidden;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+}
+.re-ft-newsletter input {
+    background: transparent; border: none; color: #fff; padding: 0.55rem 1rem; font-size: 0.85rem;
+}
+.re-ft-newsletter input::placeholder { color: rgba(255,255,255,0.3); }
+.re-ft-newsletter input:focus { box-shadow: none; }
+.re-ft-newsletter button {
+    background: linear-gradient(135deg, var(--re-primary), var(--re-primary-dark));
+    color: #fff; border: none; padding: 0.55rem 1.2rem; font-weight: 600; font-size: 0.85rem;
+}
+
+/* ════════════ REVEAL ════════════ */
+.re-reveal { opacity: 0; transform: translateY(30px); transition: all 0.7s cubic-bezier(0.34,1.56,0.64,1); }
+.re-reveal.re-visible { opacity: 1; transform: translateY(0); }
+
+/* ════════════ R ════════════ */
+@media (max-width: 991px) {
+    .re-hero { min-height: auto; padding: 100px 0 60px; }
+    .re-hero-stats { gap: 1.5rem; justify-content: center; }
+    .re-section { padding: 4rem 0; }
+    .re-search { border-radius: 20px; flex-direction: column; padding: 0.75rem; }
+    .re-search-field { width: 100%; }
+    .re-search-field + .re-search-field { border-left: none; border-top: 1px solid var(--re-border); }
+    .re-search-btn { width: 100%; justify-content: center; margin-top: 0.25rem; }
+}
+@media (max-width: 767px) {
+    .re-hero-title { font-size: clamp(2rem, 8vw, 2.6rem); }
+    .re-hero-stats { gap: 1rem; }
+    .re-hero-stat-value { font-size: 1.3rem; }
+    .re-hero-actions { flex-direction: column; }
+    .re-hero-actions a { justify-content: center; }
+    .re-section { padding: 3rem 0; }
+    .re-section-header { margin-bottom: 2.5rem; }
+    .re-feat-img { height: 180px; }
+    .re-cta { padding: 3rem 1.5rem; border-radius: 16px; }
+    .re-ft { padding: 3rem 0 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav class="navbar navbar-expand-lg re-navbar py-2" id="reNav">
+    <div class="container">
+        <a class="navbar-brand re-brand p-0" th:href="@{/}"><i class="bi bi-house-door-fill"></i> RentEasy</a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#reNavM" style="padding:0.4rem 0.6rem;">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="reNavM">
+            <ul class="navbar-nav me-auto gap-1">
+                <li class="nav-item"><a class="nav-link re-navlink" th:href="@{/logements}"><i class="bi bi-building"></i> <span th:text="#{nav.logements}">Logements</span></a></li>
+                <li class="nav-item"><a class="nav-link re-navlink" th:href="@{/annonces}"><i class="bi bi-megaphone"></i> <span th:text="#{nav.annonces}">Annonces</span></a></li>
+                <li class="nav-item" sec:authorize="isAuthenticated()"><a class="nav-link re-navlink" th:href="@{/reservations}"><i class="bi bi-calendar-check"></i> <span th:text="#{nav.reservations}">Réservations</span></a></li>
+            </ul>
+            <ul class="navbar-nav align-items-center gap-1">
+                <li class="nav-item dropdown">
+                    <button class="btn dropdown-toggle border-0 d-flex align-items-center gap-1"
+                            data-bs-toggle="dropdown"
+                            style="font-size:0.85rem; color:#64748B; padding:0.35rem 0.6rem; border-radius:100px; background:transparent; transition:all 0.2s;">
+                        <i class="bi bi-globe2"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow mt-2" style="border:none; border-radius:14px; box-shadow:0 24px 60px rgba(0,0,0,0.1); padding:0.4rem; min-width:120px;">
+                        <li><a class="dropdown-item rounded-3" href="#" onclick="switchLang('fr')" style="padding:0.45rem 1rem; border-radius:10px; font-size:0.9rem;"><span th:text="#{lang.fr}">Français</span></a></li>
+                        <li><a class="dropdown-item rounded-3" href="#" onclick="switchLang('en')" style="padding:0.45rem 1rem; border-radius:10px; font-size:0.9rem;"><span th:text="#{lang.en}">English</span></a></li>
+                        <li><a class="dropdown-item rounded-3" href="#" onclick="switchLang('ar')" style="padding:0.45rem 1rem; border-radius:10px; font-size:0.9rem;"><span th:text="#{lang.ar}">العربية</span></a></li>
+                    </ul>
+                </li>
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link re-navlink" th:href="@{/auth/login}"><i class="bi bi-box-arrow-in-right"></i> <span th:text="#{auth.login}">Connexion</span></a>
+                </li>
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a class="re-nav-cta" th:href="@{/auth/register}"><i class="bi bi-person-plus"></i> <span th:text="#{auth.register}">Inscription</span></a>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <div class="dropdown">
+                        <button class="btn re-user-btn dropdown-toggle" data-bs-toggle="dropdown">
+                            <span class="re-avatar" th:text="${currentUserInitials}">JD</span>
+                            <span class="d-none d-md-inline" style="font-size:0.85rem;" th:text="${currentUserFirstName}">John</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end re-dropdown-custom shadow">
+                            <li><a class="dropdown-item" th:href="@{/users/profile}"><i class="bi bi-person text-primary"></i> <span th:text="#{nav.profile}">Profil</span></a></li>
+                            <li><hr class="dropdown-divider my-1"></li>
+                            <li sec:authorize="hasAuthority('ADMIN')"><a class="dropdown-item" th:href="@{/dashboard/admin}"><i class="bi bi-speedometer2 text-primary"></i> <span th:text="#{nav.admin}">Admin</span></a></li>
+                            <li sec:authorize="hasAuthority('PROPRIETAIRE')"><a class="dropdown-item" th:href="@{/dashboard/proprietaire}"><i class="bi bi-speedometer2 text-success"></i> <span th:text="#{nav.proprietaire}">Propriétaire</span></a></li>
+                            <li sec:authorize="hasAuthority('LOCATAIRE')"><a class="dropdown-item" th:href="@{/dashboard/locataire}"><i class="bi bi-speedometer2 text-info"></i> <span th:text="#{nav.locataire}">Locataire</span></a></li>
+                            <li><hr class="dropdown-divider my-1"></li>
+                            <li>
+                                <form th:action="@{/auth/logout}" method="post">
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                    <button class="dropdown-item" type="submit" style="color:#EF4444;"><i class="bi bi-box-arrow-right"></i> <span th:text="#{nav.logout}">Déconnexion</span></button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="re-hero">
+    <div class="re-hero-bg"></div>
+    <div class="re-hero-pattern"></div>
+    <div class="re-hero-orb re-hero-orb-1"></div>
+    <div class="re-hero-orb re-hero-orb-2"></div>
+    <div class="container re-hero-ct">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-7">
+                <div class="re-hero-badge">
+                    <span class="re-hero-dot"></span>
+                    <span th:text="#{home.hero.badge}">Plateforme de location #1 en France</span>
+                </div>
+                <h1 class="re-hero-title" th:utext="#{home.hero.title}">
+                    Trouvez votre<br>
+                    <em>logement idéal</em>
+                </h1>
+                <p class="re-hero-sub" th:text="#{home.hero.desc}">
+                    Des milliers d'annonces vérifiées partout en France. Location simple, rapide et 100% sécurisée.
+                </p>
+                <div sec:authorize="!isAuthenticated()" class="re-hero-actions">
+                    <a th:href="@{/auth/register}" class="re-btn-primary"><i class="bi bi-rocket-takeoff"></i> <span th:text="#{home.hero.get_started}">Commencer</span></a>
+                    <a th:href="@{/logements}" class="re-btn-glass"><i class="bi bi-search"></i> <span th:text="#{home.hero.explore}">Explorer</span></a>
+                </div>
+                <div sec:authorize="isAuthenticated()" class="re-hero-actions">
+                    <a th:href="@{/logements}" class="re-btn-primary"><i class="bi bi-building"></i> <span th:text="#{home.hero.browse}">Parcourir les logements</span></a>
+                    <a th:href="@{/annonces}" class="re-btn-glass"><i class="bi bi-megaphone"></i> <span th:text="#{home.hero.see_annonces}">Voir les annonces</span></a>
+                </div>
+
+                <!-- Search (Airbnb-style) -->
+                <form th:action="@{/logements}" method="get" class="re-search">
+                    <div class="re-search-field">
+                        <i class="bi bi-geo-alt"></i>
+                        <input type="text" name="ville" th:placeholder="#{home.search.city_placeholder}" placeholder="Ville ou destination">
+                    </div>
+                    <div class="re-search-field">
+                        <i class="bi bi-tag"></i>
+                        <select name="type">
+                            <option value="" th:text="#{home.search.type_all}">Tous types</option>
+                            <option value="Appartement" th:text="#{logement.type.appartement}">Appartement</option>
+                            <option value="Maison" th:text="#{logement.type.maison}">Maison</option>
+                            <option value="Studio" th:text="#{logement.type.studio}">Studio</option>
+                            <option value="Villa" th:text="#{logement.type.villa}">Villa</option>
+                        </select>
+                    </div>
+                    <div class="re-search-field" style="flex:0.7;">
+                        <i class="bi bi-currency-euro"></i>
+                        <input type="number" name="maxPrix" th:placeholder="#{home.search.budget_max}" placeholder="Budget max">
+                    </div>
+                    <button type="submit" class="re-search-btn"><i class="bi bi-search"></i> <span class="d-none d-sm-inline" th:text="#{common.search}">Rechercher</span></button>
+                </form>
+
+                <!-- Hero Stats -->
+                <div class="re-hero-stats">
+                    <div class="re-hero-stat">
+                        <div class="re-hero-stat-value" style="color:#60A5FA;">5K+</div>
+                        <div class="re-hero-stat-label" th:text="#{home.stats.logements_label}">Logements disponibles</div>
+                    </div>
+                    <div class="re-hero-stat">
+                        <div class="re-hero-stat-value" style="color:#34D399;">2.5K+</div>
+                        <div class="re-hero-stat-label" th:text="#{home.stats.locataires_label}">Locataires satisfaits</div>
+                    </div>
+                    <div class="re-hero-stat">
+                        <div class="re-hero-stat-value" style="color:#FBBF24;">500+</div>
+                        <div class="re-hero-stat-label" th:text="#{home.stats.proprietaires_label}">Propriétaires</div>
+                    </div>
+                    <div class="re-hero-stat">
+                        <div class="re-hero-stat-value" style="color:#A78BFA;">98%</div>
+                        <div class="re-hero-stat-label" th:text="#{home.stats.satisfaction_label}">Satisfaction</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 d-none d-lg-block">
+                <div class="re-hero-visual">
+                    <div class="re-hero-visual-inner">
+                        <i class="bi bi-house-check re-hero-visual-icon"></i>
+                        <p th:utext="#{home.hero.tagline}">Location simple, rapide<br>et 100% sécurisée</p>
+                    </div>
+                    <div class="re-hero-visual-deco re-hero-visual-deco-1"></div>
+                    <div class="re-hero-visual-deco re-hero-visual-deco-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ HOW IT WORKS ═══ -->
+<section class="re-section">
+    <div class="container">
+        <div class="re-section-header re-reveal">
+            <div class="re-section-pill"><i class="bi bi-three-dots"></i> <span th:text="#{home.how.pill}">Processus</span></div>
+            <h2 class="re-section-title" th:text="#{home.how.title}">Comment ça marche</h2>
+            <p class="re-section-sub" th:text="#{home.how.subtitle}">Trouvez, réservez et profitez en toute simplicité</p>
+        </div>
+        <div class="re-steps-wrapper position-relative">
+            <div class="re-steps-line"></div>
+            <div class="row g-4">
+                <div class="col-md-4 re-reveal" style="transition-delay:0.1s">
+                    <div class="re-step">
+                        <div class="re-step-num">1</div>
+                        <h5 th:text="#{home.how.step1}">Recherchez</h5>
+                        <p th:text="#{home.how.step1.desc}">Parcourez des milliers d'annonces et trouvez le logement qui vous correspond avec nos filtres intelligents.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 re-reveal" style="transition-delay:0.2s">
+                    <div class="re-step">
+                        <div class="re-step-num">2</div>
+                        <h5 th:text="#{home.how.step2}">Réservez</h5>
+                        <p th:text="#{home.how.step2.desc}">Réservez en un clic avec confirmation instantanée. Transparence totale, zéro frais cachés.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 re-reveal" style="transition-delay:0.3s">
+                    <div class="re-step">
+                        <div class="re-step-num">3</div>
+                        <h5 th:text="#{home.how.step3}">Profitez</h5>
+                        <p th:text="#{home.how.step3.desc}">Installez-vous et profitez de votre nouveau logement. Notre équipe est là pour vous accompagner.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ CATEGORIES ═══ -->
+<section class="re-section" style="background:#fff; border-top:1px solid var(--re-border); border-bottom:1px solid var(--re-border);">
+    <div class="container">
+        <div class="re-section-header re-reveal">
+            <div class="re-section-pill"><i class="bi bi-grid-3x3-gap"></i> <span th:text="#{home.categories.pill}">Catégories</span></div>
+            <h2 class="re-section-title" th:text="#{home.categories.title}">Types de logements</h2>
+            <p class="re-section-sub" th:text="#{home.categories.subtitle}">Du studio à la villa, trouvez le bien qui vous ressemble</p>
+        </div>
+        <div class="row g-3">
+            <div class="col-6 col-lg-3 re-reveal" style="transition-delay:0.1s">
+                <a th:href="@{/logements(type='Appartement')}" class="re-cat">
+                    <div class="re-cat-icon" style="background:linear-gradient(135deg,#DBEAFE,#C7D2FE);color:var(--re-primary);"><i class="bi bi-building"></i></div>
+                    <h6 th:text="#{logement.type.appartement}">Appartement</h6>
+                    <small th:text="#{home.categories.appartement.count}">120+ annonces</small>
+                </a>
+            </div>
+            <div class="col-6 col-lg-3 re-reveal" style="transition-delay:0.2s">
+                <a th:href="@{/logements(type='Maison')}" class="re-cat">
+                    <div class="re-cat-icon" style="background:linear-gradient(135deg,#DCFCE7,#A7F3D0);color:var(--re-success);"><i class="bi bi-house"></i></div>
+                    <h6 th:text="#{logement.type.maison}">Maison</h6>
+                    <small th:text="#{home.categories.maison.count}">85+ annonces</small>
+                </a>
+            </div>
+            <div class="col-6 col-lg-3 re-reveal" style="transition-delay:0.3s">
+                <a th:href="@{/logements(type='Studio')}" class="re-cat">
+                    <div class="re-cat-icon" style="background:linear-gradient(135deg,#FEF3C7,#FCD34D);color:#D97706;"><i class="bi bi-door-open"></i></div>
+                    <h6 th:text="#{logement.type.studio}">Studio</h6>
+                    <small th:text="#{home.categories.studio.count}">45+ annonces</small>
+                </a>
+            </div>
+            <div class="col-6 col-lg-3 re-reveal" style="transition-delay:0.4s">
+                <a th:href="@{/logements(type='Villa')}" class="re-cat">
+                    <div class="re-cat-icon" style="background:linear-gradient(135deg,#F3E8FF,#DDD6FE);color:#8B5CF6;"><i class="bi bi-tree"></i></div>
+                    <h6 th:text="#{logement.type.villa}">Villa</h6>
+                    <small th:text="#{home.categories.villa.count}">30+ annonces</small>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ FEATURED ═══ -->
+<section class="re-section" th:if="${featuredLogements != null && !featuredLogements.isEmpty()}">
+    <div class="container">
+        <div class="d-flex flex-wrap justify-content-between align-items-end mb-5 re-reveal">
+            <div>
+                <div class="re-section-pill" style="display:inline-flex;"><i class="bi bi-star-fill"></i> <span th:text="#{home.featured.pill}">Sélection</span></div>
+                <h2 class="re-section-title mb-0" th:text="#{home.featured.title}">Logements à la une</h2>
+            </div>
+            <a th:href="@{/logements}" class="btn rounded-pill px-4 py-2" style="background:var(--re-primary-50);color:var(--re-primary);font-weight:600;font-size:0.88rem;transition:all 0.3s;">
+                <span th:text="#{home.featured.see_all}">Voir tout</span> <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4 re-reveal" th:each="logement : ${featuredLogements}" th:attr="style=transition-delay:${0.1 * logementStat.index} + 's'">
+                <div class="re-feat">
+                    <div class="re-feat-img" th:classappend="'re-feat-img-' + (${logementStat.index % 6} + 1)">
+                        <i class="bi bi-building"></i>
+                        <span class="re-feat-badge avail" th:if="${logement.disponible}" th:text="#{home.featured.available}">Disponible</span>
+                        <span class="re-feat-badge unavail" th:unless="${logement.disponible}" th:text="#{home.featured.unavailable}">Indisponible</span>
+                    </div>
+                    <div class="re-feat-body">
+                        <div class="d-flex justify-content-between align-items-start mb-1">
+                            <h6 class="re-feat-title" th:text="${logement.titre}">Titre</h6>
+                            <span class="re-feat-price" th:text="${#numbers.formatDecimal(logement.prix, 1, 0)} + '€'">Prix</span>
+                        </div>
+                        <div class="re-feat-meta">
+                            <span><i class="bi bi-geo-alt"></i> <span th:text="${logement.ville}">Ville</span></span>
+                            <span><i class="bi bi-tag"></i> <span th:text="${logement.type}">Type</span></span>
+                        </div>
+                        <p th:text="${logement.description}">Desc</p>
+                        <a th:href="@{/logements/{id}(id=${logement.id})}" class="btn w-100 rounded-pill" style="background:var(--re-primary-50);color:var(--re-primary);font-weight:600;font-size:0.82rem;padding:0.55rem;transition:all 0.3s;"
+                           onmouseover="this.style.background='var(--re-primary)';this.style.color='#fff'"
+                           onmouseout="this.style.background='var(--re-primary-50)';this.style.color='var(--re-primary)'">
+                            <i class="bi bi-eye"></i> <span th:text="#{home.featured.see_details}">Voir détails</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ TESTIMONIALS ═══ -->
+<section class="re-section" style="background:#fff; border-top:1px solid var(--re-border);">
+    <div class="container">
+        <div class="re-section-header re-reveal">
+            <div class="re-section-pill"><i class="bi bi-chat-quote"></i> <span th:text="#{home.testimonials.pill}">Témoignages</span></div>
+            <h2 class="re-section-title" th:text="#{home.testimonials.title}">Ils nous font confiance</h2>
+            <p class="re-section-sub" th:text="#{home.testimonials.subtitle}">Des milliers d'utilisateurs satisfaits à travers toute la France</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4 re-reveal" style="transition-delay:0.1s">
+                <div class="re-testi">
+                    <div class="re-testi-stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                    <p class="re-testi-text">"J'ai trouvé mon appartement en moins d'une semaine. La plateforme est super intuitive et les propriétaires sont très réactifs. Je recommande !"</p>
+                    <div class="re-testi-auth">
+                        <span class="re-testi-avatar" style="background:linear-gradient(135deg,#2563EB,#38BDF8);">SM</span>
+                        <div><strong>Sophie Martin</strong><small>Locataire</small></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 re-reveal" style="transition-delay:0.2s">
+                <div class="re-testi">
+                    <div class="re-testi-stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                    <p class="re-testi-text">"Je gère tous mes biens depuis RentEasy. Locataires sérieux, paiements sécurisés. Une vraie solution professionnelle et fiable."</p>
+                    <div class="re-testi-auth">
+                        <span class="re-testi-avatar" style="background:linear-gradient(135deg,#22C55E,#16A34A);">PL</span>
+                        <div><strong>Pierre Laurent</strong><small>Propriétaire</small></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 re-reveal" style="transition-delay:0.3s">
+                <div class="re-testi">
+                    <div class="re-testi-stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i></div>
+                    <p class="re-testi-text">"Étudiant à Lyon, j'ai trouvé un super studio près de la fac en 2 jours. Le processus de réservation est d'une simplicité incroyable, vraiment top !"</p>
+                    <div class="re-testi-auth">
+                        <span class="re-testi-avatar" style="background:linear-gradient(135deg,#F59E0B,#D97706);">AK</span>
+                        <div><strong>Amine Karim</strong><small>Étudiant</small></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="re-section">
+    <div class="container">
+        <div class="re-cta re-reveal">
+            <div class="re-cta-inner">
+                <h2 th:text="#{home.cta.title}">Prêt à trouver votre prochain logement ?</h2>
+                <p th:text="#{home.cta.subtitle}">Rejoignez des milliers d'utilisateurs et trouvez le logement de vos rêves.</p>
+                <div sec:authorize="!isAuthenticated()" style="display:flex;justify-content:center;gap:0.75rem;flex-wrap:wrap;">
+                    <a th:href="@{/auth/register}" class="re-btn-primary" style="padding:0.85rem 2.5rem;"><i class="bi bi-person-plus"></i> <span th:text="#{home.cta.create_account}">Créer un compte</span></a>
+                    <a th:href="@{/logements}" class="re-btn-glass"><i class="bi bi-search"></i> <span th:text="#{home.hero.explore}">Explorer</span></a>
+                </div>
+                <div sec:authorize="isAuthenticated()" style="display:flex;justify-content:center;gap:0.75rem;flex-wrap:wrap;">
+                    <a th:href="@{/logements}" class="re-btn-primary" style="padding:0.85rem 2.5rem;"><i class="bi bi-building"></i> <span th:text="#{home.hero.browse}">Parcourir les logements</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="re-ft">
+    <div class="container">
+        <div class="row g-4 pb-3">
+            <div class="col-lg-4">
+                <div class="re-ft-brand"><i class="bi bi-house-door-fill"></i> RentEasy</div>
+                <p th:text="#{footer.desc}">La plateforme de location simple, rapide et sécurisée. Trouvez le logement idéal ou gérez vos biens en toute sérénité.</p>
+                <div class="re-ft-social">
+                    <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="col-6 col-lg-2">
+                <h6 th:text="#{footer.platform}">Plateforme</h6>
+                <ul>
+                    <li><a th:href="@{/logements}" th:text="#{nav.logements}">Logements</a></li>
+                    <li><a th:href="@{/annonces}" th:text="#{nav.annonces}">Annonces</a></li>
+                    <li><a th:href="@{/auth/register}" th:text="#{auth.register}">Inscription</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-lg-2">
+                <h6 th:text="#{footer.support_heading}">Assistance</h6>
+                <ul>
+                    <li><a href="#" th:text="#{footer.help}">Centre d'aide</a></li>
+                    <li><a href="#" th:text="#{footer.contact}">Contact</a></li>
+                    <li><a href="#" th:text="#{footer.faq}">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-4">
+                <h6 th:text="#{footer.newsletter}">Newsletter</h6>
+                <p style="font-size:0.85rem;" th:text="#{footer.newsletter.text}">Recevez les meilleures offres chaque mois.</p>
+                <div class="re-ft-newsletter">
+                    <div class="input-group">
+                        <input type="email" class="form-control" th:placeholder="#{footer.newsletter.placeholder}" placeholder="Votre email">
+                        <button class="btn" type="button" th:text="#{footer.newsletter.btn}">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="re-ft-divider">
+        <div class="row align-items-center re-ft-bottom">
+            <div class="col-md-6 text-center text-md-start">
+                <small>&copy; 2026 RentEasy. <span th:text="#{footer.copyright}">Tous droits réservés.</span></small>
+            </div>
+            <div class="col-md-6 text-center text-md-end mt-2 mt-md-0">
+                <small style="opacity:0.5;"><i class="bi bi-shield-check"></i> <span th:text="#{footer.secure}">Plateforme sécurisée</span></small>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+window.addEventListener('scroll', function(){document.getElementById('reNav').classList.toggle('scrolled',window.scrollY>20);});
+document.querySelectorAll('.navbar-nav .nav-link').forEach(function(l){if(l.getAttribute('href')===window.location.pathname)l.classList.add('active');});
+(function(){var o=new IntersectionObserver(function(e){e.forEach(function(e){if(e.isIntersecting)e.target.classList.add('re-visible');});},{threshold:0.1});document.querySelectorAll('.re-reveal').forEach(function(e){o.observe(e);});})();
+function switchLang(lang){var url=new URL(window.location.href);url.searchParams.set('lang', lang);window.location.href=url.toString();}
+</script>
+</body>
+</html>

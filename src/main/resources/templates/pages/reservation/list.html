@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<div th:fragment="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 fw-bold mb-1"><i class="bi bi-calendar-check" style="color: #6366F1;"></i> <span th:text="#{nav.reservations}">Mes réservations</span></h1>
+            <p class="text-muted mb-0 small" th:text="#{reservation.list.subtitle}">Suivez l'état de vos réservations</p>
+        </div>
+    </div>
+
+    <div th:if="${#lists.isEmpty(reservations)}" class="re-empty-state">
+        <i class="bi bi-calendar-check"></i>
+        <h5 th:text="#{reservation.list.empty}">Aucune réservation</h5>
+        <p class="text-muted" th:text="#{reservation.list.empty.msg}">Vous n'avez pas encore de réservation.</p>
+        <a th:href="@{/logements}" class="btn re-btn re-btn-primary" th:text="#{reservation.list.browse}">Parcourir les logements</a>
+    </div>
+
+    <div class="re-card-static overflow-hidden" th:if="${not #lists.isEmpty(reservations)}">
+        <div class="table-responsive">
+            <table class="table re-table mb-0">
+                <thead>
+                    <tr>
+                        <th th:text="#{reservation.list.header.logement}">Logement</th>
+                        <th th:text="#{reservation.list.header.dates}">Dates</th>
+                        <th th:text="#{common.status}">Statut</th>
+                        <th class="text-end" th:text="#{reservation.list.header.actions}">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="res : ${reservations}">
+                        <td>
+                            <strong th:text="${res.logementTitre}">Logement</strong>
+                            <br>
+                            <small class="text-muted" th:if="${res.locataireName}">
+                                <i class="bi bi-person"></i> <span th:text="${res.locataireName}">Locataire</span>
+                            </small>
+                        </td>
+                        <td>
+                            <span class="re-badge" style="background: #F1F5F9; color: #475569;">
+                                <i class="bi bi-calendar3"></i>
+                                <span th:text="${#temporals.format(res.dateDebut, 'dd/MM/yyyy')}">Début</span>
+                                <i class="bi bi-arrow-right mx-1"></i>
+                                <span th:text="${#temporals.format(res.dateFin, 'dd/MM/yyyy')}">Fin</span>
+                            </span>
+                        </td>
+                        <td>
+                            <span th:switch="${res.status}"
+                                  th:classappend="|re-badge ${res.status == 'CONFIRMEE' ? 'bg-success text-white' : (res.status == 'EN_ATTENTE' ? 'bg-warning text-dark' : 'bg-danger text-white')}|">
+                                <span th:case="'CONFIRMEE'" th:text="#{reservation.status.confirmed}">Confirmée</span>
+                                <span th:case="'EN_ATTENTE'" th:text="#{reservation.status.pending}">En attente</span>
+                                <span th:case="'ANNULEE'" th:text="#{reservation.status.cancelled}">Annulée</span>
+                            </span>
+                        </td>
+                        <td class="text-end">
+                            <a th:href="@{/reservations/{id}(id=${res.id})}" class="btn re-btn re-btn-primary" style="font-size: 0.8rem; padding: 0.4rem 1rem;">
+                                <i class="bi bi-eye"></i> <span th:text="#{reservation.detail.detail_label}">Détails</span>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

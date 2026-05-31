@@ -7,11 +7,17 @@ import java.util.List;
 
 public interface AnnonceService {
 
-    AnnonceResponseDTO createAnnonce(
-            AnnonceRequestDTO dto
-    );
+    AnnonceResponseDTO createAnnonce(AnnonceRequestDTO dto);
 
     List<AnnonceResponseDTO> getAllAnnonces();
 
     List<AnnonceResponseDTO> getActiveAnnonces();
+
+    AnnonceResponseDTO getAnnonceById(Long id);
+
+    AnnonceResponseDTO updateAnnonce(Long id, AnnonceRequestDTO dto);
+
+    void deleteAnnonce(Long id);
+
+    List<AnnonceResponseDTO> getUserAnnonces();
 }

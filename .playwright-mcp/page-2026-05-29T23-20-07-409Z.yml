@@ -1,0 +1,8 @@
+- navigation [ref=e2]:
+  - generic [ref=e3]:
+    - link " RentEasy" [ref=e4] [cursor=pointer]:
+      - /url: /
+      - generic [ref=e5]: 
+      - text: RentEasy
+    - generic:
+      - list

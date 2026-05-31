@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+    <div class="re-page-header">
+        <h1><i class="bi bi-speedometer2" style="color: var(--re-success);"></i> <span th:text="#{nav.dashboard}">Dashboard</span> <span th:text="#{nav.proprietaire}">Propriétaire</span></h1>
+        <p class="text-muted">Gérez vos biens et vos locations</p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="re-card re-stat-card p-3" style="border-top: 4px solid var(--re-primary);">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="re-stat-icon" style="background: linear-gradient(135deg, #DBEAFE, #E0E7FF); color: var(--re-primary);">
+                        <i class="bi bi-building"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <small class="text-muted d-block" style="font-size: 0.8rem;" th:text="#{nav.my.logements}">Mes logements</small>
+                        <strong class="fs-3 fw-bold" th:text="${dashboard.myLogements}">0</strong>
+                    </div>
+                    <a th:href="@{/logements/mes-logements}" class="btn re-btn re-btn-primary" style="font-size: 0.75rem; padding: 0.4rem 0.8rem;" th:text="#{dashboard.manage}">Gérer</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="re-card re-stat-card p-3" style="border-top: 4px solid var(--re-success);">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="re-stat-icon" style="background: linear-gradient(135deg, #DCFCE7, #D1FAE5); color: var(--re-success);">
+                        <i class="bi bi-megaphone"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <small class="text-muted d-block" style="font-size: 0.8rem;" th:text="#{nav.my.annonces}">Mes annonces</small>
+                        <strong class="fs-3 fw-bold" th:text="${dashboard.myAnnonces}">0</strong>
+                    </div>
+                    <a th:href="@{/annonces/mes-annonces}" class="btn re-btn re-btn-success" style="font-size: 0.75rem; padding: 0.4rem 0.8rem;" th:text="#{dashboard.manage}">Gérer</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="re-card re-stat-card p-3" style="border-top: 4px solid #F59E0B;">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="re-stat-icon" style="background: linear-gradient(135deg, #FEF3C7, #FDE68A); color: #F59E0B;">
+                        <i class="bi bi-calendar-check"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <small class="text-muted d-block" style="font-size: 0.8rem;" th:text="#{nav.reservations}">Réservations</small>
+                        <strong class="fs-3 fw-bold" th:text="${dashboard.myReservations}">0</strong>
+                    </div>
+                    <a th:href="@{/reservations}" class="btn re-btn" style="font-size: 0.75rem; padding: 0.4rem 0.8rem; background: #F59E0B; color: #fff;" th:text="#{dashboard.see}">Voir</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

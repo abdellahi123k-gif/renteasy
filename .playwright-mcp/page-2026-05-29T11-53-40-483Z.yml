@@ -1,0 +1,134 @@
+- generic [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link " RentEasy" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5]: 
+        - text: RentEasy
+      - generic [ref=e6]:
+        - list [ref=e7]:
+          - listitem [ref=e8]:
+            - link " Logements" [ref=e9] [cursor=pointer]:
+              - /url: /logements
+              - generic [ref=e10]: 
+              - text: Logements
+          - listitem [ref=e11]:
+            - link " Annonces" [ref=e12] [cursor=pointer]:
+              - /url: /annonces
+              - generic [ref=e13]: 
+              - text: Annonces
+          - listitem [ref=e14]:
+            - link " Mes réservations" [ref=e15] [cursor=pointer]:
+              - /url: /reservations
+              - generic [ref=e16]: 
+              - text: Mes réservations
+        - list [ref=e17]:
+          - listitem [ref=e18]:
+            - generic [ref=e19]:
+              - button "AR Admin" [expanded] [active] [ref=e20] [cursor=pointer]:
+                - generic [ref=e21]: AR
+                - generic [ref=e22]: Admin
+              - list [ref=e108]:
+                - listitem [ref=e109]:
+                  - link " Profil" [ref=e110] [cursor=pointer]:
+                    - /url: /users/profile
+                    - generic [ref=e111]: 
+                    - text: Profil
+                - listitem [ref=e112]:
+                  - separator [ref=e113]
+                - listitem [ref=e114]:
+                  - link " Dashboard Admin" [ref=e115] [cursor=pointer]:
+                    - /url: /dashboard/admin
+                    - generic [ref=e116]: 
+                    - text: Dashboard Admin
+                - listitem [ref=e117]:
+                  - separator [ref=e118]
+                - listitem [ref=e119]:
+                  - button " Déconnexion" [ref=e121] [cursor=pointer]:
+                    - generic [ref=e122]: 
+                    - text: Déconnexion
+  - main [ref=e23]:
+    - generic [ref=e24]:
+      - generic [ref=e25]:
+        - heading " Dashboard Admin" [level=1] [ref=e26]:
+          - generic [ref=e27]: 
+          - text: Dashboard Admin
+        - paragraph [ref=e28]: Vue d'ensemble de la plateforme
+      - generic [ref=e29]:
+        - generic [ref=e32]:
+          - generic [ref=e34]: 
+          - generic [ref=e35]:
+            - generic [ref=e36]: Utilisateurs
+            - strong [ref=e37]: "2"
+        - generic [ref=e40]:
+          - generic [ref=e42]: 
+          - generic [ref=e43]:
+            - generic [ref=e44]: Logements
+            - strong [ref=e45]: "0"
+        - generic [ref=e48]:
+          - generic [ref=e50]: 
+          - generic [ref=e51]:
+            - generic [ref=e52]: Réservations
+            - strong [ref=e53]: "0"
+        - generic [ref=e56]:
+          - generic [ref=e58]: 
+          - generic [ref=e59]:
+            - generic [ref=e60]: Annonces
+            - strong [ref=e61]: "0"
+  - contentinfo [ref=e62]:
+    - generic [ref=e63]:
+      - generic [ref=e64]:
+        - generic [ref=e65]:
+          - heading " RentEasy" [level=5] [ref=e66]:
+            - generic [ref=e67]: 
+            - text: RentEasy
+          - paragraph [ref=e68]: La plateforme de location de logements simple, rapide et sécurisée. Trouvez le logement idéal ou gérez vos biens en toute sérénité.
+          - generic [ref=e69]:
+            - link "Facebook" [ref=e70] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=e71]: 
+            - link "Twitter" [ref=e72] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=e73]: 
+            - link "Instagram" [ref=e74] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=e75]: 
+            - link "LinkedIn" [ref=e76] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=e77]: 
+        - generic [ref=e78]:
+          - heading "Plateforme" [level=6] [ref=e79]
+          - list [ref=e80]:
+            - listitem [ref=e81]:
+              - link "Logements" [ref=e82] [cursor=pointer]:
+                - /url: /logements
+            - listitem [ref=e83]:
+              - link "Annonces" [ref=e84] [cursor=pointer]:
+                - /url: /annonces
+            - listitem [ref=e85]:
+              - link "Inscription" [ref=e86] [cursor=pointer]:
+                - /url: /auth/register
+        - generic [ref=e87]:
+          - heading "Assistance" [level=6] [ref=e88]
+          - list [ref=e89]:
+            - listitem [ref=e90]:
+              - link "Centre d'aide" [ref=e91] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=e92]:
+              - link "Contact" [ref=e93] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=e94]:
+              - link "FAQ" [ref=e95] [cursor=pointer]:
+                - /url: "#"
+        - generic [ref=e96]:
+          - heading "Newsletter" [level=6] [ref=e97]
+          - paragraph [ref=e98]: Recevez les meilleures offres chaque mois.
+          - generic [ref=e99]:
+            - textbox "Votre email" [ref=e100]
+            - button "OK" [ref=e101] [cursor=pointer]
+      - separator [ref=e102]
+      - generic [ref=e103]:
+        - generic [ref=e104]: © 2026 RentEasy. Tous droits réservés.
+        - generic [ref=e106]:
+          - generic [ref=e107]: 
+          - text: Plateforme de location sécurisée

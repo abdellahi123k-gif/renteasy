@@ -1,0 +1,22 @@
+- navigation [ref=e2]:
+  - generic [ref=e3]:
+    - link " RentEasy" [ref=e4] [cursor=pointer]:
+      - /url: /
+      - generic [ref=e5]: 
+      - text: RentEasy
+    - list [ref=e7]:
+      - listitem [ref=e8]:
+        - link " Logements" [ref=e9] [cursor=pointer]:
+          - /url: /logements
+          - generic [ref=e10]: 
+          - text: Logements
+      - listitem [ref=e11]:
+        - link " Annonces" [ref=e12] [cursor=pointer]:
+          - /url: /annonces
+          - generic [ref=e13]: 
+          - text: Annonces
+      - listitem [ref=e14]:
+        - link " Mes réservations" [ref=e15] [cursor=pointer]:
+          - /url: /reservations
+          - generic [ref=e16]: 
+          - text: Mes réservations

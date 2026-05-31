@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+    <div class="re-page-header">
+        <h1><i class="bi bi-speedometer2" style="color: #6366F1;"></i> <span th:text="#{nav.dashboard}">Dashboard</span> <span th:text="#{nav.locataire}">Locataire</span></h1>
+        <p class="text-muted" th:text="#{dashboard.locataire.subtitle}">Suivez vos réservations en un coup d'œil</p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="re-card re-stat-card p-3" style="border-top: 4px solid var(--re-primary);">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="re-stat-icon" style="background: linear-gradient(135deg, #DBEAFE, #E0E7FF); color: var(--re-primary);">
+                        <i class="bi bi-calendar-check"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <small class="text-muted d-block" style="font-size: 0.8rem;" th:text="#{dashboard.locataire.my}">Mes réservations</small>
+                        <strong class="fs-3 fw-bold" th:text="${dashboard.myReservations}">0</strong>
+                    </div>
+                    <a th:href="@{/reservations}" class="btn re-btn re-btn-primary" style="font-size: 0.75rem; padding: 0.4rem 0.8rem;" th:text="#{dashboard.see}">Voir</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="re-card re-stat-card p-3" style="border-top: 4px solid var(--re-success);">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="re-stat-icon" style="background: linear-gradient(135deg, #DCFCE7, #D1FAE5); color: var(--re-success);">
+                        <i class="bi bi-check-circle"></i>
+                    </div>
+                    <div>
+                        <small class="text-muted d-block" style="font-size: 0.8rem;" th:text="#{dashboard.locataire.active}">Réservations actives</small>
+                        <strong class="fs-3 fw-bold" th:text="${dashboard.activeReservations}">0</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

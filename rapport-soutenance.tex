@@ -1,0 +1,1248 @@
+﻿% ============================================================
+% RENTEASY — RAPPORT DE SOUTENANCE
+% Overleaf-compatible, TikZ-heavy, minimal text, maximum visuals
+% ============================================================
+\documentclass[12pt,a4paper]{article}
+% ---- Packages ----
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{geometry}
+\geometry{margin=2cm}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning, fit, backgrounds,
+  mindmap, trees, decorations.pathreplacing, chains, calc,
+  shadows.blur, shapes.multipart, matrix, shapes.symbols}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!60!black,urlcolor=blue!60!black}
+\usepackage{fancyhdr}
+\usepackage{mdframed}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{multicol}
+\usepackage{float}
+\usepackage{wasysym}
+
+% ---- Colors ----
+\definecolor{reprimary}{HTML}{4361EE}
+\definecolor{resecondary}{HTML}{3F37C9}
+\definecolor{reaccent}{HTML}{F72585}
+\definecolor{resuccess}{HTML}{06D6A0}
+\definecolor{rewarning}{HTML}{FFD166}
+\definecolor{redanger}{HTML}{EF476F}
+\definecolor{redark}{HTML}{1B1B2F}
+\definecolor{reblue}{HTML}{4CC9F0}
+\definecolor{reorange}{HTML}{FB8B24}
+
+% ---- TikZ Styles ----
+\tikzstyle{archbox} = [rectangle, draw, thick, fill=reprimary!10,
+  text centered, rounded corners, minimum height=1.0cm, minimum width=2.8cm,
+  blur shadow={shadow blur steps=5}, font=\small]
+\tikzstyle{archarrow} = [thick, ->, >=stealth, color=reprimary!80]
+\tikzstyle{database} = [cylinder, draw, thick, fill=reblue!20,
+  shape border rotate=90, minimum height=1.2cm, minimum width=2.5cm,
+  aspect=0.3, blur shadow={shadow blur steps=5}]
+\tikzstyle{entity} = [rectangle, draw, thick, fill=resuccess!15,
+  minimum width=3cm, minimum height=0.8cm, rounded corners,
+  blur shadow={shadow blur steps=3}]
+\tikzstyle{relation} = [diamond, draw, thick, fill=reaccent!15,
+  minimum width=2cm, minimum height=1.4cm, aspect=0.5]
+\tikzstyle{flowbox} = [rectangle, draw, thick, fill=reprimary!15,
+  text centered, minimum height=0.8cm, minimum width=2.5cm,
+  rounded corners, blur shadow={shadow blur steps=3}, font=\small]
+\tikzstyle{flowarrow} = [thick, ->, >=stealth, color=redark!60]
+\tikzstyle{seqactor} = [rectangle, draw, thick, fill=reorange!20,
+  minimum height=0.7cm, minimum width=2cm, rounded corners, font=\small]
+\tikzstyle{seqobj} = [rectangle, draw, thick, fill=reblue!15,
+  minimum height=0.7cm, minimum width=2.5cm, rounded corners, font=\small]
+\tikzstyle{seqarrow} = [thick, ->, >=stealth, color=redark]
+\tikzstyle{seqdash} = [thick, dashed, color=redark!40]
+\tikzstyle{seqreturn} = [thick, ->, >=open triangle 60, color=reaccent!60]
+\tikzstyle{modbox} = [rectangle, draw, thick, fill=reprimary!8,
+  minimum height=1cm, minimum width=3cm, rounded corners, font=\small]
+
+% ---- Page style ----
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{reprimary!70}RentEasy — Rapport de Soutenance}
+\fancyhead[R]{\small\color{reprimary!70}\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancypagestyle{plain}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}}
+
+\begin{document}
+
+% ---- Title Page ----
+\begin{titlepage}
+\centering
+\vspace*{2cm}
+{\Huge\bfseries\color{reprimary} RentEasy}\\[0.8cm]
+{\Large\color{redark} Plateforme de Gestion Locative}\\[0.5cm]
+{\large\color{redark!60} Rapport de Soutenance de Projet}\\[2cm]
+{\Large\faHome}\\[1cm]
+\vfill
+{\textbf{Présenté par} — Étudiant}\\[0.3cm]
+{\textbf{Encadré par} — Professeur}\\[0.3cm]
+{\textbf{Année Universitaire} — 2025/2026}
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+% ============================================================
+% PART 1 — PROJECT OVERVIEW
+% ============================================================
+\section{Aperçu du Projet}
+
+\begin{tcolorbox}[colback=reprimary!5, colframe=reprimary!40,
+  title=\textbf{Fiche d'Identité}, fonttitle=\bfseries]
+  \begin{tabularx}{\textwidth}{lX}
+    \textbf{Nom du projet} & RentEasy \\
+    \textbf{Type} & Application Web de gestion locative \\
+    \textbf{Stack technique} & Java 17, Spring Boot 3.5, Thymeleaf, Bootstrap 5, MySQL/H2, JWT \\
+    \textbf{Architecture} & Monolithe modulaire — REST API + Web MVC \\
+    \textbf{Utilisateurs cibles} & Propriétaires, Locataires, Administrateurs \\
+    \textbf{Langues} & Français, Anglais, Arabe (i18n) \\
+  \end{tabularx}
+\end{tcolorbox}
+
+\subsection{Problématique \& Objectifs}
+
+\begin{multicols}{2}
+
+\subsubsection*{Problème}
+Les particuliers peinent à gérer leurs locations :
+\begin{itemize}[nosep]
+  \item Pas de suivi centralisé des biens
+  \item Gestion manuelle des réservations
+  \item Absence de séparation des rôles
+  \item Aucune visibilité pour le propriétaire
+\end{itemize}
+
+\columnbreak
+
+\subsubsection*{Solution}
+RentEasy propose :
+\begin{itemize}[nosep]
+  \item Interface unique Propriétaire/Locataire/Admin
+  \item Publication d'annonces et gestion de biens
+  \item Réservation avec détection de conflits
+  \item Tableaux de bord personnalisés
+\end{itemize}
+
+\end{multicols}
+
+\newpage
+
+\subsection{Carte Mentale du Projet}
+
+\begin{center}
+\begin{tikzpicture}[
+  mindmap,
+  grow cyclic,
+  text=white,
+  every node/.style={concept, circular drop shadow},
+  root concept/.append style={
+    concept color=reprimary!80, font=\bfseries\large, minimum size=2.8cm
+  },
+  level 1 concept/.append style={
+    sibling angle=60,
+    concept color=reprimary!50,
+    font=\small,
+    minimum size=2cm
+  },
+  level 2 concept/.append style={
+    concept color=reprimary!30,
+    font=\footnotesize,
+    minimum size=1.3cm
+  }
+]
+\node[concept] {RentEasy}
+  child[grow=0] {
+    node[concept] {Backend}
+    child { node[concept] {Spring Boot} }
+    child { node[concept] {JPA/Hibernate} }
+    child { node[concept] {JWT Auth} }
+  }
+  child[grow=60] {
+    node[concept] {Frontend}
+    child { node[concept] {Thymeleaf} }
+    child { node[concept] {Bootstrap 5} }
+    child { node[concept] {i18n} }
+  }
+  child[grow=120] {
+    node[concept] {Base de données}
+    child { node[concept] {MySQL} }
+    child { node[concept] {H2 (dev)} }
+    child { node[concept] {5 entités} }
+  }
+  child[grow=180] {
+    node[concept] {Sécurité}
+    child { node[concept] {Form Login} }
+    child { node[concept] {JWT /api/} }
+    child { node[concept] {RBAC} }
+  }
+  child[grow=240] {
+    node[concept] {Fonctionnalités}
+    child { node[concept] {CRUD Logements} }
+    child { node[concept] {Annonces} }
+    child { node[concept] {Réservations} }
+  }
+  child[grow=300] {
+    node[concept] {Utilisateurs}
+    child { node[concept] {Admin} }
+    child { node[concept] {Propriétaire} }
+    child { node[concept] {Locataire} }
+  };
+\end{tikzpicture}
+\end{center}
+
+\subsection{Diagramme des Acteurs et Fonctionnalités}
+
+\begin{center}
+\begin{tikzpicture}[node distance=1.2cm and 1.8cm]
+  \node[archbox, fill=redark!15, minimum width=3.5cm] (guest) {\textbf{Visiteur}};
+  \node[archbox, fill=reprimary!15, minimum width=3.5cm, below=0.8cm of guest] (user) {\textbf{Utilisateur Authentifié}};
+
+  \node[archbox, fill=resuccess!15, minimum width=2.8cm, below left=1.2cm and 0.8cm of user] (admin) {\textbf{Admin}};
+  \node[archbox, fill=reblue!15, minimum width=2.8cm, below=0.8cm of user] (proprio) {\textbf{Propriétaire}};
+  \node[archbox, fill=reorange!15, minimum width=2.8cm, below right=1.2cm and 0.8cm of user] (locataire) {\textbf{Locataire}};
+
+  \draw[archarrow] (guest) -- (user) node[midway, right] {\small S'enregistre};
+  \draw[archarrow] (user) -- (admin);
+  \draw[archarrow] (user) -- (proprio);
+  \draw[archarrow] (user) -- (locataire);
+
+  \node[flowbox, fill=resuccess!10, minimum width=2.5cm, left=1.2cm of admin] (af1) {Dashboard global};
+  \node[flowbox, fill=resuccess!10, minimum width=2.5cm, below=0.3cm of af1] (af2) {CRUD Utilisateurs};
+
+  \node[flowbox, fill=reblue!10, minimum width=2.5cm, left=1.2cm of proprio] (pf1) {Gérer Logements};
+  \node[flowbox, fill=reblue!10, minimum width=2.5cm, below=0.3cm of pf1] (pf2) {Publier Annonces};
+  \node[flowbox, fill=reblue!10, minimum width=2.5cm, below=0.3cm of pf2] (pf3) {Voir Réservations};
+
+  \node[flowbox, fill=reorange!10, minimum width=2.5cm, right=1.2cm of locataire] (lf1) {Rechercher Biens};
+  \node[flowbox, fill=reorange!10, minimum width=2.5cm, below=0.3cm of lf1] (lf2) {Réserver};
+  \node[flowbox, fill=reorange!10, minimum width=2.5cm, below=0.3cm of lf2] (lf3) {Suivre mes réservations};
+
+  \draw[flowarrow] (admin) -- (af1);
+  \draw[flowarrow] (admin) -- (af2);
+  \draw[flowarrow] (proprio) -- (pf1);
+  \draw[flowarrow] (proprio) -- (pf2);
+  \draw[flowarrow] (proprio) -- (pf3);
+  \draw[flowarrow] (locataire) -- (lf1);
+  \draw[flowarrow] (locataire) -- (lf2);
+  \draw[flowarrow] (locataire) -- (lf3);
+\end{tikzpicture}
+\end{center}
+
+\newpage
+
+% ============================================================
+% PART 2 — BACKEND ARCHITECTURE
+% ============================================================
+\section{Architecture Backend}
+
+\subsection{Architecture en Couches (Layered Architecture)}
+
+\begin{center}
+\begin{tikzpicture}[node distance=0.4cm and 1.5cm,
+  box/.style={rectangle, draw, thick, minimum width=6cm, minimum height=1.1cm,
+    rounded corners, font=\small\bfseries, text centered, blur shadow={shadow blur steps=5}},
+  layer/.style={text width=6cm, font=\bfseries}]
+
+  % Layers from top to bottom
+  \node[box, fill=reaccent!20, minimum width=6cm] (pres) {\faGlobe~ Présentation (Controllers)};
+  \node[box, fill=reprimary!20, minimum width=6cm, below=0.3cm of pres] (api) {\faCode~ API REST (/api/)};
+  \node[box, fill=reprimary!20, minimum width=6cm, below=0.3cm of api] (web) {\faDesktop~ Pages Web (Thymeleaf)};
+  \node[box, fill=reblue!20, minimum width=6cm, below=0.3cm of web] (service) {\faCogs~ Service (Logique métier)};
+  \node[box, fill=resuccess!20, minimum width=6cm, below=0.3cm of service] (repo) {\faDatabase~ Repository (Accès données)};
+  \node[database, fill=reblue!30, minimum width=4cm, below=0.3cm of repo] (db) {MySQL / H2};
+
+  \draw[archarrow] (pres) -- (api);
+  \draw[archarrow] (pres) -- (web);
+  \draw[archarrow] (api) -- (service);
+  \draw[archarrow] (web) -- (service);
+  \draw[archarrow] (service) -- (repo);
+  \draw[archarrow] (repo) -- (db);
+
+  % Labels on the right
+  \node[layer, right=1.5cm of pres, color=reaccent] {\emph{Couche Présentation}};
+  \node[layer, right=1.5cm of service, color=reblue] {\emph{Couche Métier}};
+  \node[layer, right=1.5cm of repo, color=resuccess!80!black] {\emph{Couche Persistance}};
+\end{tikzpicture}
+\end{center}
+
+\vspace{0.5cm}
+
+\begin{tcolorbox}[colback=reprimary!5, colframe=reprimary!40, title=\textbf{Pourquoi l'Architecture en Couches ?}]
+\begin{tabularx}{\textwidth}{lX}
+\textbf{Séparation des responsabilités} & Chaque couche a un rôle unique et bien défini \\
+\textbf{Testabilité} & Chaque couche peut être testée indépendamment \\
+\textbf{Maintenabilité} & Modifier une couche n'affecte pas les autres \\
+\textbf{Scalabilité} & Facile d'ajouter des endpoints ou des services \\
+\textbf{Sécurité} & La couche présentation peut filtrer les accès avant la logique métier \\
+\end{tabularx}
+\end{tcolorbox}
+
+\newpage
+
+\subsection{Diagramme de Paquets (Package Diagram)}
+
+\begin{center}
+\begin{tikzpicture}[node distance=0.6cm and 0.6cm,
+  pkg/.style={rectangle, draw, thick, minimum width=2.8cm, minimum height=0.9cm,
+    rounded corners, font=\small\bfseries, fill=reprimary!8, blur shadow={shadow blur steps=3}},
+  subpkg/.style={rectangle, draw, dashed, minimum width=2.4cm, minimum height=0.7cm,
+    rounded corners, font=\footnotesize, fill=white}]
+
+  \node[pkg, fill=reaccent!15] (controller) {controller};
+  \node[pkg, fill=reaccent!15, below=0.3cm of controller] (web) {web};
+  \node[pkg, fill=reprimary!15, below=0.3cm of web] (service) {service};
+  \node[pkg, fill=reblue!15, below=0.3cm of service] (repo) {repository};
+  \node[pkg, fill=resuccess!15, below=0.3cm of repo] (model) {model};
+
+  \node[pkg, fill=reprimary!8, right=1.2cm of controller] (dto) {dto};
+  \node[pkg, fill=reprimary!8, below=0.3cm of dto] (mapper) {mapper};
+  \node[pkg, fill=reprimary!8, below=0.3cm of mapper] (security) {security};
+  \node[pkg, fill=reprimary!8, below=0.3cm of security] (config) {config};
+  \node[pkg, fill=reprimary!8, below=0.3cm of config] (exception) {exception};
+
+  \draw[archarrow] (controller) -- (service);
+  \draw[archarrow] (web) -- (service);
+  \draw[archarrow] (service) -- (repo);
+  \draw[archarrow] (repo) -- (model);
+
+  \draw[flowarrow] (controller) -- (dto);
+  \draw[flowarrow] (controller) -- (mapper);
+  \draw[flowarrow] (service) -- (security);
+  \draw[flowarrow] (service) -- (exception);
+  \draw[dashed, ->, >=stealth, color=redark!30] (config) -- (security);
+  \draw[dashed, ->, >=stealth, color=redark!30] (config) -- (service);
+
+  % Group box
+  \draw[color=reprimary!30, thick, rounded corners, dashed]
+    (+(-0.4,0.3)$) rectangle
+    (+(0.4,-0.3)$);
+  \node[anchor=north west, color=reprimary!50, font=\footnotesize\bfseries]
+    at (+(-0.3,0.5)$) {src/main/java};
+
+\end{tikzpicture}
+\end{center}
+
+\newpage
+
+% ============================================================
+% PART 2 — BACKEND ARCHITECTURE
+% ============================================================
+\section{Architecture Backend}
+
+\subsection{Architecture en Couches (Layered Architecture)}
+
+\begin{center}
+\begin{tikzpicture}[node distance=0.4cm and 1.5cm,
+  box/.style={rectangle, draw, thick, minimum width=6cm, minimum height=1.1cm,
+    rounded corners, font=\small\bfseries, text centered, blur shadow={shadow blur steps=5}},
+  layer/.style={text width=6cm, font=\bfseries}]
+
+  \node[box, fill=reaccent!20, minimum width=6cm] (pres) {\faGlobe~ Pr\'esentation (Controllers)};
+  \node[box, fill=reprimary!20, minimum width=6cm, below=0.3cm of pres] (api) {\faCode~ API REST (/api/)};
+  \node[box, fill=reprimary!20, minimum width=6cm, below=0.3cm of api] (web) {\faDesktop~ Pages Web (Thymeleaf)};
+  \node[box, fill=reblue!20, minimum width=6cm, below=0.3cm of web] (service) {\faCogs~ Service (Logique m\'etier)};
+  \node[box, fill=resuccess!20, minimum width=6cm, below=0.3cm of service] (repo) {\faDatabase~ Repository (Acc\`es donn\'ees)};
+  \node[database, fill=reblue!30, minimum width=4cm, below=0.3cm of repo] (db) {MySQL / H2};
+
+  \draw[archarrow] (pres) -- (api);
+  \draw[archarrow] (pres) -- (web);
+  \draw[archarrow] (api) -- (service);
+  \draw[archarrow] (web) -- (service);
+  \draw[archarrow] (service) -- (repo);
+  \draw[archarrow] (repo) -- (db);
+
+  \node[layer, right=1.5cm of pres, color=reaccent] {\emph{Couche Pr\'esentation}};
+  \node[layer, right=1.5cm of service, color=reblue] {\emph{Couche M\'etier}};
+  \node[layer, right=1.5cm of repo, color=resuccess!80!black] {\emph{Couche Persistance}};
+\end{tikzpicture}
+\end{center}
+
+\vspace{0.5cm}
+
+\begin{tcolorbox}[colback=reprimary!5, colframe=reprimary!40, title=\textbf{Pourquoi l\textquotesingle Architecture en Couches ?}]
+\begin{tabularx}{\textwidth}{lX}
+\textbf{S\'eparation des responsabilit\'es} & Chaque couche a un r\^ole unique et bien d\'efini \\
+\textbf{Testabilit\'e} & Chaque couche peut \^etre test\'ee ind\'ependamment \\
+\textbf{Maintenabilit\'e} & Modifier une couche n\textquotesingle affecte pas les autres \\
+\textbf{Scalabilit\'e} & Facile d\textquotesingle ajouter des endpoints ou des services \\
+\textbf{S\'ecurit\'e} & La couche pr\'esentation peut filtrer les acc\`es avant la logique m\'etier \\
+\end{tabularx}
+\end{tcolorbox}
+
+\newpage
+
+\subsection{Diagramme de Paquets}
+
+\begin{center}
+\begin{tikzpicture}[node distance=0.6cm and 0.6cm,
+  pkg/.style={rectangle, draw, thick, minimum width=2.8cm, minimum height=0.9cm,
+    rounded corners, font=\small\bfseries, fill=reprimary!8, blur shadow={shadow blur steps=3}}]
+
+  \node[pkg, fill=reaccent!15] (controller) {controller};
+  \node[pkg, fill=reaccent!15, below=0.3cm of controller] (web) {web};
+  \node[pkg, fill=reprimary!15, below=0.3cm of web] (service) {service};
+  \node[pkg, fill=reblue!15, below=0.3cm of service] (repo) {repository};
+  \node[pkg, fill=resuccess!15, below=0.3cm of repo] (model) {model};
+
+  \node[pkg, fill=reprimary!8, right=1.2cm of controller] (dto) {dto};
+  \node[pkg, fill=reprimary!8, below=0.3cm of dto] (mapper) {mapper};
+  \node[pkg, fill=reprimary!8, below=0.3cm of mapper] (security) {security};
+  \node[pkg, fill=reprimary!8, below=0.3cm of security] (config) {config};
+  \node[pkg, fill=reprimary!8, below=0.3cm of config] (exception) {exception};
+
+  \draw[archarrow] (controller) -- (service);
+  \draw[archarrow] (web) -- (service);
+  \draw[archarrow] (service) -- (repo);
+  \draw[archarrow] (repo) -- (model);
+
+  \draw[flowarrow] (controller) -- (dto);
+  \draw[flowarrow] (controller) -- (mapper);
+  \draw[flowarrow] (service) -- (security);
+  \draw[flowarrow] (service) -- (exception);
+  \draw[dashed, ->, >=stealth, color=redark!30] (config) -- (security);
+  \draw[dashed, ->, >=stealth, color=redark!30] (config) -- (service);
+
+  \draw[color=reprimary!30, thick, rounded corners, dashed]
+    ([shift={(-0.4,0.3)}]controller.north west) rectangle
+    ([shift={(0.4,-0.3)}]model.south east);
+  \node[anchor=north west, color=reprimary!50, font=\footnotesize\bfseries]
+    at ([shift={(-0.3,0.5)}]controller.north west) {src/main/java};
+\end{tikzpicture}
+\end{center}
+
+\newpage
+
+% ============================================================
+% DATABASE DESIGN
+% ============================================================
+\section{Conception de la Base de Donn\'ees}
+
+\subsection{Diagramme Entit\'e-Relations (ERD)}
+
+\begin{center}
+\begin{tikzpicture}[node distance=1.8cm and 2.5cm,
+  ent/.style={rectangle, draw, thick, fill=resuccess!15, minimum width=3.2cm,
+    minimum height=1cm, rounded corners, blur shadow={shadow blur steps=3}, font=\small},
+  rel/.style={diamond, draw, thick, fill=reaccent!15, minimum width=2cm,
+    minimum height=1.4cm, aspect=0.5, font=\small},
+  attr/.style={ellipse, draw, dashed, fill=reprimary!8, font=\scriptsize},
+  edge/.style={thick, color=redark!50},
+  card/.style={font=\footnotesize, color=reaccent!80!black}]
+
+  % Entities
+  \node[ent, fill=reprimary!15] (user) {\textbf{User}};
+  \node[ent, fill=reblue!15, right=3.5cm of user] (logement) {\textbf{Logement}};
+  \node[ent, fill=reorange!15, below=2.5cm of user] (reservation) {\textbf{R\'eservation}};
+  \node[ent, fill=resuccess!15, above=2.5cm of user] (role) {\textbf{Role}};
+  \node[ent, fill=reaccent!15, right=3.5cm of logement] (annonce) {\textbf{Annonce}};
+
+  % Relationships
+  \node[rel] (has) at ($(user)!0.5!(role)$) {Poss\`ede};
+  \node[rel] (owns) at ($(user)!0.5!(logement)$) {Poss\`ede};
+  \node[rel] (makes) at ($(user)!0.5!(reservation)$) {Effectue};
+  \node[rel] (concerns) at ($(reservation)!0.5!(logement)$) {Concerne};
+  \node[rel] (publishes) at ($(logement)!0.5!(annonce)$) {Publie};
+
+  % Edges
+  \draw[edge] (role) -- (has) node[card, near start, above] {1};
+  \draw[edge] (user) -- (has) node[card, near start, below] {1..*};
+  \draw[edge] (user) -- (owns) node[card, near start, above] {1};
+  \draw[edge] (logement) -- (owns) node[card, near start, below] {0..*};
+  \draw[edge] (user) -- (makes) node[card, near start, left] {1};
+  \draw[edge] (reservation) -- (makes) node[card, near start, right] {0..*};
+  \draw[edge] (reservation) -- (concerns) node[card, near start, below] {0..*};
+  \draw[edge] (logement) -- (concerns) node[card, near start, above] {1};
+  \draw[edge] (logement) -- (publishes) node[card, near start, above] {1};
+  \draw[edge] (annonce) -- (publishes) node[card, near start, below] {0..1};
+\end{tikzpicture}
+\end{center}
+
+\subsection{Sch\'ema Relationnel (MLD)}
+
+\begin{tcolorbox}[colback=white, colframe=reprimary!40]
+\begin{verbatim}
+User        (id, nom, email, password, telephone, dateCreation, dateModification, role_id)
+Role        (id, name)
+Logement    (id, titre, description, adresse, ville, type, prix, superficie,
+             telephone, disponible, imageUrl, videoUrl, dateCreation, dateModification,
+             proprietaire_id)
+Reservation (id, dateDebut, dateFin, statut, dateCreation, dateModification,
+             locataire_id, logement_id)
+Annonce     (id, titre, description, datePublication, active,
+             logement_id, proprietaire_id)
+\end{verbatim}
+\end{tcolorbox}
+
+\subsection{Contraintes M\'etier}
+
+\begin{itemize}
+  \item \textbf{Conflit de r\'eservation} : Pas de chevauchement de dates pour un m\^eme logement (statuts \'ecart\'es : ANNULEE)
+  \item \textbf{Propri\'et\'e} : Un propri\'etaire ne peut modifier que ses propres biens
+  \item \textbf{S\'eparation} : User a un seul r\^ole (ADMIN, PROPRIETAIRE, LOCATAIRE)
+  \item \textbf{Cascade} : La suppression d\textquotesingle un logement supprime ses r\'eservations (orphanRemoval)
+\end{itemize}
+
+\subsection{R\'esum\'e des Entit\'es}
+
+\begin{center}
+\begin{tabular}{llc}
+\toprule
+\textbf{Entit\'e} & \textbf{Description} & \textbf{Attributs} \\
+\midrule
+User & Utilisateurs de la plateforme & 8 attributs \\
+Role & R\^oles (ADMIN, PROPRIETAIRE, LOCATAIRE) & 2 attributs \\
+Logement & Biens immobiliers \`a louer & 13 attributs \\
+Annonce & Publications de location & 6 attributs \\
+R\'eservation & Demandes de location & 7 attributs \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\newpage
+
+% ============================================================
+% SECURITY ARCHITECTURE
+% ============================================================
+\section{Architecture de S\'ecurit\'e}
+
+\subsection{Double Authentification}
+
+\begin{center}
+\begin{tikzpicture}
+  \node[archbox, fill=reaccent!20, minimum width=5cm, minimum height=1.2cm] (app) {\Large\textbf{RentEasy}};
+
+  \node[archbox, fill=reprimary!20, minimum width=4cm, below left=1.5cm and 1cm of app] (form) {\textbf{Form Login}\\\small Pages Web};
+  \node[archbox, fill=reblue!20, minimum width=4cm, below right=1.5cm and 1cm of app] (jwt) {\textbf{JWT Bearer}\\\small API REST (/api/)};
+
+  \draw[archarrow] (app) -- (form) node[midway, left] {\small Session HTTP};
+  \draw[archarrow] (app) -- (jwt) node[midway, right] {\small Token JWT};
+
+  \node[flowbox, fill=resuccess!10, minimum width=3cm, below=0.5cm of form] (csrf) {CSRF activ\'e};
+  \node[flowbox, fill=resuccess!10, minimum width=3cm, below=0.5cm of jwt] (csrf2) {CSRF d\'esactiv\'e};
+
+  \draw[flowarrow] (form) -- (csrf);
+  \draw[flowarrow] (jwt) -- (csrf2);
+\end{tikzpicture}
+\end{center}
+
+\subsection{Flux d\textquotesingle Authentification JWT}
+
+\begin{center}
+\begin{tikzpicture}[node distance=0.8cm and 1.5cm]
+
+  \node[seqactor] (client) {\textbf{Client}};
+  \node[seqobj, right=2cm of client] (filter) {\textbf{JwtAuthFilter}};
+  \node[seqobj, right=2cm of filter] (manager) {\textbf{AuthManager}};
+  \node[seqobj, right=2cm of manager] (service) {\textbf{JwtService}};
+  \node[database, below=1.5cm of service] (db) {DB};
+
+  % Login flow
+  \draw[seqarrow] (client) -- ++(0,-1.2) -| (filter);
+  \node[above=0.1cm of filter] at ($(client)!0.5!(filter)$) {\small 1. POST /api/auth/login};
+
+  \draw[seqdash] (filter) -- ++(0,-2.5);
+  \draw[seqdash] (manager) -- ++(0,-2.5);
+  \draw[seqdash] (service) -- ++(0,-2.5);
+  \draw[seqdash] (db) -- ++(0,-2.5);
+
+  % Flow
+  \draw[seqarrow] (filter) -- (manager) node[midway, above] {\small 2. Authenticate};
+  \draw[seqarrow] (manager) -- (db) node[midway, above] {\small 3. Load user};
+  \draw[seqreturn] (db) -- (manager) node[midway, below] {\small UserDetails};
+  \draw[seqarrow] (manager) -- (service) node[midway, above] {\small 4. Generate JWT};
+  \draw[seqreturn] (service) -- (filter) node[midway, below] {\small Token};
+  \draw[seqreturn] (filter) -- (client) node[midway, below] {\small 5. JWT \texttt{<token>}};
+
+  % Protected request
+  \node[flowbox, fill=reaccent!10, below right=0.2cm and -1cm of client] (req2) {\small 6. Requ\^ete avec Bearer token};
+  \draw[flowarrow] (req2) -- ++(4,0);
+
+  \node[flowbox, fill=resuccess!10, below=1.5cm of filter] (verify) {\small 7. V\'erifie signature + expiration};
+  \draw[flowarrow] (req2.south) |- (verify);
+
+\end{tikzpicture}
+\end{center}
+
+\newpage
+
+\subsection{Contr\^ole d\textquotesingle Acc\`es par R\^ole (RBAC)}
+
+\begin{center}
+\begin{tikzpicture}[node distance=1.2cm and 2cm,
+  role/.style={ellipse, draw, thick, minimum width=2.5cm, minimum height=1cm,
+    font=\bfseries, blur shadow={shadow blur steps=3}}]
+
+  \node[role, fill=resuccess!20] (admin) {ADMIN};
+  \node[role, fill=reblue!20, below left=1.5cm and 1.5cm of admin] (proprio) {PROPRIETAIRE};
+  \node[role, fill=reorange!20, below right=1.5cm and 1.5cm of admin] (locataire) {LOCATAIRE};
+
+  \draw[thick, color=redark!30] (admin) -- (proprio);
+  \draw[thick, color=redark!30] (admin) -- (locataire);
+  \draw[thick, color=redark!30] (proprio) -- (locataire);
+
+  % Permissions
+  \node[flowbox, fill=resuccess!10, minimum width=3.5cm, left=2cm of admin] (ap1) {Dashboard global};
+  \node[flowbox, fill=resuccess!10, minimum width=3.5cm, below=0.3cm of ap1] (ap2) {CRUD tous utilisateurs};
+  \node[flowbox, fill=resuccess!10, minimum width=3.5cm, below=0.3cm of ap2] (ap3) {Voir toutes r\'eservations};
+  
+  \node[flowbox, fill=reblue!10, minimum width=3.5cm, left=2cm of proprio] (pp1) {CRUD ses logements};
+  \node[flowbox, fill=reblue!10, minimum width=3.5cm, below=0.3cm of pp1] (pp2) {CRUD ses annonces};
+  \node[flowbox, fill=reblue!10, minimum width=3.5cm, below=0.3cm of pp2] (pp3) {Confirmer r\'eservations};
+
+  \node[flowbox, fill=reorange!10, minimum width=3.5cm, right=2cm of locataire] (lp1) {Rechercher logements};
+  \node[flowbox, fill=reorange!10, minimum width=3.5cm, below=0.3cm of lp1] (lp2) {Cr\'eer r\'eservation};
+  \node[flowbox, fill=reorange!10, minimum width=3.5cm, below=0.3cm of lp2] (lp3) {Annuler sa r\'eservation};
+
+  \draw[archarrow] (admin) -- (ap1);
+  \draw[archarrow] (admin) -- (ap2);
+  \draw[archarrow] (admin) -- (ap3);
+  \draw[archarrow] (proprio) -- (pp1);
+  \draw[archarrow] (proprio) -- (pp2);
+  \draw[archarrow] (proprio) -- (pp3);
+  \draw[archarrow] (locataire) -- (lp1);
+  \draw[archarrow] (locataire) -- (lp2);
+  \draw[archarrow] (locataire) -- (lp3);
+
+\end{tikzpicture}
+\end{center}
+
+\subsection{Sch\'ema de S\'ecurit\'e Globale}
+
+\begin{center}
+\begin{tikzpicture}
+
+  \node[flowbox, fill=redark!15, minimum width=4cm] (request) {\textbf{Requ\^ete entrante}};
+
+  \node[flowbox, fill=reaccent!20, minimum width=4cm, below=0.8cm of request] (sec) {\textbf{Security Filter Chain}};
+
+  \node[flowbox, fill=reprimary!20, minimum width=3cm, below left=1.2cm and 0.5cm of sec] (webpath) {\textbf{Pages Web}\\ \emph{Session}};
+  \node[flowbox, fill=reblue!20, minimum width=3cm, below right=1.2cm and 0.5cm of sec] (apipath) {\textbf{API REST}\\ \emph{JWT}};
+
+  \node[flowbox, fill=resuccess!10, minimum width=3cm, below=0.5cm of webpath] (webctrl) {Web Controller};
+  \node[flowbox, fill=resuccess!10, minimum width=3cm, below=0.5cm of apipath] (apictrl) {REST Controller};
+
+  \draw[archarrow] (request) -- (sec);
+  \draw[archarrow] (sec) -- (webpath) node[midway, left] {\footnotesize CSRF};
+  \draw[archarrow] (sec) -- (apipath) node[midway, right] {\footnotesize Stateless};
+  \draw[archarrow] (webpath) -- (webctrl);
+  \draw[archarrow] (apipath) -- (apictrl);
+
+  % Config labels
+  \node[font=\footnotesize, below=0.2cm of sec, color=redark!60] {
+    \texttt{SecurityConfig.java}};
+
+\end{tikzpicture}
+\end{center}
+
+\newpage
+
+% ============================================================
+% BUSINESS FLOWS — SEQUENCE DIAGRAMS
+% ============================================================
+\section{Flux Métier — Diagrammes de Séquence}
+
+\subsection{Inscription Utilisateur}
+
+\begin{center}
+\begin{tikzpicture}
+  \node[seqactor] (user) {\textbf{Utilisateur}};
+  \node[seqobj, right=2.5cm of user] (ctrl) {\textbf{AuthController}};
+  \node[seqobj, right=2.5cm of ctrl] (svc) {\textbf{AuthService}};
+  \node[seqobj, right=2.5cm of svc] (repo) {\textbf{UserRepository}};
+
+  \draw[seqdash] (user) -- ++(0,-5.5);
+  \draw[seqdash] (ctrl) -- ++(0,-5.5);
+  \draw[seqdash] (svc) -- ++(0,-5.5);
+  \draw[seqdash] (repo) -- ++(0,-5.5);
+
+  \draw[seqarrow] (user) -- (ctrl) node[midway, above] {\small POST /api/auth/register};
+  \draw[seqarrow] (ctrl) -- (svc) node[midway, above] {\small register(request)};
+  \draw[seqarrow] (svc) -- (repo) node[midway, above] {\small existsByEmail(email)};
+  \draw[seqreturn] (repo) -- (svc) node[midway, below] {\small false};
+  \draw[seqarrow] (svc) -- (repo) node[midway, above] {\small save(user)};
+  \draw[seqreturn] (repo) -- (svc) node[midway, below] {\small User};
+  \draw[seqreturn] (svc) -- (ctrl) node[midway, below] {\small AuthResponse};
+  \draw[seqreturn] (ctrl) -- (user) node[midway, below] {\small 201 Created + Token};
+
+  % Verification call
+  \node[flowbox, fill=redanger!10, above=0.3cm of svc] (verify) {\small Vérifie email unique};
+  \draw[flowarrow] (svc) -- (verify);
+
+  \node[flowbox, fill=redanger!10, above=0.3cm of repo] (hash) {\small Hash password (BCrypt)};
+  \draw[flowarrow] (repo) -- (hash);
+\end{tikzpicture}
+\end{center}
+
+\subsection{Connexion}
+
+\begin{center}
+\begin{tikzpicture}
+  \node[seqactor] (user) {\textbf{Utilisateur}};
+  \node[seqobj, right=2.5cm of user] (ctrl) {\textbf{AuthController}};
+  \node[seqobj, right=2.5cm of ctrl] (manager) {\textbf{AuthenticationManager}};
+  \node[seqobj, right=2.5cm of manager] (jwt) {\textbf{JwtService}};
+
+  \draw[seqdash] (user) -- ++(0,-4.5);
+  \draw[seqdash] (ctrl) -- ++(0,-4.5);
+  \draw[seqdash] (manager) -- ++(0,-4.5);
+  \draw[seqdash] (jwt) -- ++(0,-4.5);
+
+  \draw[seqarrow] (user) -- (ctrl) node[midway, above] {\small POST /api/auth/login};
+  \draw[seqarrow] (ctrl) -- (manager) node[midway, above] {\small authenticate(token)};
+  \draw[seqreturn] (manager) -- (ctrl) node[midway, below] {\small Authentication};
+  \draw[seqarrow] (ctrl) -- (jwt) node[midway, above] {\small generateToken(auth)};
+  \draw[seqreturn] (jwt) -- (ctrl) node[midway, below] {\small JWT String};
+  \draw[seqreturn] (ctrl) -- (user) node[midway, below] {\small 200 + Token + UserDTO};
+
+  \node[flowbox, fill=rewarning!15, above=0.3cm of manager] (check) {\small Vérifie email/password};
+  \draw[flowarrow] (manager) -- (check);
+
+  \node[flowbox, fill=resuccess!15, above=0.3cm of jwt] (gen) {\small Génère JWT (1h expiration)};
+  \draw[flowarrow] (jwt) -- (gen);
+\end{tikzpicture}
+\end{center}
+
+\newpage
+
+\subsection{Création de Logement}
+
+\begin{center}
+\begin{tikzpicture}
+  \node[seqactor] (proprio) {\textbf{Propriétaire}};
+  \node[seqobj, right=2.5cm of proprio] (ctrl) {\textbf{LogementController}};
+  \node[seqobj, right=2.5cm of ctrl] (svc) {\textbf{LogementService}};
+  \node[seqobj, right=2.5cm of svc] (repo) {\textbf{LogementRepository}};
+
+  \draw[seqdash] (proprio) -- ++(0,-5);
+  \draw[seqdash] (ctrl) -- ++(0,-5);
+  \draw[seqdash] (svc) -- ++(0,-5);
+  \draw[seqdash] (repo) -- ++(0,-5);
+
+  \draw[seqarrow] (proprio) -- (ctrl) node[midway, above] {\small POST /api/logements + JWT};
+  \draw[seqarrow] (ctrl) -- (svc) node[midway, above] {\small createLogement(request)};
+  \draw[seqarrow, dashed] (svc) -- ++(0,-0.8);
+  \node[right=0.2cm of svc, font=\small] at ($(svc)!0.5!(svc |- 0,-2)$) {Vérifie propriétaire (SecurityUtils)};
+  \draw[flowarrow] (ctrl) -- (svc);
+  \draw[seqarrow] (svc) -- (repo) node[midway, above] {\small save(logement)};
+  \draw[seqreturn] (repo) -- (svc) node[midway, below] {\small Logement};
+  \draw[seqreturn] (svc) -- (ctrl) node[midway, below] {\small LogementResponseDTO};
+  \draw[seqreturn] (ctrl) -- (proprio) node[midway, below] {\small 201 Created};
+
+  \node[flowbox, fill=reprimary!10, above=0.3cm of ctrl] (jwtcheck) {\small JwtAuthFilter valide token};
+  \draw[flowarrow] (ctrl) -- (jwtcheck);
+\end{tikzpicture}
+\end{center}
+
+\subsection{Processus de Réservation}
+
+\begin{center}
+\begin{tikzpicture}
+  \node[seqactor] (loc) {\textbf{Locataire}};
+  \node[seqobj, right=2cm of loc] (lctrl) {\textbf{ReservationController}};
+  \node[seqobj, right=2cm of lctrl] (lsvc) {\textbf{ReservationService}};
+  \node[seqobj, right=2cm of lsvc] (lrepo) {\textbf{ReservationRepository}};
+
+  \draw[seqdash] (loc) -- ++(0,-7);
+  \draw[seqdash] (lctrl) -- ++(0,-7);
+  \draw[seqdash] (lsvc) -- ++(0,-7);
+  \draw[seqdash] (lrepo) -- ++(0,-7);
+
+  \draw[seqarrow] (loc) -- (lctrl) node[midway, above] {\small POST /api/reservations};
+  \draw[seqarrow] (lctrl) -- (lsvc) node[midway, above] {\small createReservation(request)};
+  \draw[seqarrow] (lsvc) -- (lrepo) node[midway, above] {\small existsOverlapping(logement, dates)};
+  \draw[seqreturn] (lrepo) -- (lsvc) node[midway, below] {\small false (pas de conflit)};
+  \draw[seqarrow] (lsvc) -- (lrepo) node[midway, above] {\small save(reservation)};
+  \draw[seqreturn] (lrepo) -- (lsvc) node[midway, below] {\small Reservation (EN_ATTENTE)};
+  \draw[seqreturn] (lsvc) -- (lctrl) node[midway, below] {\small ReservationResponseDTO};
+  \draw[seqreturn] (lctrl) -- (loc) node[midway, below] {\small 201 Created};
+
+  \node[flowbox, fill=redanger!10, below=0.3cm of lsvc, minimum width=3cm] (conflict) {\small Détection conflit};
+  \draw[flowarrow] (lsvc) -- (conflict);
+
+  \node[flowbox, fill=rewarning!15, above=0.3cm of lctrl] (confirm) {\small Propriétaire confirme $\rightarrow$ CONFIRMEE};
+  \draw[flowarrow] (lctrl) -- (confirm);
+\end{tikzpicture}
+\end{center}
+
+\newpage
+
+\subsection{Tableau de Bord — Récupération des Données}
+
+\begin{center}
+\begin{tikzpicture}
+  \node[seqactor] (user) {\textbf{Utilisateur}};
+  \node[seqobj, right=2cm of user] (ctrl) {\textbf{DashboardController}};
+  \node[seqobj, right=2cm of ctrl] (svc) {\textbf{DashboardService}};
+  \node[seqobj, right=2cm of svc] (users) {\textbf{UserRepo}};
+  \node[seqobj, right=2cm of users] (logs) {\textbf{LogementRepo}};
+  \node[seqobj, right=2cm of logs] (res) {\textbf{ReservationRepo}};
+  \node[seqobj, right=2cm of res] (ann) {\textbf{AnnonceRepo}};
+
+  \draw[seqdash] (user) -- ++(0,-5);
+  \draw[seqdash] (ctrl) -- ++(0,-5);
+  \draw[seqdash] (svc) -- ++(0,-5);
+  \draw[seqdash] (users) -- ++(0,-5);
+  \draw[seqdash] (logs) -- ++(0,-5);
+  \draw[seqdash] (res) -- ++(0,-5);
+  \draw[seqdash] (ann) -- ++(0,-5);
+
+  \draw[seqarrow] (user) -- (ctrl) node[midway, above] {\small GET /api/admin/dashboard};
+  \draw[seqarrow] (ctrl) -- (svc) node[midway, above] {\small getDashboard()};
+  \draw[seqarrow] (svc) -- (users) node[midway, above] {\small count()};
+  \draw[seqreturn] (users) -- (svc) node[midway, below] {\small nbUsers};
+  \draw[seqarrow] (svc) -- (logs) node[midway, above] {\small count()};
+  \draw[seqreturn] (logs) -- (svc) node[midway, below] {\small nbLogements};
+  \draw[seqarrow] (svc) -- (res) node[midway, above] {\small count()};
+  \draw[seqreturn] (res) -- (svc) node[midway, below] {\small nbReservations};
+  \draw[seqarrow] (svc) -- (ann) node[midway, above] {\small count()};
+  \draw[seqreturn] (ann) -- (svc) node[midway, below] {\small nbAnnonces};
+  \draw[seqreturn] (svc) -- (ctrl) node[midway, below] {\small AdminDashboardDTO};
+  \draw[seqreturn] (ctrl) -- (user) node[midway, below] {\small 200 + Données};
+\end{tikzpicture}
+\end{center}
+
+\newpage
+
+% ============================================================
+% BACKEND KEY POINTS
+% ============================================================
+\section{Points Clés — Ce que le Professeur Doit Remarquer}
+
+\begin{tcolorbox}[colback=resuccess!5, colframe=resuccess!40,
+  title=\textbf{Les 8 Points Forts du Backend}, fonttitle=\bfseries]
+\end{tcolorbox}
+
+\begin{enumerate}
+  \item \textbf{Sécurité JWT} — Authentification sans état pour l\textquotesingle API avec token signé (HMAC-SHA256), expiration 1h
+  \item \textbf{Pattern DTO} — Séparation entre entités JPA et réponses API, évite l\textquotesingle exposition des données sensibles
+  \item \textbf{Validation} — \texttt{@Valid} + \texttt{@Size}, \texttt{@Future}, \texttt{@NotBlank} sur les DTOs, erreurs formatées
+  \item \textbf{Pagination} — API \texttt{GET /api/logements} paginée avec \texttt{Pageable}, filtre par ville/prix/type
+  \item \textbf{RBAC} — 3 rôles distincts (ADMIN, PROPRIETAIRE, LOCATAIRE), accès filtré par rôle + propriété
+  \item \textbf{Gestion d\textquotesingle erreurs} — \texttt{@RestControllerAdvice} centralisé, 8 types d\textquotesingle exceptions, codes HTTP corrects
+  \item \textbf{Architecture propre} — Couches bien séparées, \texttt{SecurityUtils} pour contexte utilisateur, \texttt{@EntityGraph} pour N+1
+  \item \textbf{Détection conflits} — Requête JPQL pour éviter les chevauchements de réservation
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}
+  \node[flowbox, fill=reaccent!15, minimum width=2.5cm] (s1) {JWT};
+  \node[flowbox, fill=reaccent!15, minimum width=2.5cm, right=0.3cm of s1] (s2) {DTO};
+  \node[flowbox, fill=reaccent!15, minimum width=2.5cm, right=0.3cm of s2] (s3) {Validation};
+  \node[flowbox, fill=reaccent!15, minimum width=2.5cm, right=0.3cm of s3] (s4) {Pagination};
+  \node[flowbox, fill=reaccent!15, minimum width=2.5cm, right=0.3cm of s4] (s5) {RBAC};
+  \node[flowbox, fill=reaccent!15, minimum width=2.5cm, right=0.3cm of s5] (s6) {Exceptions};
+  \node[flowbox, fill=reaccent!15, minimum width=2.5cm, right=0.3cm of s6] (s7) {Architecture};
+  \node[flowbox, fill=reaccent!15, minimum width=2.5cm, right=0.3cm of s7] (s8) {Conflits};
+\end{tikzpicture}
+\end{center}
+
+\newpage
+
+% ============================================================
+% PART 3 — FRONTEND ARCHITECTURE
+% ============================================================
+\section{Architecture Frontend}
+
+\subsection{Architecture Thymeleaf}
+
+\begin{center}
+\begin{tikzpicture}[node distance=0.6cm and 1.5cm]
+
+  \node[archbox, fill=reprimary!20, minimum width=4cm] (layout) {\textbf{layout/base.html}\\\small Gabarit principal};
+  \node[archbox, fill=reprimary!15, minimum width=3.5cm, below left=1cm and -0.5cm of layout] (header) {\textbf{header.html}\\\small Barre de navigation};
+  \node[archbox, fill=reprimary!15, minimum width=3.5cm, below=0.5cm of header] (footer) {\textbf{footer.html}\\\small Pied de page};
+
+  \draw[archarrow] (layout) -- (header);
+  \draw[archarrow] (layout) -- (footer);
+
+  \node[modbox, fill=resuccess!15, below left=1.5cm and 0cm of layout] (pages) {\textbf{pages/}\\\small Contenu des pages};
+  \node[modbox, fill=reblue!15, below=0.5cm of pages] (fragments) {\textbf{fragments/}\\\small Composants réutilisables};
+  \node[modbox, fill=reorange!15, below=0.5cm of fragments] (error) {\textbf{error/}\\\small Pages d\textquotesingle erreur};
+
+  \draw[archarrow] (layout) -- (pages);
+  \draw[archarrow] (pages) -- (fragments);
+
+  \node[flowbox, fill=reprimary!8, minimum width=4cm, right=2cm of layout] (home) {\textbf{home.html}\\\small Page d\textquotesingle accueil (standalone)};
+
+  \node[flowbox, fill=reprimary!8, minimum width=4cm, below=0.5cm of home] (auth) {\textbf{auth/*-standalone.html}\\\small Login / Register (standalone)};
+
+\end{tikzpicture}
+\end{center}
+
+\subsection{Structure des Pages}
+
+\begin{center}
+\begin{tabular}{llc}
+\toprule
+\textbf{Module} & \textbf{Pages} & \textbf{Contrôleur} \\
+\midrule
+Logement & list, detail, form, mine & LogementPageController \\
+Annonce & list, form, mine & AnnoncePageController \\
+Réservation & list, detail, form & ReservationPageController \\
+Dashboard & admin, proprietaire, locataire & DashboardPageController \\
+Utilisateur & profile & UserPageController \\
+Auth & login, register & AuthPageController \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\newpage
+
+\subsection{Intégration Frontend \& Backend}
+
+\begin{center}
+\begin{tikzpicture}[node distance=1cm and 2.5cm]
+
+  \node[archbox, fill=reprimary!20, minimum width=3.5cm, minimum height=1.2cm] (browser) {\textbf{Navigateur}\\\small Thymeleaf + Bootstrap 5};
+
+  \node[archbox, fill=reaccent!20, minimum width=3cm, below=1cm of browser] (form) {\textbf{Form Login}\\\small Session};
+  \node[archbox, fill=reblue!20, minimum width=3cm, below=1cm of form] (jwt) {\textbf{API Calls}\\\small Axios / fetch};
+
+  \node[archbox, fill=reprimary!15, minimum width=3cm, below=1cm of jwt] (rest) {\textbf{Spring Boot}\\\small REST API};
+
+  \node[database, fill=resuccess!20, below=1cm of rest] (db) {MySQL};
+
+  \draw[archarrow] (browser) -- (form) node[midway, right] {\small HTML};
+  \draw[archarrow] (form) -- (jwt) node[midway, right] {\small Cookies};
+  \draw[archarrow] (jwt) -- (rest) node[midway, right] {\small JWT Bearer};
+  \draw[archarrow] (rest) -- (db) node[midway, right] {\small JPA};
+
+  \node[flowbox, fill=rewarning!10, below=0.3cm of jwt, minimum width=3.5cm] (axios) {\small Axios interceptor ajoute Bearer token};
+  \draw[flowarrow] (jwt) -- (axios);
+
+\end{tikzpicture}
+\end{center}
+
+\subsection{Système de Templates}
+
+\begin{center}
+\begin{tikzpicture}[node distance=0.5cm and 0.5cm,
+  tpl/.style={rectangle, draw, thick, fill=white, minimum width=3.5cm,
+    minimum height=0.7cm, rounded corners, font=\footnotesize, blur shadow={shadow blur steps=2}}]
+
+  \node[tpl, fill=reprimary!20] (base) {\textbf{base.html} \hfill \emph{layout principal}};
+  
+  \node[tpl, fill=reprimary!10, below left=0.5cm and 0cm of base] (header) {header.html \hfill \emph{navbar}};
+  \node[tpl, fill=reprimary!10, below=0.3cm of header] (footer) {footer.html \hfill \emph{footer}};
+
+  \node[tpl, fill=reprimary!10, below=0.3cm of footer] (alerts) {fragments/alerts.html \hfill \emph{flash messages}};
+  \node[tpl, fill=reprimary!10, below=0.3cm of alerts] (forms) {fragments/forms.html \hfill \emph{champs réutilisables}};
+  \node[tpl, fill=reprimary!10, below=0.3cm of forms] (pagi) {fragments/pagination.html \hfill \emph{pagination}};
+
+  \node[tpl, fill=resuccess!15, below right=0.5cm and -1cm of base] (vars) {\texttt{pageTitle}, \texttt{viewContent}};
+  \node[tpl, fill=reaccent!15, below=0.3cm of vars] (sec) {\texttt{sec:authorize} contrôle visibilité};
+
+  \draw[thick, color=reprimary!30] (base) -- (header);
+  \draw[thick, color=reprimary!30] (base) -- (footer);
+  \draw[thick, color=reprimary!30] (base) -- (alerts);
+  \draw[thick, color=reprimary!30] (base) -- (forms);
+  \draw[thick, color=reprimary!30] (base) -- (pagi);
+
+\end{tikzpicture}
+\end{center}
+
+\newpage
+
+% ============================================================
+% USER EXPERIENCE FLOWS
+% ============================================================
+\section{Parcours Utilisateur}
+
+\subsection{Parcours Administrateur}
+
+\begin{center}
+\begin{tikzpicture}[node distance=0.8cm and 1.2cm]
+
+  \node[flowbox, fill=redark!15, minimum width=3cm] (login) {\textbf{Connexion}};
+  \node[flowbox, fill=resuccess!15, minimum width=3cm, right=1.5cm of login] (dash) {\textbf{Tableau de Bord}\\\small 4 statistiques};
+  \node[flowbox, fill=reprimary!15, minimum width=3cm, below=1cm of dash] (users) {\textbf{Gestion Users}\\\small Liste + Suppression};
+  \node[flowbox, fill=reblue!15, minimum width=3cm, left=1.5cm of users] (resas) {\textbf{Toutes Réservations}};
+  \node[flowbox, fill=reorange!15, minimum width=3cm, right=1.5cm of users] (stats) {\textbf{Statistiques}\\\small Vue globale};
+
+  \draw[flowarrow] (login) -- (dash);
+  \draw[flowarrow] (dash) -- (users);
+  \draw[flowarrow] (dash) -- (resas);
+  \draw[flowarrow] (dash) -- (stats);
+
+  % Steps
+  \node[above=0.1cm of login, font=\footnotesize, color=reprimary] {Étape 1};
+  \node[above=0.1cm of dash, font=\footnotesize, color=reprimary] {Étape 2};
+  \node[above=0.1cm of users, font=\footnotesize, color=reprimary] {Étape 3};
+
+\end{tikzpicture}
+\end{center}
+
+\subsection{Parcours Propriétaire}
+
+\begin{center}
+\begin{tikzpicture}[node distance=0.8cm and 1.2cm]
+
+  \node[flowbox, fill=redark!15, minimum width=3cm] (login) {\textbf{Connexion}};
+  \node[flowbox, fill=resuccess!15, minimum width=3cm, right=1.5cm of login] (dash) {\textbf{Dashboard}\\\small 3 statistiques};
+  \node[flowbox, fill=reprimary!15, minimum width=3cm, below=1cm of dash] (logements) {\textbf{Mes Logements}\\\small Créer / Modifier / Lister};
+  \node[flowbox, fill=reblue!15, minimum width=3cm, left=1.5cm of logements] (annonces) {\textbf{Mes Annonces}\\\small Publier / Désactiver};
+  \node[flowbox, fill=reorange!15, minimum width=3cm, right=1.5cm of logements] (reservations) {\textbf{Réservations}\\\small Confirmer / Voir};
+
+  \draw[flowarrow] (login) -- (dash);
+  \draw[flowarrow] (dash) -- (logements);
+  \draw[flowarrow] (logements) -- (annonces);
+  \draw[flowarrow] (annonces) -- (reservations);
+
+  \node[above=0.1cm of login, font=\footnotesize, color=reprimary] {1};
+  \node[above=0.1cm of dash, font=\footnotesize, color=reprimary] {2};
+  \node[above=0.1cm of logements, font=\footnotesize, color=reprimary] {3};
+  \node[above=0.1cm of annonces, font=\footnotesize, color=reprimary] {4};
+  \node[above=0.1cm of reservations, font=\footnotesize, color=reprimary] {5};
+
+\end{tikzpicture}
+\end{center}
+
+\subsection{Parcours Locataire}
+
+\begin{center}
+\begin{tikzpicture}[node distance=0.8cm and 1.2cm]
+
+  \node[flowbox, fill=redark!15, minimum width=3cm] (login) {\textbf{Connexion}};
+  \node[flowbox, fill=resuccess!15, minimum width=3cm, right=1.5cm of login] (search) {\textbf{Rechercher}\\\small Par ville, prix, type};
+  \node[flowbox, fill=reprimary!15, minimum width=3cm, below=1cm of search] (detail) {\textbf{Détail Logement}};
+  \node[flowbox, fill=reblue!15, minimum width=3cm, left=1.5cm of detail] (reserve) {\textbf{Réserver}\\\small Choisir dates};
+  \node[flowbox, fill=reorange!15, minimum width=3cm, right=1.5cm of detail] (dash) {\textbf{Mon Dashboard}\\\small Suivi réservations};
+
+  \draw[flowarrow] (login) -- (search);
+  \draw[flowarrow] (search) -- (detail);
+  \draw[flowarrow] (detail) -- (reserve);
+  \draw[flowarrow] (detail) -- (dash);
+  \draw[flowarrow] (reserve) -- (dash);
+
+  \node[above=0.1cm of login, font=\footnotesize, color=reprimary] {1};
+  \node[above=0.1cm of search, font=\footnotesize, color=reprimary] {2};
+  \node[above=0.1cm of detail, font=\footnotesize, color=reprimary] {3};
+  \node[above=0.1cm of reserve, font=\footnotesize, color=reprimary] {4};
+  \node[above=0.1cm of dash, font=\footnotesize, color=reprimary] {5};
+
+\end{tikzpicture}
+\end{center}
+
+\newpage
+
+% ============================================================
+% PROFESSIONAL DECISIONS
+% ============================================================
+\section{Décisions Techniques}
+
+\begin{center}
+\begin{tikzpicture}
+  \node (decisions) {\begin{tabular}{p{3cm}p{4.5cm}p{4.5cm}}
+  \toprule
+  \textbf{Décision} & \textbf{Raison} & \textbf{Bénéfice} \\
+  \midrule
+  Spring Boot & Cadre mature, auto-configuration & Développement rapide, déploiement facile \\
+  Architecture en couches & Séparation claire des responsabilités & Testabilité, maintenabilité \\
+  JWT pour API & Authentification stateless, scalable & Pas de session sur le serveur, adapté aux mobiles \\
+  Form Login pour Web & Expérience utilisateur standard & Sessions HTTP, CSRF, redirections \\
+  Pattern DTO & Isolation des entités JPA & Sécurité, découplage, flexibilité \\
+  Pagination & Évite de charger trop de données & Performance, UX fluide \\
+  Validation (Bean Validation) & Validation déclarative & Code propre, erreurs standardisées \\
+  RBAC (3 rôles) & Contrôle d\textquotesingle accès fin & Sécurité granulaire, facile à étendre \\
+  Thymeleaf SSR & Rendu côté serveur sans API supplémentaire & Pages web rapides, SEO friendly \\
+  i18n (3 langues) & Internationalisation complète & Accessibilité, marché multilingue \\
+  @EntityGraph & Évite le problème N+1 & Performance base de données \\
+  \bottomrule
+  \end{tabular}};
+\end{tikzpicture}
+\end{center}
+
+\newpage
+
+% ============================================================
+% PROJECT STRENGTHS
+% ============================================================
+\section{Forces du Projet}
+
+\begin{center}
+\begin{tikzpicture}
+  \node (strengths) {\begin{tabular}{lcccc}
+  \toprule
+  \textbf{Critère} & \textbf{Note} & & & \\
+  \midrule
+  Sécurité          & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE \\
+  Architecture      & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE \\
+  Scalabilité       & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE \\
+  Code Propre       & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE \\
+  UX                & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE \\
+  Logique Métier    & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE \\
+  Documentation API & \CIRCLE & \CIRCLE & \CIRCLE & \CIRCLE \\
+  \bottomrule
+  \multicolumn{5}{l}{\footnotesize \CIRCLE = Excellent \quad \LEFTcircle = Bien \quad \Circle = Satisfaisant} \\
+  \end{tabular}};
+\end{tikzpicture}
+\end{center}
+
+\subsection{Pourquoi ce projet mérite une bonne note}
+
+\begin{itemize}
+  \item \textbf{Sécurité multicouche} : JWT + Session + RBAC + CSRF + validation
+  \item \textbf{Architecture professionnelle} : Controllers REST séparés des pages web, services, repositories
+  \item \textbf{Gestion d\textquotesingle erreurs robuste} : 8 types d\textquotesingle exceptions, codes HTTP corrects, messages clairs
+  \item \textbf{Internationalisation complète} : 3 langues (FR/EN/AR), \texttt{messages*.properties}
+  \item \textbf{Expérience utilisateur soignée} : Thymeleaf SSR, Bootstrap 5, design system custom, responsive
+  \item \textbf{Données de test} : DataInitializer avec 5 utilisateurs, 4 logements, 4 annonces, 2 réservations
+  \item \textbf{API bien conçue} : Enveloppe \texttt{ApiResponse<T>} cohérente, OpenAPI/Swagger documenté
+\end{itemize}
+
+\newpage
+
+% ============================================================
+% SOUTENANCE CHEAT SHEET
+% ============================================================
+\section{Anti-Sèche Soutenance}
+
+\begin{tcolorbox}[colback=reaccent!5, colframe=reaccent!40,
+  title=\textbf{Questions Probables du Jury}, fonttitle=\bfseries]
+\end{tcolorbox}
+
+\subsection*{Q1 : Pourquoi JWT plutôt que des sessions ?}
+\begin{tabularx}{\textwidth}{lX}
+\textbf{20s} & JWT permet une API stateless : pas de session stockée, idéal pour les clients mobiles. \\
+\textbf{1min} & L\textquotesingle API REST /api/ est utilisée par des clients qui ne supportent pas les cookies (SPA, mobile). JWT est auto-suffisant (payload + signature), vérifiable sans base de données. La session est conservée pour les pages web. \\
+\textbf{2min} & Double stratégie : formLogin pour les pages web (session HTTP classique avec CSRF), JWT Bearer pour l\textquotesingle API. Le filtre JwtAuthenticationFilter intercepte les requêtes /api/** et ignore les autres. Le même SecurityConfig configure les deux mécanismes avec usernameParameter("email"). \\
+\end{tabularx}
+
+\subsection*{Q2 : Pourquoi DTO ?}
+\begin{tabularx}{\textwidth}{lX}
+\textbf{20s} & Évite d\textquotesingle exposer les entités JPA directement, notamment les mots de passe. \\
+\textbf{1min} & Les entités JPA contiennent des données internes (password, relations JPA lazy). Les DTOs permettent de contrôler exactement ce qui est retourné au client, d\textquotesingleajouter des champs calculés, et de découpler l\textquotesingleAPI du modèle de données. \\
+\textbf{2min} & Les mappers sont statiques (pas de MapStruct) pour garder le contrôle. Chaque DTO de réponse est construit manuellement dans le mapper. Cela permet aussi de transformer les formats (ex: BigDecimal $\rightarrow$ String pour le prix). Le pattern DTO + mapper manuel est un choix délibéré de simplicité et de transparence. \\
+\end{tabularx}
+
+\subsection*{Q3 : Pourquoi l\textquotesingle architecture en couches ?}
+\begin{tabularx}{\textwidth}{lX}
+\textbf{20s} & Séparation claire : Controller (présentation), Service (métier), Repository (données). \\
+\textbf{1min} & Chaque couche a une responsabilité unique. Le controller ne fait que la validation et la délégation. Le service implémente les règles métier. Le repository gère l\textquotesingleaccès aux données via JPA. Cette séparation facilite les tests unitaires et la maintenance. \\
+\textbf{2min} & Le projet a 9 controllers REST + 8 controllers web, 8 services, 5 repositories. Sans architecture en couches, le code serait un mélange inextricable. L\textquotesingleutilisation de SecurityUtils pour le contexte utilisateur évite de passer le Principal dans chaque méthode. Les @EntityGraph dans les repositories évitent les requêtes N+1. \\
+\end{tabularx}
+
+\newpage
+
+\subsection*{Q4 : Pourquoi la pagination ?}
+\begin{tabularx}{\textwidth}{lX}
+\textbf{20s} & Évite de charger des milliers de logements en une seule requête. \\
+\textbf{1min} & Le endpoint GET /api/logements utilise Pageable de Spring Data. Le client peut spécifier page, size, sort. Sans pagination, une base avec 10000 logements ferait planter le serveur. \\
+\textbf{2min} & La page web utilise aussi la pagination avec un fragment Thymeleaf réutilisable (fragments/pagination.html). Le LogementPageController reçoit les paramètres page et size, les passe au service, et retourne une Page avec les métadonnées (totalPages, totalElements, first, last). \\
+\end{tabularx}
+
+\subsection*{Q5 : Comment la sécurité est-elle implémentée ?}
+\begin{tabularx}{\textwidth}{lX}
+\textbf{20s} & Double authentification : Form Login pour les pages, JWT pour l\textquotesingle API. \\
+\textbf{1min} & SecurityConfig configure formLogin avec usernameParameter("email") pour les pages. Les routes /api/** sont protégées par JwtAuthenticationFilter. Les rôles sont vérifiés avec hasRole() dans SecurityConfig et @PreAuthorize dans les controllers. CSRF est activé pour les pages, désactivé pour /api/**. \\
+\textbf{2min} & 3 couches de sécurité : (1) Filtre JWT qui extrait le token du header Authorization, vérifie la signature avec JwtService, et crée l\textquotesimple authentication dans le contexte, (2) RBAC dans SecurityConfig pour les routes dashboard, (3) Vérifications de propriété dans les services avec SecurityUtils.getCurrentUser() pour garantir qu\textquotesingleun propriétaire ne modifie que ses propres biens. Les exceptions UnauthorizedActionException (403) sont levées en cas de violation. \\
+\end{tabularx}
+
+\subsection*{Q6 : Comment gérez-vous les conflits de réservation ?}
+\begin{tabularx}{\textwidth}{lX}
+\textbf{20s} & Une requête JPQL vérifie les chevauchements de dates avant d\textquotesingleenregistrer. \\
+\textbf{1min} & ReservationRepository.existsOverlappingReservation() utilise une requête JPQL avec les paramètres logementId, dateDebut, dateFin. Elle exclut les réservations ANNULEES et vérifie : dateDebut < :dateFin AND dateFin > :dateDebut. \\
+\textbf{2min} & La requête : SELECT COUNT(r) > 0 FROM Reservation r WHERE r.logement.id = :logementId AND r.status <> 'ANNULEE' AND r.dateDebut < :dateFin AND r.dateFin > :dateDebut. Si un chevauchement est détecté, une ReservationConflictException (409) est levée. Le GlobalExceptionHandler la transforme en réponse JSON avec un message clair. \\
+\end{tabularx}
+
+\newpage
+
+% ============================================================
+% FINAL PRESENTATION MAP
+% ============================================================
+\section{Carte de Présentation — Vue d\textquotesingle Ensemble}
+
+\begin{center}
+\begin{tikzpicture}[
+  mindmap,
+  text=white,
+  every node/.style={concept, circular drop shadow},
+  root concept/.append style={
+    concept color=reprimary!80, font=\bfseries\Large, minimum size=3cm, text width=3cm
+  },
+  level 1 concept/.append style={
+    sibling angle=45,
+    font=\small,
+    minimum size=2.2cm,
+    text width=2.2cm
+  },
+  level 2 concept/.append style={
+    font=\footnotesize,
+    minimum size=1.5cm,
+    text width=1.8cm,
+    sibling angle=60
+  }
+]
+\node[concept] {RentEasy\\Plateforme\\Locative}
+  child[grow=0] {
+    node[concept, concept color=reaccent!70] {Problème}
+    child { node[concept] {Gestion\\manuelle} }
+    child { node[concept] {Pas de\\centralisation} }
+  }
+  child[grow=45] {
+    node[concept, concept color=reblue!70] {Backend}
+    child { node[concept] {Spring Boot} }
+    child { node[concept] {JPA/H2/MySQL} }
+    child { node[concept] {JWT + Session} }
+  }
+  child[grow=90] {
+    node[concept, concept color=resuccess!70] {DB}
+    child { node[concept] {5 entités} }
+    child { node[concept] {Relations} }
+    child { node[concept] {Contraintes} }
+  }
+  child[grow=135] {
+    node[concept, concept color=reprimary!70] {Sécurité}
+    child { node[concept] {RBAC 3 rôles} }
+    child { node[concept] {JWT filter} }
+    child { node[concept] {CSRF} }
+  }
+  child[grow=180] {
+    node[concept, concept color=reorange!70] {Frontend}
+    child { node[concept] {Thymeleaf} }
+    child { node[concept] {Bootstrap 5} }
+    child { node[concept] {i18n 3 langues} }
+  }
+  child[grow=225] {
+    node[concept, concept color=reaccent!70] {Fonctions}
+    child { node[concept] {CRUD\\Logements} }
+    child { node[concept] {Annonces} }
+    child { node[concept] {Réservation\\+ conflits} }
+  }
+  child[grow=270] {
+    node[concept, concept color=resuccess!70] {Acteurs}
+    child { node[concept] {Admin} }
+    child { node[concept] {Propriétaire} }
+    child { node[concept] {Locataire} }
+  }
+  child[grow=315] {
+    node[concept, concept color=reblue!70] {Points forts}
+    child { node[concept] {Architecture\\propre} }
+    child { node[concept] {Sécurité\\multicouche} }
+    child { node[concept] {API + Web} }
+  };
+\end{tikzpicture}
+\end{center}
+
+\vfill
+
+\begin{tcolorbox}[colback=resuccess!5, colframe=resuccess!40,
+  title=\textbf{Prêt pour la Soutenance — Résumé en 30 secondes}, fonttitle=\bfseries]
+\centering
+\textbf{RentEasy} est une application web de gestion locative construite avec \textbf{Spring Boot 3.5} en backend et \textbf{Thymeleaf + Bootstrap 5} en frontend. Elle propose une \textbf{double authentification} (Form Login pour les pages, JWT pour l\textquotesingle API), une \textbf{gestion par rôles} (Admin, Propriétaire, Locataire), et des fonctionnalités complètes de \textbf{gestion de biens, annonces et réservations avec détection de conflits}. L\textquotesingle architecture en couches, le pattern DTO, et la gestion centralisée des erreurs démontrent une \textbf{approche professionnelle du génie logiciel}.
+\end{tcolorbox}
+
+\end{document}

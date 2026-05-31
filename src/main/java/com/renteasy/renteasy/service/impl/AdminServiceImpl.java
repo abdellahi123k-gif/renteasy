@@ -6,6 +6,7 @@ import com.renteasy.renteasy.service.AdminService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +18,7 @@ public class AdminServiceImpl implements AdminService {
     private final AnnonceRepository annonceRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public AdminDashboardDTO getDashboard() {
 
         return AdminDashboardDTO.builder()

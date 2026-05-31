@@ -1,0 +1,147 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link " RentEasy" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5]: 
+        - text: RentEasy
+      - generic [ref=e6]:
+        - list [ref=e7]:
+          - listitem [ref=e8]:
+            - link " Logements" [ref=e9] [cursor=pointer]:
+              - /url: /logements
+              - generic [ref=e10]: 
+              - text: Logements
+          - listitem [ref=e11]:
+            - link " Annonces" [ref=e12] [cursor=pointer]:
+              - /url: /annonces
+              - generic [ref=e13]: 
+              - text: Annonces
+          - listitem [ref=e14]:
+            - link " Mes réservations" [ref=e15] [cursor=pointer]:
+              - /url: /reservations
+              - generic [ref=e16]: 
+              - text: Mes réservations
+        - list [ref=e17]:
+          - listitem [ref=e18]:
+            - generic [ref=e19]:
+              - button "PT Prop" [ref=e20] [cursor=pointer]:
+                - generic [ref=e21]: PT
+                - generic [ref=e22]: Prop
+              - text:   
+  - main [ref=e23]:
+    - generic [ref=e27]:
+      - generic [ref=e28]:
+        - generic [ref=e30]: 
+        - heading "Nouveau logement" [level=3] [ref=e31]
+        - paragraph [ref=e32]: Ajoutez un nouveau logement à votre catalogue
+      - generic [ref=e33]:
+        - generic [ref=e34]:
+          - generic [ref=e35]: Titre
+          - textbox "Titre" [ref=e36]
+        - generic [ref=e37]:
+          - generic [ref=e38]: Description
+          - textbox "Description" [ref=e39]
+        - generic [ref=e40]:
+          - generic [ref=e41]:
+            - generic [ref=e42]: Ville
+            - textbox "Ville" [ref=e43]
+          - generic [ref=e44]:
+            - generic [ref=e45]: Adresse
+            - textbox "Adresse" [ref=e46]
+        - generic [ref=e47]:
+          - generic [ref=e48]:
+            - generic [ref=e49]: Type
+            - combobox "Type" [ref=e50]:
+              - option "Choisir..." [selected]
+              - option "Appartement"
+              - option "Maison"
+              - option "Studio"
+              - option "Villa"
+          - generic [ref=e51]:
+            - generic [ref=e52]: Prix (€)
+            - spinbutton "Prix (€)" [ref=e53]
+        - generic [ref=e55]:
+          - checkbox "Disponible à la location" [ref=e56]
+          - generic [ref=e57]: Disponible à la location
+        - generic [ref=e58]:
+          - generic [ref=e59]: Photo (URL)
+          - generic [ref=e60]:
+            - generic [ref=e62]: 
+            - textbox "Photo (URL)" [ref=e63]:
+              - /placeholder: https://example.com/photo.jpg
+          - generic [ref=e64]:
+            - generic [ref=e65]: 
+            - text: Collez le lien de votre image (JPG, PNG)
+        - generic [ref=e66]:
+          - generic [ref=e67]: Vidéo (URL)
+          - generic [ref=e68]:
+            - generic [ref=e70]: 
+            - textbox "Vidéo (URL)" [ref=e71]:
+              - /placeholder: https://example.com/video.mp4
+          - generic [ref=e72]:
+            - generic [ref=e73]: 
+            - text: Collez le lien de votre vidéo (MP4, YouTube, Vimeo)
+        - generic [ref=e74]:
+          - button " Créer le logement" [ref=e75] [cursor=pointer]:
+            - generic [ref=e76]: 
+            - generic [ref=e77]: Créer le logement
+          - link "Annuler" [ref=e78] [cursor=pointer]:
+            - /url: /logements
+  - contentinfo [ref=e79]:
+    - generic [ref=e80]:
+      - generic [ref=e81]:
+        - generic [ref=e82]:
+          - heading " RentEasy" [level=5] [ref=e83]:
+            - generic [ref=e84]: 
+            - text: RentEasy
+          - paragraph [ref=e85]: La plateforme de location de logements simple, rapide et sécurisée. Trouvez le logement idéal ou gérez vos biens en toute sérénité.
+          - generic [ref=e86]:
+            - link "Facebook" [ref=e87] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=e88]: 
+            - link "Twitter" [ref=e89] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=e90]: 
+            - link "Instagram" [ref=e91] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=e92]: 
+            - link "LinkedIn" [ref=e93] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=e94]: 
+        - generic [ref=e95]:
+          - heading "Plateforme" [level=6] [ref=e96]
+          - list [ref=e97]:
+            - listitem [ref=e98]:
+              - link "Logements" [ref=e99] [cursor=pointer]:
+                - /url: /logements
+            - listitem [ref=e100]:
+              - link "Annonces" [ref=e101] [cursor=pointer]:
+                - /url: /annonces
+            - listitem [ref=e102]:
+              - link "Inscription" [ref=e103] [cursor=pointer]:
+                - /url: /auth/register
+        - generic [ref=e104]:
+          - heading "Assistance" [level=6] [ref=e105]
+          - list [ref=e106]:
+            - listitem [ref=e107]:
+              - link "Centre d'aide" [ref=e108] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=e109]:
+              - link "Contact" [ref=e110] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=e111]:
+              - link "FAQ" [ref=e112] [cursor=pointer]:
+                - /url: "#"
+        - generic [ref=e113]:
+          - heading "Newsletter" [level=6] [ref=e114]
+          - paragraph [ref=e115]: Recevez les meilleures offres chaque mois.
+          - generic [ref=e116]:
+            - textbox "Votre email" [ref=e117]
+            - button "OK" [ref=e118] [cursor=pointer]
+      - separator [ref=e119]
+      - generic [ref=e120]:
+        - generic [ref=e121]: © 2026 RentEasy. Tous droits réservés.
+        - generic [ref=e123]:
+          - generic [ref=e124]: 
+          - text: Plateforme de location sécurisée

@@ -11,9 +11,13 @@ public class LogementMapper {
                 .titre(dto.getTitre())
                 .description(dto.getDescription())
                 .ville(dto.getVille())
+                .adresse(dto.getAdresse())
                 .type(dto.getType())
                 .prix(dto.getPrix())
                 .disponible(dto.isDisponible())
+                .telephone(dto.getTelephone())
+                .imageUrl(dto.getImageUrl())
+                .videoUrl(dto.getVideoUrl())
                 .build();
     }
 
@@ -24,9 +28,16 @@ public class LogementMapper {
                 .titre(logement.getTitre())
                 .description(logement.getDescription())
                 .ville(logement.getVille())
+                .adresse(logement.getAdresse())
                 .type(logement.getType())
                 .prix(logement.getPrix())
                 .disponible(logement.isDisponible())
+                .imageUrl(logement.getImageUrl())
+                .videoUrl(logement.getVideoUrl())
+                .telephone(logement.getTelephone())
+                .ownerId(logement.getOwner() != null ? logement.getOwner().getId() : null)
+                .ownerName(logement.getOwner() != null ?
+                        logement.getOwner().getFirstName() + " " + logement.getOwner().getLastName() : null)
                 .build();
     }
 }

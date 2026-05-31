@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h3 class="text-center mb-4">
+                        <i class="bi bi-person-plus"></i> Inscription
+                    </h3>
+
+                    <form th:action="@{/auth/register}" method="post"
+                          th:object="${registerRequest}">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName" class="form-label">Prénom</label>
+                                <input type="text" id="firstName" th:field="*{firstName}"
+                                       th:errorclass="is-invalid" class="form-control" required>
+                                <div class="invalid-feedback" th:errors="*{firstName}">Error</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="lastName" class="form-label">Nom</label>
+                                <input type="text" id="lastName" th:field="*{lastName}"
+                                       th:errorclass="is-invalid" class="form-control" required>
+                                <div class="invalid-feedback" th:errors="*{lastName}">Error</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" id="email" th:field="*{email}"
+                                   th:errorclass="is-invalid" class="form-control" required>
+                            <div class="invalid-feedback" th:errors="*{email}">Error</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="password" class="form-label">Mot de passe</label>
+                                <input type="password" id="password" th:field="*{password}"
+                                       th:errorclass="is-invalid" class="form-control" required>
+                                <div class="invalid-feedback" th:errors="*{password}">Error</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="role" class="form-label">Je suis</label>
+                                <select id="role" th:field="*{role}" class="form-select">
+                                    <option value="LOCATAIRE">Locataire</option>
+                                    <option value="PROPRIETAIRE">Propriétaire</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="bi bi-person-plus"></i> Créer mon compte
+                        </button>
+                    </form>
+
+                    <p class="text-center mt-3 mb-0">
+                        Déjà inscrit ?
+                        <a th:href="@{/auth/login}">Se connecter</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

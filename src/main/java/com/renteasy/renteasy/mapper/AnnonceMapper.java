@@ -17,9 +17,12 @@ public class AnnonceMapper {
                 .datePublication(
                         annonce.getDatePublication()
                 )
+                .logementId(annonce.getLogement().getId())
                 .logementTitre(
                         annonce.getLogement().getTitre()
                 )
+                .ownerId(annonce.getLogement().getOwner() != null ?
+                        annonce.getLogement().getOwner().getId() : null)
                 .build();
     }
 }

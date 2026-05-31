@@ -1,0 +1,126 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link " RentEasy" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5]: 
+        - text: RentEasy
+      - generic [ref=e6]:
+        - list [ref=e7]:
+          - listitem [ref=e8]:
+            - link " Logements" [ref=e9] [cursor=pointer]:
+              - /url: /logements
+              - generic [ref=e10]: 
+              - text: Logements
+          - listitem [ref=e11]:
+            - link " Annonces" [ref=e12] [cursor=pointer]:
+              - /url: /annonces
+              - generic [ref=e13]: 
+              - text: Annonces
+          - listitem [ref=e14]:
+            - link " Mes réservations" [ref=e15] [cursor=pointer]:
+              - /url: /reservations
+              - generic [ref=e16]: 
+              - text: Mes réservations
+        - list [ref=e17]:
+          - listitem [ref=e18]:
+            - generic [ref=e19]:
+              - button "TU Test" [ref=e20] [cursor=pointer]:
+                - generic [ref=e21]: TU
+                - generic [ref=e22]: Test
+              - text:   
+  - main [ref=e23]:
+    - alert [ref=e25]:
+      - generic [ref=e26]: 
+      - generic [ref=e27]: Réservation effectuée !
+      - button [ref=e28] [cursor=pointer]
+    - generic [ref=e29]:
+      - generic [ref=e31]:
+        - heading " Mes réservations" [level=1] [ref=e32]:
+          - generic [ref=e33]: 
+          - text: Mes réservations
+        - paragraph [ref=e34]: Suivez l'état de vos réservations
+      - table [ref=e37]:
+        - rowgroup [ref=e38]:
+          - row "Logement Dates Statut Actions" [ref=e39]:
+            - columnheader "Logement" [ref=e40]
+            - columnheader "Dates" [ref=e41]
+            - columnheader "Statut" [ref=e42]
+            - columnheader "Actions" [ref=e43]
+        - rowgroup [ref=e44]:
+          - row "Bel Appartement Paris 10e  Test  01/06/2026  15/06/2026 En attente  Détails" [ref=e45]:
+            - cell "Bel Appartement Paris 10e  Test" [ref=e46]:
+              - strong [ref=e47]: Bel Appartement Paris 10e
+              - generic [ref=e48]:
+                - generic [ref=e49]: 
+                - text: Test
+            - cell " 01/06/2026  15/06/2026" [ref=e50]:
+              - generic [ref=e51]:
+                - generic [ref=e52]: 
+                - text: 01/06/2026
+                - generic [ref=e53]: 
+                - text: 15/06/2026
+            - cell "En attente" [ref=e54]:
+              - generic [ref=e55]: En attente
+            - cell " Détails" [ref=e56]:
+              - link " Détails" [ref=e57] [cursor=pointer]:
+                - /url: /reservations/1
+                - generic [ref=e58]: 
+                - text: Détails
+  - contentinfo [ref=e59]:
+    - generic [ref=e60]:
+      - generic [ref=e61]:
+        - generic [ref=e62]:
+          - heading " RentEasy" [level=5] [ref=e63]:
+            - generic [ref=e64]: 
+            - text: RentEasy
+          - paragraph [ref=e65]: La plateforme de location de logements simple, rapide et sécurisée. Trouvez le logement idéal ou gérez vos biens en toute sérénité.
+          - generic [ref=e66]:
+            - link "Facebook" [ref=e67] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=e68]: 
+            - link "Twitter" [ref=e69] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=e70]: 
+            - link "Instagram" [ref=e71] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=e72]: 
+            - link "LinkedIn" [ref=e73] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=e74]: 
+        - generic [ref=e75]:
+          - heading "Plateforme" [level=6] [ref=e76]
+          - list [ref=e77]:
+            - listitem [ref=e78]:
+              - link "Logements" [ref=e79] [cursor=pointer]:
+                - /url: /logements
+            - listitem [ref=e80]:
+              - link "Annonces" [ref=e81] [cursor=pointer]:
+                - /url: /annonces
+            - listitem [ref=e82]:
+              - link "Inscription" [ref=e83] [cursor=pointer]:
+                - /url: /auth/register
+        - generic [ref=e84]:
+          - heading "Assistance" [level=6] [ref=e85]
+          - list [ref=e86]:
+            - listitem [ref=e87]:
+              - link "Centre d'aide" [ref=e88] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=e89]:
+              - link "Contact" [ref=e90] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=e91]:
+              - link "FAQ" [ref=e92] [cursor=pointer]:
+                - /url: "#"
+        - generic [ref=e93]:
+          - heading "Newsletter" [level=6] [ref=e94]
+          - paragraph [ref=e95]: Recevez les meilleures offres chaque mois.
+          - generic [ref=e96]:
+            - textbox "Votre email" [ref=e97]
+            - button "OK" [ref=e98] [cursor=pointer]
+      - separator [ref=e99]
+      - generic [ref=e100]:
+        - generic [ref=e101]: © 2026 RentEasy. Tous droits réservés.
+        - generic [ref=e103]:
+          - generic [ref=e104]: 
+          - text: Plateforme de location sécurisée

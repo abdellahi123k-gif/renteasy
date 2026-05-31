@@ -11,30 +11,72 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         return http
-                .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
                 .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 )
                 .authorizeHttpRequests(auth -> auth
 
-                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/", "/auth/**", "/api/health", "/api/auth/**").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/h2-console/**").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
 
-                        .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
-                        .requestMatchers("/api/proprietaire/**").hasAuthority("PROPRIETAIRE")
-                        .requestMatchers("/api/locataire/**").hasAuthority("LOCATAIRE")
+                        .requestMatchers("/api/admin/**", "/dashboard/admin/**").hasAuthority("ADMIN")
+                        .requestMatchers("/api/proprietaire/**", "/dashboard/proprietaire/**").hasAuthority("PROPRIETAIRE")
+                        .requestMatchers("/api/locataire/**", "/dashboard/locataire/**").hasAuthority("LOCATAIRE")
 
                         .anyRequest().authenticated()
                 )
+                .formLogin(form -> form
+                        .loginPage("/auth/login")
+                        .loginProcessingUrl("/auth/login")
+                        .usernameParameter("email")
+                        .passwordParameter("password")
+                        .successHandler((request, response, authentication) -> {
+                            String redirectUrl = "/";
+                            for (var authority : authentication.getAuthorities()) {
+                                String role = authority.getAuthority();
+                                if ("ADMIN".equals(role)) {
+                                    redirectUrl = "/dashboard/admin";
+                                    break;
+                                } else if ("PROPRIETAIRE".equals(role)) {
+                                    redirectUrl = "/dashboard/proprietaire";
+                                    break;
+                                } else if ("LOCATAIRE".equals(role)) {
+                                    redirectUrl = "/dashboard/locataire";
+                                    break;
+                                }
+                            }
+                            response.sendRedirect(redirectUrl);
+                        })
+                        .failureHandler((request, response, exception) ->
+                                response.sendRedirect("/auth/login?error"))
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/auth/logout")
+                        .logoutSuccessUrl("/auth/login?logout")
+                        .permitAll()
+                )
+                .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()))
                 .addFilterBefore(jwtAuthenticationFilter,
                         UsernamePasswordAuthenticationFilter.class)
                 .build();
@@ -46,5 +88,18 @@ public class SecurityConfig {
     ) throws Exception {
 
         return config.getAuthenticationManager();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }

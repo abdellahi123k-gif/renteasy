@@ -17,7 +17,11 @@ public class ReservationResponseDTO {
 
     private String status;
 
+    private Long locataireId;
+
     private String locataireName;
+
+    private Long logementId;
 
     private String logementTitre;
 }

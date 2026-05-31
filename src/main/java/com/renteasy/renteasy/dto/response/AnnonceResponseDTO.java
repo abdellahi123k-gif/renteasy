@@ -19,5 +19,9 @@ public class AnnonceResponseDTO {
 
     private LocalDateTime datePublication;
 
+    private Long logementId;
+
     private String logementTitre;
+
+    private Long ownerId;
 }

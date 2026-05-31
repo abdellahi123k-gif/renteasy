@@ -1,0 +1,23 @@
+- generic [ref=e4]:
+  - link " RentEasy" [ref=e6] [cursor=pointer]:
+    - /url: /
+    - generic [ref=e7]:
+      - generic [ref=e8]: 
+      - text: RentEasy
+  - generic [ref=e9]:
+    - heading "Connexion" [level=4] [ref=e10]
+    - paragraph [ref=e11]: Accédez à votre espace personnel
+    - generic [ref=e12]:
+      - generic [ref=e13]:
+        - generic [ref=e14]: Email
+        - textbox "Email" [active] [ref=e15]: admin@renteasy.com
+      - generic [ref=e16]:
+        - generic [ref=e17]: Mot de passe
+        - textbox "Mot de passe" [ref=e18]: admin123
+      - button " Se connecter" [ref=e19] [cursor=pointer]:
+        - generic [ref=e20]: 
+        - text: Se connecter
+    - paragraph [ref=e21]:
+      - text: Pas encore de compte ?
+      - link "S'inscrire" [ref=e22] [cursor=pointer]:
+        - /url: /auth/register

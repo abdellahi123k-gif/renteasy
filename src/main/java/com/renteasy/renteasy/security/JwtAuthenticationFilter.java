@@ -1,5 +1,6 @@
 package com.renteasy.renteasy.security;
 
+import com.renteasy.renteasy.exception.ResourceNotFoundException;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
 
     @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+
+        String path = request.getRequestURI();
+        return path.equals("/") ||
+               path.startsWith("/api/auth/") ||
+               path.startsWith("/swagger-ui/") ||
+               path.startsWith("/v3/api-docs") ||
+               path.startsWith("/h2-console/");
+    }
+
+    @Override
     protected void doFilterInternal(
             HttpServletRequest request,
             HttpServletResponse response,
@@ -34,24 +46,36 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         String token = authHeader.substring(7);
-        String email = jwtService.extractEmail(token);
 
-        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        try {
 
-            UserDetails userDetails =
-                    userDetailsService.loadUserByUsername(email);
+            String email = jwtService.extractEmail(token);
 
-            if (jwtService.isTokenValid(token)) {
+            if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(
-                                userDetails,
-                                null,
-                                userDetails.getAuthorities()
-                        );
+                UserDetails userDetails =
+                        userDetailsService.loadUserByUsername(email);
 
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+                if (jwtService.isTokenValid(token)) {
+
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(
+                                    userDetails,
+                                    null,
+                                    userDetails.getAuthorities()
+                            );
+
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
             }
+
+        } catch (ResourceNotFoundException e) {
+
+            SecurityContextHolder.clearContext();
+
+        } catch (Exception e) {
+
+            SecurityContextHolder.clearContext();
         }
 
         filterChain.doFilter(request, response);

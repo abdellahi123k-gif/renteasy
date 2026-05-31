@@ -1,0 +1,17 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - link " RentEasy" [ref=e4] [cursor=pointer]:
+      - /url: /
+      - generic [ref=e5]:
+        - generic [ref=e6]: 
+        - text: RentEasy
+  - main [ref=e7]:
+    - generic [ref=e10]:
+      - generic [ref=e12]: 
+      - heading "403" [level=1] [ref=e13]
+      - paragraph [ref=e14]: Accès refusé
+      - paragraph [ref=e15]: Vous n'avez pas les droits nécessaires pour accéder à cette page.
+      - link " Retour à l'accueil" [ref=e16] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e17]: 
+        - text: Retour à l'accueil

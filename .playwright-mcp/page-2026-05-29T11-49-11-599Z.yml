@@ -1,0 +1,246 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link " RentEasy" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5]: 
+        - text: RentEasy
+      - generic [ref=e6]:
+        - list [ref=e7]:
+          - listitem [ref=e8]:
+            - link " Logements" [ref=e9] [cursor=pointer]:
+              - /url: /logements
+              - generic [ref=e10]: 
+              - text: Logements
+          - listitem [ref=e11]:
+            - link " Annonces" [ref=e12] [cursor=pointer]:
+              - /url: /annonces
+              - generic [ref=e13]: 
+              - text: Annonces
+        - list [ref=e14]:
+          - listitem [ref=e15]:
+            - link " Connexion" [ref=e16] [cursor=pointer]:
+              - /url: /auth/login
+              - generic [ref=e17]: 
+              - text: Connexion
+          - listitem [ref=e18]:
+            - link " Inscription" [ref=e19] [cursor=pointer]:
+              - /url: /auth/register
+              - generic [ref=e20]: 
+              - text: Inscription
+  - generic [ref=e25]:
+    - generic [ref=e26]:
+      - generic [ref=e27]: "Plateforme de location #1 en France"
+      - heading "Trouvez votre logement idéal" [level=1] [ref=e29]:
+        - text: Trouvez votre
+        - emphasis [ref=e30]: logement idéal
+      - paragraph [ref=e31]: Des milliers d'annonces vérifiées partout en France. Location simple, rapide et 100% sécurisée.
+      - generic [ref=e32]:
+        - link " Commencer" [ref=e33] [cursor=pointer]:
+          - /url: /auth/register
+          - generic [ref=e34]: 
+          - text: Commencer
+        - link " Explorer" [ref=e35] [cursor=pointer]:
+          - /url: /logements
+          - generic [ref=e36]: 
+          - text: Explorer
+      - generic [ref=e37]:
+        - generic [ref=e38]:
+          - generic [ref=e39]: 
+          - textbox "Ville ou destination" [ref=e40]
+        - generic [ref=e41]:
+          - generic [ref=e42]: 
+          - combobox [ref=e43] [cursor=pointer]:
+            - option "Type" [selected]
+            - option "Appartement"
+            - option "Maison"
+            - option "Studio"
+            - option "Villa"
+        - generic [ref=e44]:
+          - generic [ref=e45]: 
+          - spinbutton [ref=e46]
+        - button " Rechercher" [ref=e47] [cursor=pointer]:
+          - generic [ref=e48]: 
+          - generic [ref=e49]: Rechercher
+      - generic [ref=e50]:
+        - generic [ref=e51]:
+          - generic [ref=e52]: 5K+
+          - generic [ref=e53]: Logements
+        - generic [ref=e54]:
+          - generic [ref=e55]: 2.5K+
+          - generic [ref=e56]: Locataires
+        - generic [ref=e57]:
+          - generic [ref=e58]: 500+
+          - generic [ref=e59]: Propriétaires
+        - generic [ref=e60]:
+          - generic [ref=e61]: 98%
+          - generic [ref=e62]: Satisfaction
+    - generic [ref=e65]:
+      - generic [ref=e66]: 
+      - paragraph [ref=e67]:
+        - text: Location simple, rapide
+        - text: et 100% sécurisée
+  - generic [ref=e71]:
+    - generic [ref=e72]:
+      - generic [ref=e73]:
+        - generic [ref=e74]: 
+        - text: Processus
+      - heading "Comment ça marche" [level=2] [ref=e75]
+      - paragraph [ref=e76]: Trouvez, réservez et profitez en toute simplicité
+    - generic [ref=e79]:
+      - generic [ref=e81]:
+        - generic [ref=e82]: "1"
+        - heading "Recherchez" [level=5] [ref=e83]
+        - paragraph [ref=e84]: Parcourez des milliers d'annonces et trouvez le logement qui vous correspond avec nos filtres intelligents.
+      - generic [ref=e86]:
+        - generic [ref=e87]: "2"
+        - heading "Réservez" [level=5] [ref=e88]
+        - paragraph [ref=e89]: Réservez en un clic avec confirmation instantanée. Transparence totale, zéro frais cachés.
+      - generic [ref=e91]:
+        - generic [ref=e92]: "3"
+        - heading "Profitez" [level=5] [ref=e93]
+        - paragraph [ref=e94]: Installez-vous et profitez de votre nouveau logement. Notre équipe est là pour vous accompagner.
+  - generic [ref=e96]:
+    - generic [ref=e97]:
+      - generic [ref=e98]:
+        - generic [ref=e99]: 
+        - text: Catégories
+      - heading "Types de logements" [level=2] [ref=e100]
+      - paragraph [ref=e101]: Du studio à la villa, trouvez le bien qui vous ressemble
+    - generic [ref=e102]:
+      - link " Appartement 120+ annonces" [ref=e104] [cursor=pointer]:
+        - /url: /logements?type=Appartement
+        - generic [ref=e106]: 
+        - heading "Appartement" [level=6] [ref=e107]
+        - text: 120+ annonces
+      - link " Maison 85+ annonces" [ref=e109] [cursor=pointer]:
+        - /url: /logements?type=Maison
+        - generic [ref=e111]: 
+        - heading "Maison" [level=6] [ref=e112]
+        - text: 85+ annonces
+      - link " Studio 45+ annonces" [ref=e114] [cursor=pointer]:
+        - /url: /logements?type=Studio
+        - generic [ref=e116]: 
+        - heading "Studio" [level=6] [ref=e117]
+        - text: 45+ annonces
+      - link " Villa 30+ annonces" [ref=e119] [cursor=pointer]:
+        - /url: /logements?type=Villa
+        - generic [ref=e121]: 
+        - heading "Villa" [level=6] [ref=e122]
+        - text: 30+ annonces
+  - generic [ref=e124]:
+    - generic [ref=e125]:
+      - generic [ref=e126]:
+        - generic [ref=e127]: 
+        - text: Témoignages
+      - heading "Ils nous font confiance" [level=2] [ref=e128]
+      - paragraph [ref=e129]: Des milliers d'utilisateurs satisfaits à travers toute la France
+    - generic [ref=e130]:
+      - generic [ref=e132]:
+        - generic [ref=e133]:
+          - generic [ref=e134]: 
+          - generic [ref=e135]: 
+          - generic [ref=e136]: 
+          - generic [ref=e137]: 
+          - generic [ref=e138]: 
+        - paragraph [ref=e139]: "\"J'ai trouvé mon appartement en moins d'une semaine. La plateforme est super intuitive et les propriétaires sont très réactifs. Je recommande !\""
+        - generic [ref=e140]:
+          - generic [ref=e141]: SM
+          - generic [ref=e142]:
+            - strong [ref=e143]: Sophie Martin
+            - generic [ref=e144]: Locataire
+      - generic [ref=e146]:
+        - generic [ref=e147]:
+          - generic [ref=e148]: 
+          - generic [ref=e149]: 
+          - generic [ref=e150]: 
+          - generic [ref=e151]: 
+          - generic [ref=e152]: 
+        - paragraph [ref=e153]: "\"Je gère tous mes biens depuis RentEasy. Locataires sérieux, paiements sécurisés. Une vraie solution professionnelle et fiable.\""
+        - generic [ref=e154]:
+          - generic [ref=e155]: PL
+          - generic [ref=e156]:
+            - strong [ref=e157]: Pierre Laurent
+            - generic [ref=e158]: Propriétaire
+      - generic [ref=e160]:
+        - generic [ref=e161]:
+          - generic [ref=e162]: 
+          - generic [ref=e163]: 
+          - generic [ref=e164]: 
+          - generic [ref=e165]: 
+          - generic [ref=e166]: 
+        - paragraph [ref=e167]: "\"Étudiant à Lyon, j'ai trouvé un super studio près de la fac en 2 jours. Le processus de réservation est d'une simplicité incroyable, vraiment top !\""
+        - generic [ref=e168]:
+          - generic [ref=e169]: AK
+          - generic [ref=e170]:
+            - strong [ref=e171]: Amine Karim
+            - generic [ref=e172]: Étudiant
+  - generic [ref=e176]:
+    - heading "Prêt à trouver votre prochain logement ?" [level=2] [ref=e177]
+    - paragraph [ref=e178]: Rejoignez des milliers d'utilisateurs et trouvez le logement de vos rêves.
+    - generic [ref=e179]:
+      - link " Créer un compte" [ref=e180] [cursor=pointer]:
+        - /url: /auth/register
+        - generic [ref=e181]: 
+        - text: Créer un compte
+      - link " Explorer" [ref=e182] [cursor=pointer]:
+        - /url: /logements
+        - generic [ref=e183]: 
+        - text: Explorer
+  - contentinfo [ref=e184]:
+    - generic [ref=e185]:
+      - generic [ref=e186]:
+        - generic [ref=e187]:
+          - generic [ref=e188]:
+            - generic [ref=e189]: 
+            - text: RentEasy
+          - paragraph [ref=e190]: La plateforme de location simple, rapide et sécurisée. Trouvez le logement idéal ou gérez vos biens en toute sérénité.
+          - generic [ref=e191]:
+            - link "Facebook" [ref=e192] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=e193]: 
+            - link "Twitter" [ref=e194] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=e195]: 
+            - link "Instagram" [ref=e196] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=e197]: 
+            - link "LinkedIn" [ref=e198] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=e199]: 
+        - generic [ref=e200]:
+          - heading "Plateforme" [level=6] [ref=e201]
+          - list [ref=e202]:
+            - listitem [ref=e203]:
+              - link "Logements" [ref=e204] [cursor=pointer]:
+                - /url: /logements
+            - listitem [ref=e205]:
+              - link "Annonces" [ref=e206] [cursor=pointer]:
+                - /url: /annonces
+            - listitem [ref=e207]:
+              - link "Inscription" [ref=e208] [cursor=pointer]:
+                - /url: /auth/register
+        - generic [ref=e209]:
+          - heading "Assistance" [level=6] [ref=e210]
+          - list [ref=e211]:
+            - listitem [ref=e212]:
+              - link "Centre d'aide" [ref=e213] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=e214]:
+              - link "Contact" [ref=e215] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=e216]:
+              - link "FAQ" [ref=e217] [cursor=pointer]:
+                - /url: "#"
+        - generic [ref=e218]:
+          - heading "Newsletter" [level=6] [ref=e219]
+          - paragraph [ref=e220]: Recevez les meilleures offres chaque mois.
+          - generic [ref=e222]:
+            - textbox "Votre email" [ref=e223]
+            - button "OK" [ref=e224] [cursor=pointer]
+      - separator [ref=e225]
+      - generic [ref=e226]:
+        - generic [ref=e227]: © 2026 RentEasy. Tous droits réservés.
+        - generic [ref=e229]:
+          - generic [ref=e230]: 
+          - text: Plateforme sécurisée

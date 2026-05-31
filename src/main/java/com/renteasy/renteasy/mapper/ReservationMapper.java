@@ -14,9 +14,11 @@ public class ReservationMapper {
                 .dateDebut(reservation.getDateDebut())
                 .dateFin(reservation.getDateFin())
                 .status(reservation.getStatus().name())
+                .locataireId(reservation.getLocataire().getId())
                 .locataireName(
                         reservation.getLocataire().getFirstName()
                 )
+                .logementId(reservation.getLogement().getId())
                 .logementTitre(
                         reservation.getLogement().getTitre()
                 )

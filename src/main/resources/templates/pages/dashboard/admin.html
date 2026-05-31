@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+    <div class="re-page-header">
+        <h1><i class="bi bi-speedometer2" style="color: var(--re-primary);"></i> <span th:text="#{nav.dashboard}">Dashboard</span> <span th:text="#{nav.admin}">Admin</span></h1>
+        <p class="text-muted" th:text="#{dashboard.admin.subtitle}">Vue d'ensemble de la plateforme</p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-3">
+            <div class="re-card re-stat-card p-3" style="border-top: 4px solid var(--re-primary);">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="re-stat-icon" style="background: linear-gradient(135deg, #DBEAFE, #E0E7FF); color: var(--re-primary);">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <div>
+                        <small class="text-muted d-block" style="font-size: 0.8rem;" th:text="#{dashboard.admin.users}">Utilisateurs</small>
+                        <strong class="fs-3 fw-bold" th:text="${dashboard.totalUsers}">0</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="re-card re-stat-card p-3" style="border-top: 4px solid var(--re-success);">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="re-stat-icon" style="background: linear-gradient(135deg, #DCFCE7, #D1FAE5); color: var(--re-success);">
+                        <i class="bi bi-building"></i>
+                    </div>
+                    <div>
+                        <small class="text-muted d-block" style="font-size: 0.8rem;" th:text="#{dashboard.admin.logements}">Logements</small>
+                        <strong class="fs-3 fw-bold" th:text="${dashboard.totalLogements}">0</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="re-card re-stat-card p-3" style="border-top: 4px solid #F59E0B;">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="re-stat-icon" style="background: linear-gradient(135deg, #FEF3C7, #FDE68A); color: #F59E0B;">
+                        <i class="bi bi-calendar-check"></i>
+                    </div>
+                    <div>
+                        <small class="text-muted d-block" style="font-size: 0.8rem;" th:text="#{dashboard.admin.reservations}">Réservations</small>
+                        <strong class="fs-3 fw-bold" th:text="${dashboard.totalReservations}">0</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="re-card re-stat-card p-3" style="border-top: 4px solid #6366F1;">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="re-stat-icon" style="background: linear-gradient(135deg, #E0E7FF, #C7D2FE); color: #6366F1;">
+                        <i class="bi bi-megaphone"></i>
+                    </div>
+                    <div>
+                        <small class="text-muted d-block" style="font-size: 0.8rem;" th:text="#{dashboard.admin.annonces}">Annonces</small>
+                        <strong class="fs-3 fw-bold" th:text="${dashboard.totalAnnonces}">0</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

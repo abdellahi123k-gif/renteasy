@@ -2,6 +2,7 @@ package com.renteasy.renteasy.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -10,20 +11,24 @@ import java.util.Date;
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY =
-            "mySuperSecretKeymySuperSecretKey";
+    private final String secretKey;
+    private final long expirationMs;
 
-    private static final long EXPIRATION =
-            1000 * 60 * 60;
+    public JwtService(
+            @Value("${jwt.secret-key}") String secretKey,
+            @Value("${jwt.expiration-ms:3600000}") long expirationMs
+    ) {
+        this.secretKey = secretKey;
+        this.expirationMs = expirationMs;
+    }
 
     private Key getSigningKey() {
 
         return Keys.hmacShaKeyFor(
-                SECRET_KEY.getBytes()
+                secretKey.getBytes()
         );
     }
 
-    // Generate Token
     public String generateToken(String email) {
 
         return Jwts.builder()
@@ -32,7 +37,7 @@ public class JwtService {
                 .setExpiration(
                         new Date(
                                 System.currentTimeMillis()
-                                        + EXPIRATION
+                                        + expirationMs
                         )
                 )
                 .signWith(
@@ -42,7 +47,6 @@ public class JwtService {
                 .compact();
     }
 
-    // Extract Email
     public String extractEmail(String token) {
 
         return Jwts.parserBuilder()
@@ -53,7 +57,6 @@ public class JwtService {
                 .getSubject();
     }
 
-    // Validate Token
     public boolean isTokenValid(String token) {
 
         try {
@@ -65,9 +68,18 @@ public class JwtService {
 
             return true;
 
-        } catch (Exception e) {
+        } catch (JwtException | IllegalArgumentException e) {
 
             return false;
         }
+    }
+
+    public Claims extractAllClaims(String token) {
+
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 }

@@ -1,0 +1,70 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link " RentEasy" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e5]: 
+        - text: RentEasy
+      - generic [ref=e6]:
+        - list [ref=e7]:
+          - listitem [ref=e8]:
+            - link " Logements" [ref=e9] [cursor=pointer]:
+              - /url: /logements
+              - generic [ref=e10]: 
+              - text: Logements
+          - listitem [ref=e11]:
+            - link " Annonces" [ref=e12] [cursor=pointer]:
+              - /url: /annonces
+              - generic [ref=e13]: 
+              - text: Annonces
+          - listitem [ref=e14]:
+            - link " Mes réservations" [ref=e15] [cursor=pointer]:
+              - /url: /reservations
+              - generic [ref=e16]: 
+              - text: Mes réservations
+        - list [ref=e17]:
+          - listitem [ref=e18]:
+            - generic [ref=e19]:
+              - button "PI Prop" [ref=e20] [cursor=pointer]:
+                - generic [ref=e21]: PI
+                - generic [ref=e22]: Prop
+              - text:   
+  - main [ref=e23]:
+    - alert [ref=e25]:
+      - generic [ref=e26]: 
+      - generic [ref=e27]: Logement créé avec succès !
+      - button [ref=e28] [cursor=pointer]
+    - generic [ref=e29]:
+      - generic [ref=e30]:
+        - generic [ref=e31]:
+          - heading " Logements" [level=1] [ref=e32]:
+            - generic [ref=e33]: 
+            - text: Logements
+          - paragraph [ref=e34]: Découvrez tous les logements disponibles
+        - link " Nouveau logement" [ref=e35] [cursor=pointer]:
+          - /url: /logements/new
+          - generic [ref=e36]: 
+          - text: Nouveau logement
+      - generic [ref=e38]:
+        - generic [ref=e40]:
+          - generic [ref=e42]: 
+          - textbox "Ville" [ref=e43]
+        - combobox [ref=e45]:
+          - option "Type" [selected]
+          - option "Appartement"
+          - option "Maison"
+          - option "Studio"
+          - option "Villa"
+        - generic [ref=e47]:
+          - generic [ref=e49]: 
+          - spinbutton [ref=e50]
+        - generic [ref=e52]:
+          - generic [ref=e54]: 
+          - spinbutton [ref=e55]
+        - combobox [ref=e57]:
+          - option "Tous" [selected]
+          - option "Dispo"
+          - option "Indispo"
+        - button " Rechercher" [ref=e59] [cursor=pointer]:
+          - generic [ref=e60]: 
+          - text: Rechercher

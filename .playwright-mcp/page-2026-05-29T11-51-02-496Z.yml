@@ -1,0 +1,26 @@
+- generic [ref=e4]:
+  - link " RentEasy" [ref=e6] [cursor=pointer]:
+    - /url: /
+    - generic [ref=e7]:
+      - generic [ref=e8]: 
+      - text: RentEasy
+  - generic [ref=e9]:
+    - alert [ref=e10]:
+      - generic [ref=e11]: 
+      - generic [ref=e12]: Inscription réussie ! Connectez-vous.
+    - heading "Connexion" [level=4] [ref=e13]
+    - paragraph [ref=e14]: Accédez à votre espace personnel
+    - generic [ref=e15]:
+      - generic [ref=e16]:
+        - generic [ref=e17]: Email
+        - textbox "Email" [active] [ref=e18]
+      - generic [ref=e19]:
+        - generic [ref=e20]: Mot de passe
+        - textbox "Mot de passe" [ref=e21]
+      - button " Se connecter" [ref=e22] [cursor=pointer]:
+        - generic [ref=e23]: 
+        - text: Se connecter
+    - paragraph [ref=e24]:
+      - text: Pas encore de compte ?
+      - link "S'inscrire" [ref=e25] [cursor=pointer]:
+        - /url: /auth/register

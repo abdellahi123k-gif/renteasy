@@ -16,11 +16,21 @@ public class LogementResponseDTO {
 
     private String ville;
 
+    private String adresse;
+
     private String type;
 
     private BigDecimal prix;
 
     private boolean disponible;
+
+    private String imageUrl;
+
+    private String videoUrl;
+
+    private String telephone;
+
+    private Long ownerId;
 
     private String ownerName;
 }

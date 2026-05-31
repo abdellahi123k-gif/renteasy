@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="re-card p-4">
+                <div class="text-center mb-4">
+                    <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #DBEAFE, #E0E7FF); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                        <i class="bi bi-building" style="font-size: 1.5rem; color: var(--re-primary);"></i>
+                    </div>
+                    <h3 class="fw-bold mb-1">
+                        <span th:text="${logement.id} ? 'Modifier le logement' : 'Nouveau logement'">Titre</span>
+                    </h3>
+                    <p class="text-muted small mb-0">
+                        <span th:text="${logement.id} ? 'Modifiez les informations de votre logement' : 'Ajoutez un nouveau logement à votre catalogue'">Sous-titre</span>
+                    </p>
+                </div>
+
+                <form th:action="${logement.id} ? @{/logements/{id}(id=${logement.id})} : @{/logements}"
+                      th:object="${logementForm}" method="post" enctype="multipart/form-data">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                    <input type="hidden" th:if="${logement.id}" name="_method" value="PUT">
+
+                    <div class="mb-3">
+                        <label for="titre" class="form-label fw-medium">Titre</label>
+                        <input type="text" id="titre" th:field="*{titre}"
+                               th:errorclass="is-invalid" class="form-control re-input" required>
+                        <div class="invalid-feedback" th:errors="*{titre}">Error</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label fw-medium">Description</label>
+                        <textarea id="description" th:field="*{description}"
+                                  th:errorclass="is-invalid" class="form-control re-input" rows="3"></textarea>
+                        <div class="invalid-feedback" th:errors="*{description}">Error</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="ville" class="form-label fw-medium">Ville</label>
+                            <input type="text" id="ville" th:field="*{ville}"
+                                   th:errorclass="is-invalid" class="form-control re-input" required>
+                            <div class="invalid-feedback" th:errors="*{ville}">Error</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="adresse" class="form-label fw-medium">Adresse</label>
+                            <input type="text" id="adresse" th:field="*{adresse}"
+                                   th:errorclass="is-invalid" class="form-control re-input">
+                            <div class="invalid-feedback" th:errors="*{adresse}">Error</div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="type" class="form-label fw-medium">Type</label>
+                            <select id="type" th:field="*{type}"
+                                    th:errorclass="is-invalid" class="form-select re-select" required>
+                                <option value="">Choisir...</option>
+                                <option value="Appartement">Appartement</option>
+                                <option value="Maison">Maison</option>
+                                <option value="Studio">Studio</option>
+                                <option value="Villa">Villa</option>
+                            </select>
+                            <div class="invalid-feedback" th:errors="*{type}">Error</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="prix" class="form-label fw-medium">Prix (€)</label>
+                            <input type="number" id="prix" th:field="*{prix}"
+                                   th:errorclass="is-invalid" class="form-control re-input"
+                                   step="0.01" required>
+                            <div class="invalid-feedback" th:errors="*{prix}">Error</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="telephone" class="form-label fw-medium">Téléphone du propriétaire</label>
+                        <input type="tel" id="telephone" th:field="*{telephone}"
+                               th:errorclass="is-invalid" class="form-control re-input"
+                               placeholder="+212 6XX XXX XXX">
+                        <div class="invalid-feedback" th:errors="*{telephone}">Error</div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="form-check">
+                            <input type="checkbox" id="disponible" th:field="*{disponible}"
+                                   class="form-check-input" style="border-color: var(--re-border); border-radius: 4px;">
+                            <label for="disponible" class="form-check-label fw-medium">Disponible à la location</label>
+                        </div>
+                    </div>
+
+                    <label class="form-label fw-medium mb-2">Photos & Vidéos</label>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <div class="re-card-static p-3 text-center" style="cursor:pointer; border: 2px dashed var(--re-border);" onclick="document.getElementById('imageFile').click()">
+                                <i class="bi bi-cloud-upload" style="font-size: 2rem; color: var(--re-primary);"></i>
+                                <div class="fw-medium mt-1" style="color: var(--re-primary);">Ajouter une photo</div>
+                                <small class="text-muted d-block">JPG, PNG • 10 Mo max</small>
+                                <input type="file" id="imageFile" name="imageFile" accept="image/*" style="display:none;" onchange="previewFile(this, 'imagePreview')">
+                                <div id="imagePreview" class="mt-2" style="max-height:100px; overflow:hidden; border-radius:8px;"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="re-card-static p-3 text-center" style="cursor:pointer; border: 2px dashed var(--re-border);" onclick="document.getElementById('videoFile').click()">
+                                <i class="bi bi-cloud-upload" style="font-size: 2rem; color: var(--re-info);"></i>
+                                <div class="fw-medium mt-1" style="color: var(--re-info);">Ajouter une vidéo</div>
+                                <small class="text-muted d-block">MP4, WebM • 10 Mo max</small>
+                                <input type="file" id="videoFile" name="videoFile" accept="video/*" style="display:none;" onchange="previewFile(this, 'videoPreview')">
+                                <div id="videoPreview" class="mt-2" style="max-height:100px; overflow:hidden; border-radius:8px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="small text-muted mb-3 text-center">
+                        <i class="bi bi-link-45deg"></i> Vous pouvez aussi
+                        <a href="javascript:;" style="color:var(--re-primary);" onclick="toggleUrlInputs()">coller un lien</a>
+                        si vous hébergez déjà vos fichiers.
+                    </div>
+                    <div id="urlInputs" style="display:none;">
+                        <div class="mb-3">
+                            <label class="form-label fw-medium small">Lien photo</label>
+                            <div class="input-group">
+                                <span class="input-group-text re-input-group-text"><i class="bi bi-images" style="color:var(--re-primary);"></i></span>
+                                <input type="url" th:field="*{imageUrl}" placeholder="https://example.com/photo.jpg"
+                                       class="form-control re-input">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-medium small">Lien vidéo</label>
+                            <div class="input-group">
+                                <span class="input-group-text re-input-group-text"><i class="bi bi-film" style="color:var(--re-info);"></i></span>
+                                <input type="url" th:field="*{videoUrl}" placeholder="https://example.com/video.mp4"
+                                       class="form-control re-input">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn re-btn re-btn-primary flex-grow-1" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;">
+                            <i class="bi bi-check-lg"></i>
+                            <span th:text="${logement.id} ? 'Mettre à jour' : 'Créer le logement'">Enregistrer</span>
+                        </button>
+                        <a th:href="@{/logements}" class="btn re-btn re-btn-outline" style="display: inline-flex; align-items: center; gap: 0.4rem;">Annuler</a>
+                    </div>
+                </form>
+                <script>
+                function previewFile(input, previewId) {
+                    var preview = document.getElementById(previewId);
+                    var file = input.files[0];
+                    if (!file) { preview.innerHTML = ''; return; }
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        if (file.type.startsWith('video/')) {
+                            preview.innerHTML = '<video src="' + e.target.result + '" style="width:100%;max-height:100px;border-radius:8px;" controls></video>';
+                        } else {
+                            preview.innerHTML = '<img src="' + e.target.result + '" style="width:100%;max-height:100px;object-fit:cover;border-radius:8px;">';
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                }
+                function toggleUrlInputs() {
+                    var el = document.getElementById('urlInputs');
+                    el.style.display = el.style.display === 'none' ? 'block' : 'none';
+                }
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
