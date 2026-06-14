@@ -41,7 +41,7 @@
                             <option value="">Choisir un logement...</option>
                             <option th:each="logement : ${userLogements}"
                                     th:value="${logement.id}"
-                                    th:text="${logement.titre} + ' - ' + ${logement.ville}">Logement</option>
+                                    th:text="${logement.titre} + ' - ' + ${logement.ville} + (${!logement.disponible} ? ' (Indisponible)' : '')">Logement</option>
                         </select>
                         <div class="invalid-feedback" th:errors="*{logementId}">Error</div>
                     </div>

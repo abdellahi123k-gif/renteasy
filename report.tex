@@ -1,0 +1,766 @@
+\documentclass[12pt,a4paper]{article}
+
+% ─── PACKAGES ─────────────────────────────────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{geometry}
+\geometry{margin=2cm, top=2.5cm, bottom=2.5cm}
+\setlength{\headheight}{13.6pt}
+\setlength{\headsep}{15pt}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!60!black,
+    urlcolor=blue!60!black,
+    citecolor=blue!60!black
+}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, shadows, fit}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{etoolbox}
+\usepackage{listings}
+
+% ─── COLORS ────────────────────────────────────────────────────────────────────
+\definecolor{primary}{RGB}{25, 118, 210}
+\definecolor{secondary}{RGB}{56, 142, 60}
+\definecolor{accent}{RGB}{245, 124, 0}
+\definecolor{lightgray}{RGB}{245, 245, 245}
+\definecolor{darkgray}{RGB}{50, 50, 50}
+\definecolor{codebg}{RGB}{248, 248, 248}
+
+% ─── HEADER / FOOTER ──────────────────────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textcolor{primary}{RentEasy --- Plateforme de Location}}
+\fancyhead[R]{\small\textcolor{darkgray}{Rapport Technique}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% ─── CUSTOM COMMANDS ──────────────────────────────────────────────────────────
+\newcommand{\sectiontitle}[1]{%
+    \vspace{0.6em}\noindent%
+    \textcolor{primary}{\large\bfseries #1}%
+    \par\vspace{0.3em}%
+    \hrule height 1.2pt \vspace{0.4em}%
+}
+\newcommand{\subtitle}[1]{%
+    \vspace{0.4em}\noindent%
+    \textcolor{primary!80!black}{\bfseries #1}\par\vspace{0.2em}%
+}
+
+% Box for highlights
+\newenvironment{infobox}{%
+    \begin{center}
+    \begin{tikzpicture}
+    \node[draw=primary!40, fill=primary!5, rounded corners=4pt,
+          inner xsep=12pt, inner ysep=8pt, text width=0.92\textwidth]{
+    \bgroup\small
+}{%
+    \egroup
+    };\end{tikzpicture}\end{center}
+}
+
+% ─── TIKZ STYLES ──────────────────────────────────────────────────────────────
+\tikzset{
+    box/.style={rectangle, draw=primary!60, fill=primary!5,
+                rounded corners=3pt, minimum width=2.8cm,
+                minimum height=0.8cm, align=center, inner sep=4pt},
+    boxsmall/.style={rectangle, draw=primary!60, fill=primary!5,
+                     rounded corners=3pt, minimum width=1.8cm,
+                     minimum height=0.7cm, align=center, inner sep=3pt},
+    arrow/.style={{-{Latex[length=2.5mm]}}, thick, color=primary},
+    arrowred/.style={{-{Latex[length=2.5mm]}}, thick, color=accent},
+    arrowgreen/.style={{-{Latex[length=2.5mm]}}, thick, color=secondary},
+    entity/.style={rectangle, draw=secondary!70, fill=secondary!5,
+                   rounded corners=2pt, minimum width=2.2cm,
+                   minimum height=0.7cm, align=center, font=\small},
+    rel/.style={{-}, thick, color=darkgray!60},
+    relarrow/.style={{-{Latex[length=2mm]}}, thick, color=darkgray!60},
+    boxlarge/.style={rectangle, draw=primary!60, fill=primary!5, rounded corners=4pt,
+                     minimum width=3.5cm, minimum height=1.2cm, align=center,
+                     inner sep=6pt, font=\small}
+}
+
+% ─── DOCUMENT START ───────────────────────────────────────────────────────────
+\begin{document}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+%  TITLE PAGE
+% ═══════════════════════════════════════════════════════════════════════════════
+\pagenumbering{Roman}
+\setcounter{page}{1}
+\begin{titlepage}
+\centering
+\vspace*{2cm}
+
+{\Huge\bfseries\textcolor{primary}{RentEasy}\par}
+\vspace{0.5cm}
+{\Large Plateforme de Location de Logements\par}
+\vspace{1.5cm}
+
+{\large\textbf{Rapport Technique --- Architecture \& Implémentation}\par}
+\vspace{0.3cm}
+{\small Spring Boot 3.5 \textbullet{} Java 17 \textbullet{} Thymeleaf \textbullet{} MySQL\par}
+\vspace{2.5cm}
+
+\vfill
+{\small Projet universitaire --- L2 Informatique\par}
+{\small \today\par}
+\end{titlepage}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+%  TABLE OF CONTENTS
+% ═══════════════════════════════════════════════════════════════════════════════
+\newpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\tableofcontents
+\newpage
+
+% ═══════════════════════════════════════════════════════════════════════════════
+%  1. INTRODUCTION
+% ═══════════════════════════════════════════════════════════════════════════════
+\section{Introduction}
+\sectiontitle{Contexte du projet}
+
+Le marché de la location immobilière connaît une transformation numérique accélérée.
+Les plateformes de mise en relation entre propriétaires et locataires doivent offrir
+une expérience fluide, sécurisée et centralisée.
+
+\begin{infobox}
+\textbf{Problématique :} Les solutions actuelles souffrent de fragmentation :\par
+\vspace{0.2em}
+$\bullet$ Pas de séparation claire des rôles (propriétaire / locataire / admin)\par
+$\bullet$ Absence de recherche avancée (filtres, pagination)\par
+$\bullet$ Gestion manuelle des réservations et des conflits de dates\par
+$\bullet$ Sécurité insuffisante (pas de JWT, pas de contrôle d'accès)
+\end{infobox}
+
+\subtitle{Objectifs}
+\begin{itemize}[nosep, leftmargin=1.2em]
+    \item \textbf{Centre} --- CRUD complet pour logements, annonces, réservations
+    \item \textbf{Recherche} --- Filtres multi-critères (ville, type, prix, disponibilité)
+    \item \textbf{Rôles} --- Trois profils : Administrateur, Propriétaire, Locataire
+    \item \textbf{Sécurité} --- Authentification JWT \emph{et} authentification par formulaire (double mécanisme)
+    \item \textbf{Internationalisation} --- Support Français, Anglais, Arabe
+\end{itemize}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+%  2. EXIGENCES DU SYSTÈME
+% ═══════════════════════════════════════════════════════════════════════════════
+\section{Exigences du Système}
+
+\subsection*{Exigences Fonctionnelles}
+\vspace{-0.3em}
+\begin{minipage}[t]{0.48\textwidth}
+\subtitle{Authentification \& Gestion}
+\begin{itemize}[nosep, leftmargin=1em]
+    \item Inscription / Connexion
+    \item Profil utilisateur
+    \item Gestion des rôles (Admin)
+    \item CRUD utilisateurs (Admin)
+\end{itemize}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
+\subtitle{Logements \& Annonces}
+\begin{itemize}[nosep, leftmargin=1em]
+    \item CRUD logements
+    \item Upload images / vidéos
+    \item CRUD annonces
+    \item Activation / désactivation
+\end{itemize}
+\end{minipage}
+
+\vspace{0.4em}
+\begin{minipage}[t]{0.48\textwidth}
+\subtitle{Réservations}
+\begin{itemize}[nosep, leftmargin=1em]
+    \item Création avec contrôle de conflit
+    \item Confirmation (propriétaire)
+    \item Annulation
+    \item Filtrage par rôle
+\end{itemize}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
+\subtitle{Recherche \& Navigation}
+\begin{itemize}[nosep, leftmargin=1em]
+    \item Recherche multi-critères
+    \item Pagination
+    \item Tableaux de bord par rôle
+    \item Filtrage par disponibilité
+\end{itemize}
+\end{minipage}
+
+\subsection*{Exigences Non-Fonctionnelles}
+\vspace{-0.3em}
+\begin{center}
+\begin{tabularx}{\textwidth}{>{\bfseries\color{primary}}l X}
+\toprule
+\textbf{Sécurité} & JWT (1h), BCrypt, CSRF partiel, contrôle d'accès RBAC \\
+\textbf{Performance} & Pagination, \texttt{@EntityGraph}, \texttt{@BatchSize}, \texttt{open-in-view=false} \\
+\textbf{Maintenabilité} & Architecture en couches, mappers statiques, DTO séparés \\
+\textbf{Scalabilité} & H2 dev / MySQL prod, profils Spring configurables \\
+\textbf{Internationalisation} & 3 bundles (FR/EN/AR), détection par paramètre \texttt{?lang=} \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+%  3. RÔLES UTILISATEURS
+% ═══════════════════════════════════════════════════════════════════════════════
+\section{Rôles Utilisateurs}
+\sectiontitle{Trois profils \quad$\longrightarrow$\quad permissions distinctes}
+
+\begin{center}
+\begin{tikzpicture}[node distance=1.2cm]
+\node (admin) [box, fill=red!5, draw=red!60, minimum width=2.4cm] {\bfseries\large ADMIN};
+\node (proprio) [box, fill=blue!5, draw=blue!60, minimum width=3cm,
+                 below left=1.6cm and -0.5cm of admin] {\bfseries\large PROPRIÉTAIRE};
+\node (locataire) [box, fill=green!5, draw=green!60, minimum width=3cm,
+                   below right=1.6cm and -0.5cm of admin] {\bfseries\large LOCATAIRE};
+
+\draw[arrow, red!70] (admin) -- node[left, xshift=-3pt] {gère} (proprio);
+\draw[arrow, red!70] (admin) -- node[right, xshift=3pt] {gère} (locataire);
+\end{tikzpicture}
+\end{center}
+
+\vspace{0.3em}
+\begin{center}
+\begin{tabularx}{\textwidth}{>{\bfseries}p{2.8cm} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X}
+\toprule
+\textbf{Action} & \textbf{Admin} & \textbf{Propriétaire} & \textbf{Locataire} \\
+\midrule
+CRUD Logements & Tous & Ses propres & \textemdash \\
+CRUD Annonces & Toutes & Ses propres & \textemdash \\
+CRUD Réservations & Toutes & En tant que propriétaire & En tant que locataire \\
+Confirmer réservation & Oui & Ses logements & \textemdash \\
+Annuler réservation & Oui & Oui & Ses propres \\
+Dashboard & Global & Ses stats & Ses stats \\
+Gestion utilisateurs & Oui & \textemdash & \textemdash \\
+Recherche logements & Oui & Oui & Oui \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\vspace{0.2em}
+\begin{infobox}
+\textbf{Modèle d'autorisation :} Les permissions sont vérifiées au niveau \textbf{service}
+(et non controller). \texttt{SecurityUtils.getCurrentUser()} est injecté pour vérifier
+la propriété des ressources et le rôle.
+\end{infobox}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+%  4. ARCHITECTURE BACKEND
+% ═══════════════════════════════════════════════════════════════════════════════
+\section{Architecture Backend --- Spring Boot}
+\sectiontitle{Architecture en couches (Layered Architecture)}
+
+\begin{center}
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[node distance=0.8cm]
+\node (controller) [box, fill=blue!5, draw=blue!60, minimum width=5cm, minimum height=0.8cm]
+    {\textbf{Couche Controller} \quad REST \texttt{@RestController} / Web \texttt{@Controller}};
+\node (service) [box, fill=green!5, draw=green!60, minimum width=5cm, minimum height=0.8cm,
+                  below=0.6cm of controller]
+    {\textbf{Couche Service} \quad \texttt{@Service} (logique m\'{e}tier + RBAC)};
+\node (repository) [box, fill=orange!5, draw=orange!60, minimum width=5cm, minimum height=0.8cm,
+                     below=0.6cm of service]
+    {\textbf{Couche Repository} \quad Spring Data JPA (interfaces)};
+\node (entity) [box, fill=purple!5, draw=purple!60, minimum width=5cm, minimum height=0.8cm,
+                 below=0.6cm of repository]
+    {\textbf{Couche Entity} \quad JPA \texttt{@Entity} + \texttt{@EntityGraph}};
+\node (db) [box, fill=red!5, draw=red!60, minimum width=2.5cm, minimum height=0.7cm,
+             below=0.6cm of entity]
+    {\textbf{MySQL / H2}};
+
+\draw[arrow] (controller) -- (service);
+\draw[arrow] (service) -- (repository);
+\draw[arrow] (repository) -- (entity);
+\draw[arrow] (entity) -- (db);
+
+% DTO on the side
+\node (dto) [box, fill=yellow!10, draw=yellow!60, minimum width=2.2cm,
+             right=1.5cm of service, minimum height=0.7cm] {\textbf{DTO}};
+\node (mapper) [box, fill=yellow!10, draw=yellow!60, minimum width=2.2cm,
+                below=0.3cm of dto, minimum height=0.7cm] {\textbf{Mapper}};
+\draw[arrow, yellow!70] (service) -- (dto);
+\draw[arrow, yellow!70] (service) -- (mapper);
+\draw[arrow, yellow!70] (dto) -- (mapper);
+\draw[arrow, yellow!70] (mapper) -- (entity);
+\draw[arrow, yellow!70] (mapper) -- (service);
+
+% Security on left
+\node (security) [box, fill=cyan!5, draw=cyan!60, minimum width=2.5cm,
+                   left=1.5cm of controller, minimum height=1.8cm]
+    {\textbf{Security}\\ JWT Filter\\ Session Auth\\ CSRF};
+\draw[arrow, cyan!70] (security) -- (controller);
+\end{tikzpicture}%
+}
+\end{center}
+
+\subtitle{Flux d'une requête typique}
+\begin{center}
+\begin{tikzpicture}[node distance=0.5cm]
+\node (client) [entity, fill=blue!5, draw=blue!60] {\footnotesize Client HTTP};
+\node (jwt) [entity, fill=cyan!5, draw=cyan!60, right=0.2cm of client] {\footnotesize JWT Filter};
+\node (ctrl) [entity, fill=blue!5, draw=blue!60, right=0.2cm of jwt] {\footnotesize Controller};
+\node (svc) [entity, fill=green!5, draw=green!60, right=0.2cm of ctrl] {\footnotesize Service};
+\node (repo) [entity, fill=orange!5, draw=orange!60, right=0.2cm of svc] {\footnotesize Repository};
+\node (bdd) [entity, fill=red!5, draw=red!60, right=0.2cm of repo] {\footnotesize DB};
+
+\draw[arrow] (client) -- node[above, font=\tiny] {1. requête} ++(0.1,0) (jwt);
+\draw[arrow] (jwt) -- node[above, font=\tiny] {2. valide} (ctrl);
+\draw[arrow] (ctrl) -- node[above, font=\tiny] {3. appelle} (svc);
+\draw[arrow] (svc) -- node[above, font=\tiny] {4. requête} (repo);
+\draw[arrow] (repo) -- node[above, font=\tiny] {5. SQL} (bdd);
+\draw[arrowred] (bdd) -- node[below, font=\tiny] {6. résultat} ++(0,0.15);
+\draw[arrowred] (repo) -- node[below, font=\tiny] {7. Entity} (svc);
+\draw[arrowred] (svc) -- node[below, font=\tiny] {8. DTO} (ctrl);
+\draw[arrowred] (ctrl) -- node[below, font=\tiny] {9. JSON/pages} (jwt);
+\draw[arrowred] (jwt) -- node[below, font=\tiny] {10. réponse} (client);
+\end{tikzpicture}
+\end{center}
+
+\subtitle{Points clés de l'architecture}
+\begin{itemize}[nosep, leftmargin=1.2em]
+    \item \textbf{Double authentification :} Formulaire (session) pour les pages web ; JWT Bearer pour l'API REST
+    \item \texttt{SessionCreationPolicy.IF\_REQUIRED} --- un seul mécanisme actif à la fois
+    \item CSRF \textbf{désactivé} pour \texttt{/api/**}, \textbf{activé} pour les routes web
+    \item \texttt{spring.jpa.open-in-view=false} --- pas de lazy loading hors \texttt{@Transactional}
+    \item Mappers \textbf{statiques} (pas MapStruct) --- dans le package \texttt{mapper/}
+    \item \texttt{ApiResponse<T>} enveloppe toutes les réponses REST
+    \item Génération de seed data via \texttt{DataInitializer (CommandLineRunner)}
+\end{itemize}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+%  5. SÉCURITÉ
+% ═══════════════════════════════════════════════════════════════════════════════
+\section{Architecture de Sécurité}
+\sectiontitle{Double mécanisme : Sessions Web + JWT API}
+
+\begin{center}
+\begin{tikzpicture}[node distance=1cm]
+% Left: Web auth
+\node (weblogin) [box, fill=blue!5, draw=blue!60, minimum width=3.2cm] {Page Login \\ \texttt{/auth/login}};
+\node (session)[box, fill=cyan!5, draw=cyan!60, below=0.5cm of weblogin, minimum width=3.2cm]
+    {Session HTTP \\ \texttt{JSESSIONID}};
+\node (webpages) [box, fill=blue!5, draw=blue!60, below=0.5cm of session, minimum width=3.2cm]
+    {Pages Thymeleaf \\ Contrôle RBAC};
+
+\draw[arrow, blue!70] (weblogin) -- (session);
+\draw[arrow, blue!70] (session) -- (webpages);
+
+% Right: API auth
+\node (api) [box, fill=green!5, draw=green!60, minimum width=3.2cm,
+             right=2.5cm of weblogin] {API REST \\ \texttt{/api/**}};
+\node (jwttoken) [box, fill=teal!5, draw=teal!60, below=0.5cm of api, minimum width=3.2cm]
+    {JWT Filter \\ Extraction + Validation};
+\node (context) [box, fill=green!5, draw=green!60, below=0.5cm of jwttoken, minimum width=3.2cm]
+    {SecurityContext \\ \texttt{@AuthenticationPrincipal}};
+
+\draw[arrow, green!70] (api) -- (jwttoken);
+\draw[arrow, green!70] (jwttoken) -- (context);
+
+% Bridge
+\node (bridge) [draw=none, below=1.8cm of weblogin] {};
+\draw[arrowred, dashed] (session) -- node[above, font=\tiny] {ou} (jwttoken);
+\end{tikzpicture}
+\end{center}
+
+\vspace{0.3em}
+\begin{center}
+\begin{tabularx}{\textwidth}{l X}
+\toprule
+\textbf{Composant} & \textbf{Rôle} \\
+\midrule
+\texttt{JwtService} & Génération/validation token HS256, expiration 1h, clé Base64 256-bit \\
+\texttt{JwtAuthenticationFilter} & \texttt{OncePerRequestFilter}, intercepte \texttt{Authorization: Bearer}, positionné avant \texttt{UsernamePasswordAuthenticationFilter} \\
+\texttt{CustomUserDetailsService} & \texttt{loadUserByUsername(email)} --- email comme identifiant \\
+\texttt{CustomUserDetails} & \texttt{getUsername()} retourne \textbf{email}, authorities sans préfixe \texttt{ROLE\_} \\
+\texttt{SecurityUtils} & Injection de l'utilisateur courant dans les services \\
+\texttt{SecurityConfig} & \texttt{formLogin} avec \texttt{usernameParameter("email")}, redirection par rôle \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subtitle{Contrôle d'accès --- RBAC}
+\begin{itemize}[nosep, leftmargin=1.2em]
+    \item Routes \texttt{/api/admin/**}, \texttt{/dashboard/admin/**} $\to$ réservé \texttt{ADMIN}
+    \item Routes \texttt{/api/proprietaire/**} $\to$ réservé \texttt{PROPRIETAIRE}
+    \item Routes \texttt{/api/locataire/**} $\to$ réservé \texttt{LOCATAIRE}
+    \item Ownership vérifiée dans les services (propriétaire $\neq$ éditeur $\to$ \texttt{UnauthorizedActionException})
+    \item Gestion des erreurs : \texttt{GlobalExceptionHandler} (\texttt{@RestControllerAdvice}) convertit les exceptions en codes HTTP appropriés
+\end{itemize}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+%  6. BASE DE DONNÉES
+% ═══════════════════════════════════════════════════════════════════════════════
+\section{Conception de la Base de Données}
+\sectiontitle{Modèle Conceptuel (MCD) et Logique (MLD)}
+
+\begin{center}
+\begin{tikzpicture}[
+    entity/.style={rectangle, draw=secondary!70, fill=secondary!5,
+                   rounded corners=2pt, minimum width=2.6cm,
+                   minimum height=0.7cm, align=center, font=\small},
+    relarrow/.style={{-{Latex[length=2mm]}}, thick, color=darkgray!60},
+    card/.style={font=\footnotesize, fill=white, inner sep=1pt},
+    every node/.style={entity}
+]
+
+% Row 1: Role -- User -- Reservation
+\node (role) [fill=cyan!5, draw=cyan!70] {\textbf{Role}\\ \texttt{id, name}};
+\node (user) [fill=blue!5, draw=blue!70, right=5cm of role] {\textbf{User}\\ \texttt{id, firstName}\\ \texttt{lastName, email}\\ \texttt{password}};
+\node (reservation) [fill=purple!5, draw=purple!70, right=5cm of user] {\textbf{Reservation}\\ \texttt{id, dateDebut}\\ \texttt{dateFin, status}};
+
+% Row 2: Logement -- Annonce
+\node (logement) [fill=green!5, draw=green!70, below=3cm of user] {\textbf{Logement}\\ \texttt{id, titre, ville}\\ \texttt{type, prix}\\ \texttt{disponible}};
+\node (annonce) [fill=orange!5, draw=orange!70, right=5cm of logement] {\textbf{Annonce}\\ \texttt{id, titre}\\ \texttt{active}\\ \texttt{datePublication}};
+
+% Relations with spaced cardinalities
+\draw[relarrow] (role.east) -- node[card, above, pos=0.25] {1}
+                                    node[card, below, pos=0.25] {N} (user.west);
+\draw[relarrow] (user.south) -- node[card, left, pos=0.3] {1}
+                                node[card, right, pos=0.3] {N} (logement.north);
+\draw[relarrow] (logement.east) -- node[card, above, pos=0.25] {1}
+                                    node[card, below, pos=0.25] {N} (annonce.west);
+\draw[relarrow] (user.east) -- node[card, above, pos=0.3] {1}
+                               node[card, below, pos=0.3] {N} (reservation.west);
+\draw[relarrow] (reservation.south) -- node[card, right, pos=0.25] {1}
+                                       node[card, left, pos=0.25] {N} (logement.east);
+
+% Labels
+\node[above=0.15cm of role, font=\tiny, color=cyan!70] {FK};
+\end{tikzpicture}
+\end{center}
+
+\subtitle{Détail des entités}
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{l l l X}
+\toprule
+\textbf{Entité} & \textbf{Table} & \textbf{Index} & \textbf{Associations} \\
+\midrule
+\texttt{Role} & \texttt{roles} & --- & \texttt{1 $\to$ N User} \\
+\texttt{User} & \texttt{users} & \texttt{email} & \texttt{N $\to$ 1 Role (FK)} ;\quad \texttt{1 $\to$ N Reservation (locataire)} \\
+\texttt{Logement} & \texttt{logements} & \texttt{ville, type, prix, disponible} & \texttt{N $\to$ 1 User (owner FK)} ;\quad \texttt{1 $\to$ N Reservation} ;\quad \texttt{1 $\to$ N Annonce} \\
+\texttt{Annonce} & \texttt{annonces} & \texttt{active, logement\_id} & \texttt{N $\to$ 1 Logement (FK)} \\
+\texttt{Reservation} & \texttt{reservations} & \texttt{locataire\_id, logement\_id} & \texttt{N $\to$ 1 User (FK)} ;\quad \texttt{N $\to$ 1 Logement (FK)} \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\vspace{0.4em}
+\subtitle{Contraintes importantes}
+\begin{itemize}[nosep, leftmargin=1.2em]
+    \item \texttt{CascadeType.ALL + orphanRemoval = true} sur \texttt{Logement $\to$ Reservation} et \texttt{User $\to$ Reservation}
+    \item \texttt{@BatchSize(size = 20)} sur les collections pour éviter N+1
+    \item \texttt{@EntityGraph} chargé dans tous les repositories (pas de lazy loading hors transaction)
+    \item \texttt{ReservationStatus} : \texttt{EN\_ATTENTE} $\to$ \texttt{CONFIRMEE} $\to$ \texttt{ANNULEE}
+    \item Contrôle de chevauchement des dates via requête JPQL personnalisée
+\end{itemize}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+%  7. FRONTEND (THYMELEAF)
+% ═══════════════════════════════════════════════════════════════════════════════
+\section{Interface Utilisateur --- Thymeleaf}
+\sectiontitle{Pages web avec rendu côté serveur}
+
+\subtitle{Structure des templates}
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{l l X}
+\toprule
+\textbf{Module} & \textbf{Pagess} & \textbf{Description} \\
+\midrule
+Authentification & login, register & Standalone (hors layout) \\
+Logements & list, detail, form, mine & CRUD + recherche + upload \\
+Annonces & list, form, mine & CRUD + activation \\
+Réservations & list, detail, form & CRUD + confirmation/annulation \\
+Tableaux de bord & admin, proprietaire, locataire & Statistiques par rôle \\
+Profil & profile & Consultation / modification \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subtitle{Système de layout}
+\begin{center}
+\begin{tikzpicture}[node distance=0.7cm]
+\node (base) [box, fill=red!5, draw=red!60, minimum width=4cm] {\textbf{base.html} (layout maître)};
+\node (header) [box, fill=blue!5, draw=blue!60, left=1cm, below=0.5cm of base,
+                 minimum width=2.5cm, minimum height=0.6cm] {\texttt{header.html}};
+\node (footer) [box, fill=blue!5, draw=blue!60, right=1cm, below=0.5cm of base,
+                 minimum width=2.5cm, minimum height=0.6cm] {\texttt{footer.html}};
+\node (content) [box, fill=green!5, draw=green!60, below=0.5cm of base,
+                  minimum width=2.5cm, minimum height=0.6cm]
+    {\texttt{\textcolor{primary}{\$\{viewContent\}}}};
+\node (frags) [box, fill=yellow!5, draw=yellow!60, below=0.5cm of content,
+                minimum width=3.5cm, minimum height=0.5cm, font=\tiny]
+    {fragments/ : alerts, forms, pagination};
+
+\draw[arrow] (base) -- (header);
+\draw[arrow] (base) -- (footer);
+\draw[arrow] (base) -- (content);
+\draw[arrow] (content) -- (frags);
+\end{tikzpicture}
+\end{center}
+
+\vspace{0.2em}
+Le système utilise la syntaxe de préprocessing Thymeleaf :
+\begin{center}
+\lstinline[basicstyle=\ttfamily\color{primary},breaklines=false]|~{}__${viewContent}__}|
+\end{center}
+Les contrôleurs définissent \texttt{viewContent = "pages/section/view :: content"}.
+
+\subtitle{Flux de navigation par rôle}
+
+\textbf{Login $\to$} Redirection automatique :
+\begin{center}
+\begin{tikzpicture}[node distance=0.3cm]
+\node (login) [entity, fill=blue!5] {Login};
+\node (admin) [entity, fill=red!5, right=0.5cm of login] {Admin};
+\node (proprio) [entity, fill=green!5, right=0.5cm of admin] {Proprio};
+\node (loc) [entity, fill=orange!5, right=0.5cm of proprio] {Locataire};
+\node (dash) [entity, fill=purple!5, right=1cm of loc] {Dashboard};
+
+\draw[arrow] (login) -- node[above, font=\tiny] {/admin} (admin);
+\draw[arrow] (login) -- node[above, font=\tiny] {/proprietaire} (proprio);
+\draw[arrow] (login) -- node[above, font=\tiny] {/locataire} (loc);
+\draw[arrow] (admin) -- (dash);
+\draw[arrow] (proprio) -- (dash);
+\draw[arrow] (loc) -- (dash);
+\end{tikzpicture}
+\end{center}
+
+\subtitle{Caractéristiques techniques}
+\begin{itemize}[nosep, leftmargin=1.2em]
+    \item Internationalisation : \texttt{\#\{nav.logements\}} avec \texttt{SessionLocaleResolver}
+    \item CSRF : \texttt{\textasciitilde\{fragments/forms :: csrf\}} dans chaque formulaire POST
+    \item Flash messages : \texttt{RedirectAttributes} (clés \texttt{success} / \texttt{error})
+    \item Détection de page active : JavaScript (pas de \texttt{\#request} en Thymeleaf 4)
+    \item Pagination Bootstrap : fragment \texttt{pagination.html}
+    \item Upload fichiers : \texttt{FileStorageService} $\to$ \texttt{uploads/\{UUID\}\_\{original\}}
+\end{itemize}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+%  8. API REST
+% ═══════════════════════════════════════════════════════════════════════════════
+\section{API REST}
+\sectiontitle{Endpoints exposés}
+
+\begin{center}
+\footnotesize
+\begin{tabularx}{\textwidth}{>{\ttfamily}l >{\raggedright\arraybackslash}p{4.8cm} l X}
+\toprule
+\bfseries Méthode & \bfseries Endpoint & \bfseries Accès & \bfseries Description \\
+\midrule
+POST & /api/auth/register & Public & Inscription \\
+POST & /api/auth/login & Public & Connexion $\to$ JWT \\
+GET & /api/logements & Auth & Liste paginée \\
+POST & /api/logements & Auth & Création \\
+GET & /api/logements/search & Auth & Recherche filtrée \\
+GET/PUT/DELETE & /api/logements/\{id\} & Auth & Détail/mod./suppr. \\
+GET/POST & /api/annonces & Auth & Liste / Création \\
+GET & /api/annonces/active & Auth & Annonces actives \\
+GET/PUT/DELETE & /api/annonces/\{id\} & Auth & Détail/mod./suppr. \\
+GET/POST & /api/reservations & Auth & Liste / Création \\
+GET/DELETE & /api/reservations/\{id\} & Auth & Détail/suppr. \\
+PUT & /api/reservations/\{id\}/confirm & Propriétaire & Confirmation \\
+PUT & /api/reservations/\{id\}/cancel & Auth & Annulation \\
+GET & /api/admin/dashboard & ADMIN & Dashboard global \\
+GET & /api/proprietaire/dashboard & PROPRIETAIRE & Dashboard proprio \\
+GET & /api/locataire/dashboard & LOCATAIRE & Dashboard locataire \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subtitle{Format des réponses}
+Toutes les réponses utilisent l'enveloppe \texttt{ApiResponse<T>} :
+\begin{center}
+\texttt{\{ "success": true, "message": "...", "data": \{...\} \}}
+\end{center}
+Les erreurs utilisent \texttt{ApiErrorResponse} avec \texttt{status}, \texttt{message}, \texttt{timestamp}.
+
+% ═══════════════════════════════════════════════════════════════════════════════
+%  9. FONCTIONNALITÉS PRINCIPALES
+% ═══════════════════════════════════════════════════════════════════════════════
+\section{Fonctionnalités Implémentées}
+\sectiontitle{Modules clés}
+
+\begin{center}
+\begin{tikzpicture}[
+    boxlarge/.style={rectangle, draw=primary!60, fill=primary!5, rounded corners=4pt,
+                     minimum width=3.5cm, minimum height=1.2cm, align=center,
+                     inner sep=6pt, font=\small}
+]
+\node (crudl) [boxlarge, fill=blue!5, draw=blue!60] {CRUD Logement\\ Upload images/vidéos\\ \tiny\textcolor{gray}{LogementPageController}};
+\node (cruda) [boxlarge, fill=green!5, draw=green!60, right=0.6cm of crudl]
+    {CRUD Annonce\\ Activation\\ \tiny\textcolor{gray}{AnnoncePageController}};
+\node (crudr) [boxlarge, fill=purple!5, draw=purple!60, right=0.6cm of cruda]
+    {CRUD Réservation\\ Conflit dates\\ Statuts\\ \tiny\textcolor{gray}{ReservationPageController}};
+\node (search) [boxlarge, fill=orange!5, draw=orange!60, below=0.6cm of crudl]
+    {Recherche\\ Filtres: ville, type\\ prix, disponibilité\\ \tiny\textcolor{gray}{LogementRepository.search()}};
+\node (pag) [boxlarge, fill=yellow!10, draw=yellow!60, below=0.6cm of cruda]
+    {Pagination\\ \texttt{Page<Logement>}\\ \tiny\textcolor{gray}{Spring Data Pageable}};
+\node (dash) [boxlarge, fill=red!5, draw=red!60, below=0.6cm of crudr]
+    {Dashboards\\ Statistiques/Compteurs\\ \tiny\textcolor{gray}{3 services distincts}};
+\node (auth) [boxlarge, fill=cyan!5, draw=cyan!60, below=0.6cm of search]
+    {Authentification\\ JWT + Session\\ Rôles multiples\\ \tiny\textcolor{gray}{SecurityConfig}};
+\node (i18n) [boxlarge, fill=teal!5, draw=teal!60, below=0.6cm of dash]
+    {i18n\\ FR / EN / AR\\ \tiny\textcolor{gray}{3 bundles}};
+\end{tikzpicture}
+\end{center}
+
+\subtitle{Détail : Recherche de logements}
+\begin{infobox}
+\textbf{Endpoint :} \texttt{GET /api/logements/search?ville=\&type=\&minPrix=\&maxPrix=\&disponible=}\par
+\vspace{0.2em}
+Requête JPQL dynamique (\texttt{LogementRepository.search()}) :\par
+\begin{lstlisting}[language=SQL, basicstyle=\ttfamily\footnotesize, backgroundcolor=\color{codebg},
+                   frame=single, rulecolor=\color{gray!30}, breaklines=true]
+SELECT l FROM Logement l WHERE
+  (:ville IS NULL OR l.ville LIKE %:ville%) AND
+  (:type IS NULL OR l.type = :type) AND
+  (:minPrix IS NULL OR l.prix >= :minPrix) AND
+  (:maxPrix IS NULL OR l.prix <= :maxPrix) AND
+  (:disponible IS NULL OR l.disponible = :disponible)
+\end{lstlisting}
+Pagination intégrée via \texttt{Pageable}. EntityGraph \texttt{\{"owner"\}} pour éviter N+1.
+\end{infobox}
+
+\subtitle{Détail : Réservation --- Contrôle de conflit}
+Avant création, une requête JPQL vérifie l'absence de chevauchement :
+\begin{lstlisting}[language=SQL, basicstyle=\ttfamily\footnotesize, backgroundcolor=\color{codebg},
+                   frame=single, rulecolor=\color{gray!30}, breaklines=true]
+SELECT COUNT(r) FROM Reservation r
+WHERE r.logement.id = :logementId
+  AND r.status <> 'ANNULEE'
+  AND r.dateDebut < :dateFin
+  AND r.dateFin > :dateDebut
+\end{lstlisting}
+Si $>0$, \texttt{ReservationConflictException} (HTTP 409).
+
+% ═══════════════════════════════════════════════════════════════════════════════
+%  10. TESTS ET VALIDATION
+% ═══════════════════════════════════════════════════════════════════════════════
+\section{Tests \& Validation}
+\sectiontitle{Bean Validation + Gestion d'erreurs}
+
+\subtitle{Validation des entrées}
+\begin{center}
+\begin{tabularx}{\textwidth}{l l X}
+\toprule
+\textbf{DTO} & \textbf{Annotation} & \textbf{Champ} \\
+\midrule
+\texttt{RegisterRequest} & \texttt{@NotBlank @Email} & email \\
+ & \texttt{@NotBlank} & firstName, lastName, password \\
+\texttt{LogementRequestDTO} & \texttt{@NotNull @Positive} & prix \\
+ & \texttt{@NotBlank} & titre, ville, type \\
+\texttt{ReservationRequestDTO} & \texttt{@NotNull @Future} & dateDebut, dateFin \\
+ & \texttt{@NotNull} & logementId \\
+\texttt{AnnonceRequestDTO} & \texttt{@NotBlank} & titre, description \\
+ & \texttt{@NotNull} & logementId \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subtitle{Stratégie de gestion des erreurs}
+
+\begin{center}
+\begin{tikzpicture}[node distance=0.6cm]
+\node (controller) [entity, fill=blue!5, draw=blue!60] {\footnotesize Controller};
+\node (service) [entity, fill=green!5, draw=green!60, right=0.5cm of controller] {\footnotesize Service};
+\node (ex) [entity, fill=red!5, draw=red!60, below=0.5cm of service] {\footnotesize Exception};
+\node (handler) [entity, fill=orange!5, draw=orange!60, left=0.5cm of ex] {\footnotesize GlobalExceptionHandler};
+\node (http) [entity, fill=purple!5, draw=purple!60, left=0.5cm of handler] {\footnotesize HTTP Response};
+
+\draw[arrow] (controller) -- (service);
+\draw[arrowred] (service) -- (ex);
+\draw[arrow, orange!70] (ex) -- (handler);
+\draw[arrow, orange!70] (handler) -- (http);
+\end{tikzpicture}
+\end{center}
+
+\vspace{0.3em}
+\texttt{MethodArgumentNotValidException} $\to$ retourne une map d'erreurs par champ (HTTP 400).\\
+\texttt{RuntimeException} $\to$ catch-all HTTP 400.\\
+Pages web : templates \texttt{error/403.html}, \texttt{error/404.html}, \texttt{error/500.html}.
+
+% ═══════════════════════════════════════════════════════════════════════════════
+%  11. STACK TECHNIQUE
+% ═══════════════════════════════════════════════════════════════════════════════
+\section{Stack Technique}
+\sectiontitle{Environnement de développement et production}
+
+\begin{center}
+\begin{tabularx}{\textwidth}{l X}
+\toprule
+\textbf{Couche} & \textbf{Tech} \\
+\midrule
+Backend & Spring Boot 3.5, Java 17, Maven \\
+Sécurité & Spring Security, JWT (jjwt 0.11.5, HS256, 1h), BCrypt \\
+Persistance & Spring Data JPA, Hibernate, H2 (dev), MySQL 8 (prod) \\
+Frontend & Thymeleaf, Bootstrap 5.3.3, Bootstrap Icons, Google Fonts \\
+Validation & Bean Validation (Hibernate Validator) \\
+Documentation API & SpringDoc OpenAPI (Swagger UI) \\
+Internationalisation & 3 bundles properties (FR/EN/AR) \\
+Fichiers & Upload local vers \texttt{uploads/} \\
+Outils & Lombok, Devtools, Maven wrapper \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{infobox}
+\textbf{Profils Spring :}\par
+\vspace{0.2em}
+$\bullet$ \texttt{dev} $\to$ H2 en mémoire, \texttt{show-sql=true}, multipart 10MB/20MB\par
+$\bullet$ \texttt{prod} (défaut) $\to$ MySQL \texttt{localhost:3306/renteasy}, \texttt{ddl-auto=update}
+\end{infobox}
+
+% ═══════════════════════════════════════════════════════════════════════════════
+%  12. CONCLUSION
+% ═══════════════════════════════════════════════════════════════════════════════
+\section{Conclusion}
+
+\subsection*{Résumé des réalisations}
+\begin{itemize}[nosep, leftmargin=1.2em]
+    \item Plateforme complète de location avec 3 rôles, authentification duale (JWT + session)
+    \item Architecture Spring Boot en couches respectant les principes SOLID
+    \item API REST complète avec pagination, filtres, et enveloppe de réponse standardisée
+    \item Interface web avec Thymeleaf, internationalisée (FR/EN/AR), responsive
+    \item Sécurité renforcée : RBAC, CSRF, validation des entrées, gestion centralisée des erreurs
+    \item Modèle de données optimisé (index, EntityGraph, BatchSize, cascade)
+\end{itemize}
+
+\subsection*{Améliorations futures}
+\begin{center}
+\begin{tikzpicture}[node distance=0.5cm]
+\node (f1) [entity, fill=blue!5, draw=blue!60] {Tests unitaires \\ et d'intégration};
+\node (f2) [entity, fill=green!5, draw=green!60, right=0.3cm of f1] {Notifications \\ email};
+\node (f3) [entity, fill=orange!5, draw=orange!60, right=0.3cm of f2] {Paiement en \\ ligne};
+\node (f4) [entity, fill=purple!5, draw=purple!60, right=0.3cm of f3] {CI/CD \\ Pipeline};
+\node (f5) [entity, fill=red!5, draw=red!60, right=0.3cm of f4] {Dockerisation \\ conteneurs};
+\node (f6) [entity, fill=cyan!5, draw=cyan!60, below=0.3cm of f1] {Refresh token \\ JWT};
+\end{tikzpicture}
+\end{center}
+
+\vspace{1em}
+\begin{center}
+\small\textcolor{darkgray}{--- Fin du rapport ---}
+\end{center}
+
+\end{document}

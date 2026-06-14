@@ -97,7 +97,11 @@ public class AnnoncePageController {
 
     @ModelAttribute("userLogements")
     public List<LogementResponseDTO> getUserLogements() {
-        return logementService.getAllLogements(Pageable.ofSize(100)).getContent();
+        try {
+            return logementService.getUserLogements(Pageable.ofSize(100)).getContent();
+        } catch (Exception e) {
+            return List.of();
+        }
     }
 
     @PostMapping

@@ -1,0 +1,173 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------------< com.renteasy:renteasy >------------------------
+[INFO] Building  0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:3.5.15-SNAPSHOT:run (default-cli) > test-compile @ renteasy >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ renteasy ---
+[INFO] Copying 3 resources from src\main\resources to target\classes
+[INFO] Copying 32 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ renteasy ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ renteasy ---
+[INFO] skip non existing resourceDirectory C:\Users\ahmed\renteasy\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ renteasy ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 1 source file with javac [debug parameters release 17] to target\test-classes
+[INFO] 
+[INFO] <<< spring-boot:3.5.15-SNAPSHOT:run (default-cli) < test-compile @ renteasy <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:3.5.15-SNAPSHOT:run (default-cli) @ renteasy ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::      (v3.5.15-SNAPSHOT)
+
+2026-06-13T16:59:42.457Z  INFO 13436 --- [renteasy] [  restartedMain] c.renteasy.renteasy.RenteasyApplication  : Starting RenteasyApplication using Java 21.0.11 with PID 13436 (C:\Users\ahmed\renteasy\target\classes started by ahmed in C:\Users\ahmed\renteasy)
+2026-06-13T16:59:42.466Z  INFO 13436 --- [renteasy] [  restartedMain] c.renteasy.renteasy.RenteasyApplication  : The following 1 profile is active: "dev"
+2026-06-13T16:59:42.694Z  INFO 13436 --- [renteasy] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-06-13T16:59:42.695Z  INFO 13436 --- [renteasy] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-06-13T16:59:46.541Z  INFO 13436 --- [renteasy] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-13T16:59:46.870Z  INFO 13436 --- [renteasy] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 294 ms. Found 5 JPA repository interfaces.
+2026-06-13T16:59:49.728Z  INFO 13436 --- [renteasy] [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-06-13T16:59:49.791Z  INFO 13436 --- [renteasy] [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-06-13T16:59:49.793Z  INFO 13436 --- [renteasy] [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-06-13T16:59:50.000Z  INFO 13436 --- [renteasy] [  restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-06-13T16:59:50.005Z  INFO 13436 --- [renteasy] [  restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 7304 ms
+2026-06-13T16:59:50.529Z  INFO 13436 --- [renteasy] [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-06-13T16:59:50.770Z  INFO 13436 --- [renteasy] [  restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.53.Final
+2026-06-13T16:59:50.908Z  INFO 13436 --- [renteasy] [  restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-06-13T16:59:52.066Z  INFO 13436 --- [renteasy] [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-13T16:59:52.190Z  INFO 13436 --- [renteasy] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-13T16:59:53.053Z  INFO 13436 --- [renteasy] [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2026-06-13T16:59:53.059Z  INFO 13436 --- [renteasy] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-06-13T16:59:53.338Z  INFO 13436 --- [renteasy] [  restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-13T16:59:57.704Z  INFO 13436 --- [renteasy] [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: create table annonces (id bigint generated by default as identity, active boolean not null, created_at timestamp(6), date_publication timestamp(6), description varchar(1000), titre varchar(255), updated_at timestamp(6), logement_id bigint, primary key (id))
+Hibernate: create table logements (id bigint generated by default as identity, adresse varchar(255), created_at timestamp(6), description varchar(1000), disponible boolean not null, image_url varchar(255), prix numeric(38,2) not null, telephone varchar(255), titre varchar(255) not null, type varchar(255) not null, updated_at timestamp(6), video_url varchar(255), ville varchar(255) not null, owner_id bigint, primary key (id))
+Hibernate: create table reservations (id bigint generated by default as identity, created_at timestamp(6), date_debut date, date_fin date, status enum ('ANNULEE','CONFIRMEE','EN_ATTENTE'), updated_at timestamp(6), locataire_id bigint, logement_id bigint, primary key (id))
+Hibernate: create table roles (id bigint generated by default as identity, name varchar(255) not null, primary key (id))
+Hibernate: create table users (id bigint generated by default as identity, created_at timestamp(6), email varchar(255) not null, first_name varchar(255) not null, last_name varchar(255) not null, password varchar(255) not null, updated_at timestamp(6), role_id bigint, primary key (id))
+Hibernate: create index idx_annonce_active on annonces (active)
+Hibernate: create index idx_annonce_logement on annonces (logement_id)
+Hibernate: create index idx_logement_ville on logements (ville)
+Hibernate: create index idx_logement_type on logements (type)
+Hibernate: create index idx_logement_disponible on logements (disponible)
+Hibernate: create index idx_logement_prix on logements (prix)
+Hibernate: create index idx_reservation_locataire on reservations (locataire_id)
+Hibernate: create index idx_reservation_logement on reservations (logement_id)
+Hibernate: alter table if exists roles drop constraint if exists UKofx66keruapi6vyqpv6f2or37
+Hibernate: alter table if exists roles add constraint UKofx66keruapi6vyqpv6f2or37 unique (name)
+Hibernate: create index idx_user_email on users (email)
+Hibernate: alter table if exists users drop constraint if exists UK6dotkott2kjsp8vw4d0m25fb7
+Hibernate: alter table if exists users add constraint UK6dotkott2kjsp8vw4d0m25fb7 unique (email)
+Hibernate: alter table if exists annonces add constraint FKn4yggam1ql159ygwe31lbp33k foreign key (logement_id) references logements
+Hibernate: alter table if exists logements add constraint FKikplmypholfuga6fkdp37mirp foreign key (owner_id) references users
+Hibernate: alter table if exists reservations add constraint FKhirk8bxgmr4rah89r3asti7g7 foreign key (locataire_id) references users
+Hibernate: alter table if exists reservations add constraint FK6d0w3fyct8air5i4wjkc7tvr foreign key (logement_id) references logements
+Hibernate: alter table if exists users add constraint FKp56c1712k691lhsyewcssf40f foreign key (role_id) references roles
+2026-06-13T16:59:58.037Z  INFO 13436 --- [renteasy] [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-13T16:59:59.476Z  INFO 13436 --- [renteasy] [  restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-13T17:00:02.169Z  INFO 13436 --- [renteasy] [  restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-06-13T17:00:05.159Z  INFO 13436 --- [renteasy] [  restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2026-06-13T17:00:05.573Z  INFO 13436 --- [renteasy] [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-06-13T17:00:05.718Z  INFO 13436 --- [renteasy] [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-06-13T17:00:05.751Z  INFO 13436 --- [renteasy] [  restartedMain] c.renteasy.renteasy.RenteasyApplication  : Started RenteasyApplication in 25.164 seconds (process running for 27.126)
+Hibernate: select count(*) from roles r1_0
+Hibernate: insert into roles (name,id) values (?,default)
+Hibernate: insert into roles (name,id) values (?,default)
+Hibernate: insert into roles (name,id) values (?,default)
+Hibernate: insert into users (created_at,email,first_name,last_name,password,role_id,updated_at,id) values (?,?,?,?,?,?,?,default)
+Hibernate: insert into users (created_at,email,first_name,last_name,password,role_id,updated_at,id) values (?,?,?,?,?,?,?,default)
+Hibernate: insert into users (created_at,email,first_name,last_name,password,role_id,updated_at,id) values (?,?,?,?,?,?,?,default)
+Hibernate: insert into users (created_at,email,first_name,last_name,password,role_id,updated_at,id) values (?,?,?,?,?,?,?,default)
+Hibernate: insert into users (created_at,email,first_name,last_name,password,role_id,updated_at,id) values (?,?,?,?,?,?,?,default)
+Hibernate: insert into users (created_at,email,first_name,last_name,password,role_id,updated_at,id) values (?,?,?,?,?,?,?,default)
+Hibernate: insert into logements (adresse,created_at,description,disponible,image_url,owner_id,prix,telephone,titre,type,updated_at,video_url,ville,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into logements (adresse,created_at,description,disponible,image_url,owner_id,prix,telephone,titre,type,updated_at,video_url,ville,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into logements (adresse,created_at,description,disponible,image_url,owner_id,prix,telephone,titre,type,updated_at,video_url,ville,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into logements (adresse,created_at,description,disponible,image_url,owner_id,prix,telephone,titre,type,updated_at,video_url,ville,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into logements (adresse,created_at,description,disponible,image_url,owner_id,prix,telephone,titre,type,updated_at,video_url,ville,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: insert into annonces (active,created_at,date_publication,description,logement_id,titre,updated_at,id) values (?,?,?,?,?,?,?,default)
+Hibernate: insert into annonces (active,created_at,date_publication,description,logement_id,titre,updated_at,id) values (?,?,?,?,?,?,?,default)
+Hibernate: insert into annonces (active,created_at,date_publication,description,logement_id,titre,updated_at,id) values (?,?,?,?,?,?,?,default)
+Hibernate: insert into annonces (active,created_at,date_publication,description,logement_id,titre,updated_at,id) values (?,?,?,?,?,?,?,default)
+Hibernate: insert into annonces (active,created_at,date_publication,description,logement_id,titre,updated_at,id) values (?,?,?,?,?,?,?,default)
+Hibernate: insert into reservations (created_at,date_debut,date_fin,locataire_id,logement_id,status,updated_at,id) values (?,?,?,?,?,?,?,default)
+Hibernate: insert into reservations (created_at,date_debut,date_fin,locataire_id,logement_id,status,updated_at,id) values (?,?,?,?,?,?,?,default)
+Hibernate: insert into reservations (created_at,date_debut,date_fin,locataire_id,logement_id,status,updated_at,id) values (?,?,?,?,?,?,?,default)
+Hibernate: insert into reservations (created_at,date_debut,date_fin,locataire_id,logement_id,status,updated_at,id) values (?,?,?,?,?,?,?,default)
+2026-06-13T17:00:11.491Z  INFO 13436 --- [renteasy] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-13T17:00:11.493Z  INFO 13436 --- [renteasy] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-06-13T17:00:11.499Z  INFO 13436 --- [renteasy] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 6 ms
+2026-06-13T17:23:07.367Z  WARN 13436 --- [renteasy] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=20m44s218ms523µs200ns).
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+Hibernate: select r1_0.id,r1_0.name from roles r1_0 where r1_0.name=?
+Hibernate: insert into users (created_at,email,first_name,last_name,password,role_id,updated_at,id) values (?,?,?,?,?,?,?,default)
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+Hibernate: select count(l1_0.id) from logements l1_0 left join users o1_0 on o1_0.id=l1_0.owner_id where o1_0.id=?
+Hibernate: select count(a1_0.id) from annonces a1_0 join logements l1_0 on l1_0.id=a1_0.logement_id where l1_0.owner_id=?
+Hibernate: select count(r1_0.id) from reservations r1_0 left join logements l1_0 on l1_0.id=r1_0.logement_id left join users o1_0 on o1_0.id=l1_0.owner_id where o1_0.id=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+Hibernate: select l1_0.id,l1_0.adresse,l1_0.created_at,l1_0.description,l1_0.disponible,l1_0.image_url,o2_0.id,o2_0.created_at,o2_0.email,o2_0.first_name,o2_0.last_name,o2_0.password,o2_0.role_id,o2_0.updated_at,l1_0.prix,l1_0.telephone,l1_0.titre,l1_0.type,l1_0.updated_at,l1_0.video_url,l1_0.ville from logements l1_0 left join users o1_0 on o1_0.id=l1_0.owner_id left join users o2_0 on o2_0.id=l1_0.owner_id where o1_0.id=? fetch first ? rows only
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+Hibernate: select a1_0.id,a1_0.active,a1_0.created_at,a1_0.date_publication,a1_0.description,l1_0.id,l1_0.adresse,l1_0.created_at,l1_0.description,l1_0.disponible,l1_0.image_url,o1_0.id,o1_0.created_at,o1_0.email,o1_0.first_name,o1_0.last_name,o1_0.password,o1_0.role_id,o1_0.updated_at,l1_0.prix,l1_0.telephone,l1_0.titre,l1_0.type,l1_0.updated_at,l1_0.video_url,l1_0.ville,a1_0.titre,a1_0.updated_at from annonces a1_0 left join logements l1_0 on l1_0.id=a1_0.logement_id left join users o1_0 on o1_0.id=l1_0.owner_id where l1_0.owner_id=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+Hibernate: select l1_0.id,l1_0.adresse,l1_0.created_at,l1_0.description,l1_0.disponible,l1_0.image_url,o1_0.id,o1_0.created_at,o1_0.email,o1_0.first_name,o1_0.last_name,o1_0.password,o1_0.role_id,o1_0.updated_at,l1_0.prix,l1_0.telephone,l1_0.titre,l1_0.type,l1_0.updated_at,l1_0.video_url,l1_0.ville from logements l1_0 left join users o1_0 on o1_0.id=l1_0.owner_id where (? is null or l1_0.ville=?) and (? is null or l1_0.type=?) and (? is null or l1_0.prix>=?) and (? is null or l1_0.prix<=?) and (? is null or l1_0.disponible=?) fetch first ? rows only
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+Hibernate: select l1_0.id,l1_0.adresse,l1_0.created_at,l1_0.description,l1_0.disponible,l1_0.image_url,o2_0.id,o2_0.created_at,o2_0.email,o2_0.first_name,o2_0.last_name,o2_0.password,o2_0.role_id,o2_0.updated_at,l1_0.prix,l1_0.telephone,l1_0.titre,l1_0.type,l1_0.updated_at,l1_0.video_url,l1_0.ville from logements l1_0 left join users o1_0 on o1_0.id=l1_0.owner_id left join users o2_0 on o2_0.id=l1_0.owner_id where o1_0.id=? fetch first ? rows only
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+Hibernate: select l1_0.id,l1_0.adresse,l1_0.created_at,l1_0.description,l1_0.disponible,l1_0.image_url,o1_0.id,o1_0.created_at,o1_0.email,o1_0.first_name,o1_0.last_name,o1_0.password,o1_0.role_id,o1_0.updated_at,l1_0.prix,l1_0.telephone,l1_0.titre,l1_0.type,l1_0.updated_at,l1_0.video_url,l1_0.ville from logements l1_0 left join users o1_0 on o1_0.id=l1_0.owner_id where (? is null or l1_0.ville=?) and (? is null or l1_0.type=?) and (? is null or l1_0.prix>=?) and (? is null or l1_0.prix<=?) and (? is null or l1_0.disponible=?) fetch first ? rows only
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+Hibernate: insert into logements (adresse,created_at,description,disponible,image_url,owner_id,prix,telephone,titre,type,updated_at,video_url,ville,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,default)
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+Hibernate: select l1_0.id,l1_0.adresse,l1_0.created_at,l1_0.description,l1_0.disponible,l1_0.image_url,o1_0.id,o1_0.created_at,o1_0.email,o1_0.first_name,o1_0.last_name,o1_0.password,o1_0.role_id,o1_0.updated_at,l1_0.prix,l1_0.telephone,l1_0.titre,l1_0.type,l1_0.updated_at,l1_0.video_url,l1_0.ville from logements l1_0 left join users o1_0 on o1_0.id=l1_0.owner_id where (? is null or l1_0.ville=?) and (? is null or l1_0.type=?) and (? is null or l1_0.prix>=?) and (? is null or l1_0.prix<=?) and (? is null or l1_0.disponible=?) fetch first ? rows only
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+Hibernate: select l1_0.id,l1_0.adresse,l1_0.created_at,l1_0.description,l1_0.disponible,l1_0.image_url,o2_0.id,o2_0.created_at,o2_0.email,o2_0.first_name,o2_0.last_name,o2_0.password,o2_0.role_id,o2_0.updated_at,l1_0.prix,l1_0.telephone,l1_0.titre,l1_0.type,l1_0.updated_at,l1_0.video_url,l1_0.ville from logements l1_0 left join users o1_0 on o1_0.id=l1_0.owner_id left join users o2_0 on o2_0.id=l1_0.owner_id where o1_0.id=? fetch first ? rows only
+Hibernate: select a1_0.id,a1_0.active,a1_0.created_at,a1_0.date_publication,a1_0.description,l1_0.id,l1_0.adresse,l1_0.created_at,l1_0.description,l1_0.disponible,l1_0.image_url,o1_0.id,o1_0.created_at,o1_0.email,o1_0.first_name,o1_0.last_name,o1_0.password,o1_0.role_id,o1_0.updated_at,l1_0.prix,l1_0.telephone,l1_0.titre,l1_0.type,l1_0.updated_at,l1_0.video_url,l1_0.ville,a1_0.titre,a1_0.updated_at from annonces a1_0 left join logements l1_0 on l1_0.id=a1_0.logement_id left join users o1_0 on o1_0.id=l1_0.owner_id
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+Hibernate: select l1_0.id,l1_0.adresse,l1_0.created_at,l1_0.description,l1_0.disponible,l1_0.image_url,o2_0.id,o2_0.created_at,o2_0.email,o2_0.first_name,o2_0.last_name,o2_0.password,o2_0.role_id,o2_0.updated_at,l1_0.prix,l1_0.telephone,l1_0.titre,l1_0.type,l1_0.updated_at,l1_0.video_url,l1_0.ville from logements l1_0 left join users o1_0 on o1_0.id=l1_0.owner_id left join users o2_0 on o2_0.id=l1_0.owner_id where o1_0.id=? fetch first ? rows only
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+Hibernate: select l1_0.id,l1_0.adresse,l1_0.created_at,l1_0.description,l1_0.disponible,l1_0.image_url,o2_0.id,o2_0.created_at,o2_0.email,o2_0.first_name,o2_0.last_name,o2_0.password,o2_0.role_id,o2_0.updated_at,l1_0.prix,l1_0.telephone,l1_0.titre,l1_0.type,l1_0.updated_at,l1_0.video_url,l1_0.ville from logements l1_0 left join users o1_0 on o1_0.id=l1_0.owner_id left join users o2_0 on o2_0.id=l1_0.owner_id where o1_0.id=? fetch first ? rows only
+Hibernate: select l1_0.id,l1_0.adresse,l1_0.created_at,l1_0.description,l1_0.disponible,l1_0.image_url,o1_0.id,o1_0.created_at,o1_0.email,o1_0.first_name,o1_0.last_name,o1_0.password,o1_0.role_id,o1_0.updated_at,l1_0.prix,l1_0.telephone,l1_0.titre,l1_0.type,l1_0.updated_at,l1_0.video_url,l1_0.ville from logements l1_0 left join users o1_0 on o1_0.id=l1_0.owner_id where l1_0.id=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.first_name,u1_0.last_name,u1_0.password,r1_0.id,r1_0.name,u1_0.updated_at from users u1_0 left join roles r1_0 on r1_0.id=u1_0.role_id where u1_0.email=?
+2026-06-13T17:27:54.042Z  WARN 13436 --- [renteasy] [nio-8080-exec-4] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [com.renteasy.renteasy.exception.LogementNotAvailableException: Cannot publish annonce for unavailable logement]
+2026-06-13T20:07:35.811Z  WARN 13436 --- [renteasy] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=36m56s134ms12µs500ns).
+2026-06-13T21:14:07.614Z  WARN 13436 --- [renteasy] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m748ms866µs100ns).
+2026-06-13T21:45:19.933Z  WARN 13436 --- [renteasy] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=19m42s231ms906µs100ns).
+2026-06-13T22:19:34.501Z  WARN 13436 --- [renteasy] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m44s58ms228µs900ns).

@@ -22,6 +22,9 @@ public interface LogementRepository extends JpaRepository<Logement, Long> {
     @EntityGraph(attributePaths = {"owner"})
     Page<Logement> findByOwner_Id(Long ownerId, Pageable pageable);
 
+    @EntityGraph(attributePaths = {"owner"})
+    Page<Logement> findByOwner_IdAndDisponibleTrue(Long ownerId, Pageable pageable);
+
     long countByOwner_Id(Long ownerId);
 
     @Query("""

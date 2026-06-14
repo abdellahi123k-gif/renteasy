@@ -24,4 +24,6 @@ public interface LogementService {
     );
 
     Page<LogementResponseDTO> getUserLogements(Pageable pageable);
+
+    Page<LogementResponseDTO> getUserDisponibleLogements(Pageable pageable);
 }

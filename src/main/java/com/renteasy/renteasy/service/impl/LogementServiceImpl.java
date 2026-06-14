@@ -102,4 +102,12 @@ public class LogementServiceImpl implements LogementService {
         return logementRepository.findByOwner_Id(currentUser.getId(), pageable)
                 .map(LogementMapper::toResponse);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<LogementResponseDTO> getUserDisponibleLogements(Pageable pageable) {
+        User currentUser = securityUtils.getCurrentUser();
+        return logementRepository.findByOwner_IdAndDisponibleTrue(currentUser.getId(), pageable)
+                .map(LogementMapper::toResponse);
+    }
 }

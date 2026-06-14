@@ -5,7 +5,6 @@ import com.renteasy.renteasy.dto.response.AnnonceResponseDTO;
 import com.renteasy.renteasy.entity.Annonce;
 import com.renteasy.renteasy.entity.Logement;
 import com.renteasy.renteasy.entity.User;
-import com.renteasy.renteasy.exception.LogementNotAvailableException;
 import com.renteasy.renteasy.exception.ResourceNotFoundException;
 import com.renteasy.renteasy.exception.UnauthorizedActionException;
 import com.renteasy.renteasy.mapper.AnnonceMapper;
@@ -38,9 +37,6 @@ public class AnnonceServiceImpl implements AnnonceService {
         User currentUser = securityUtils.getCurrentUser();
         if (!logement.getOwner().getId().equals(currentUser.getId())) {
             throw new UnauthorizedActionException("You can only create annonces for your own logements");
-        }
-        if (!logement.isDisponible()) {
-            throw new LogementNotAvailableException("Cannot publish annonce for unavailable logement");
         }
         Annonce annonce = Annonce.builder()
                 .titre(dto.getTitre())
